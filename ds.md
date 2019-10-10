@@ -1,12 +1,13 @@
 ## 简单数据结构和应用
 
-
+[TOC]
 
 ### 目录
 
 ##### 队列和栈
 
 - 队列和广度优先搜索
+- 广度优先搜索和Dijkstra
 - 栈和表达式计算
 - 栈和深度优先搜索
 - 队列实现栈
@@ -41,6 +42,116 @@
   6. `继续执行2，直到队列为空`
 
 - 例子：[《岛屿数量》](https://leetcode-cn.com/problems/number-of-islands/)
+
+##### 广度优先搜索和Dijkstra
+
+> - 简单广度优先搜索是图的所有边权值都为1的情况下的搜索。
+>
+> - Dijkstra处理的图（更一般图）更多的是权值为不等的。
+>
+> - 简单BFS每次入队的是一个层次（距离根节点距离相等的且相对剩余节点最近的）所有节点
+> - 更一般图每次入队的也是距离根节点相对剩余节点最近的（可以看做每层节点数只有一个，省去了队列）
+
+
+
+- 算法
+  1. 定义访问集visited、最短距离向量distance
+  2. 根节点（源节点）加入visited，更新distance
+  3. 获取未加入visited节点的distance最小的节点A
+  4. 将A加入visited，更新distance（更新规则：distance中未加入visited的节点D=min{D的当前值，distance[A]+A到D的距离}）
+- 代码
+
+```c++
+#include <iostream>
+#include <string>
+#include <set>
+
+using namespace std;
+
+unsigned MAX_D = (-1U);
+
+void dijkstra(unsigned a[][5], int count, int src)
+{
+    set<int> visited;
+
+    unsigned *distance = new unsigned[count];
+    for (size_t i = 0; i < count; i++)
+    {
+        distance[i] = MAX_D;
+    }
+    distance[src] = 0;
+    visited.insert(src);
+
+
+// 获取每个节点的最短路径，BFS，每一次循环获得一个节点的最短距离
+    for (size_t i = 0; i < count; i++)
+    {
+        if (i==src)
+        {
+            continue;
+        }
+        // 找到距离根节点最短且未被计算过得节点
+        unsigned min_d=MAX_D,min_i=0;
+        for (size_t j = 0; j < count; j++)
+        {
+            if (visited.count(j)>0)
+            {
+                continue;
+            }
+
+            if (distance[j]<min_d)
+            {
+                min_d=distance[j];
+                min_i=j;
+            }
+            
+        }
+        visited.insert(min_i);
+        // 更新距离向量
+        for (size_t i = 0; i < count; i++)
+        {
+            if (visited.count(i)>0)
+            {
+                continue;
+            }
+            if (a[min_i][i]==MAX_D)
+            {
+                continue;
+            }
+            
+            distance[i]=min(distance[i],distance[min_i]+a[min_i][i]);
+            
+        }
+        
+        
+    }
+    for (size_t i = 0; i < count; i++)
+    {
+        std::cout << distance[i] << std::endl;
+    }
+    
+}
+
+unsigned min(unsigned a, unsigned b)
+{
+    return a > b ? b : a;
+}
+
+int main()
+{
+    unsigned a[5][5]={
+        {0,1,2,MAX_D,MAX_D},
+        {1,0,MAX_D,5,MAX_D},
+        {2,MAX_D,0,2,6},
+        {MAX_D,5,2,0,MAX_D},
+        {MAX_D,MAX_D,6,MAX_D}
+    };
+    dijkstra(a,5,0);
+    return 0;
+}
+```
+
+
 
 ##### 栈和表达式求值
 
