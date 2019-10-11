@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>笔记</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="笔记">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="icon" href="_media/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+<!--   <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css"> -->
+  <link rel="stylesheet" href="//unpkg.com/gitalk/dist/gitalk.css">
+  <!-- needsharebutton Javascript file -->
+  <script src="scripts/needsharebutton.min.js"></script>
+  <!-- needsharebutton CSS file -->
+  <link href="styles/needsharebutton.min.css" rel="stylesheet" />
+  <style>
+    #i-share{
+      position:fixed;
+      right:5vw;
+      bottom:5vh;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">Please wait...</div>
+  <div id="i-share"
+      class="btn btn-default need-share-button"
+      data-share-position="topLeft"
+      data-share-icon-style="default"
+      data-share-networks="Wechat,Weibo,Renren,Twitter,Facebook,GooglePlus,Douban,QQZone,Evernote">
+      <img src="_media/share.svg" width="25" />
+  </div>
+  <script>
+    window.$docsify = {
+      plugins: [
+          function(hook, vm) {
+            hook.doneEach(function(){
+              document.getElementById('gitalk-container').innerHTML = "";
+              NewGitalk().render('gitalk-container');
+            });
+           }	
+        ],
+        maxAge: 100,
+        maxLevel: 3,
+        name: '技术杂货店',
+        repo: 'https://github.com/ScarboroughCoral/Data-Structure-Notes',
+        search: {
+            paths: 'auto',
+            placeholder: '🔍 Type to search ',
+            noData: '😞 No Results! ',
+            depth: 2
+        },
+        coverpage: true,
+    }
+  </script>
+  <script>
+      new needShareButton(document.getElementById('i-share'));
+  </script>
+  <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+  <!-- <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script> -->  
+   <!-- 上面的基本不可用，无法搜索 -->
+  <script src="https://cdn.bootcss.com/docsify/4.5.9/plugins/search.min.js"></script>
+  <!-- <script src="//unpkg.com/docsify/lib/plugins/emoji.min.js"></script> -->
+  <script src="//unpkg.com/docsify/lib/plugins/zoom-image.min.js"></script>
+  <script src="//unpkg.com/docsify-copy-code"></script>
+  <!-- <script src="https://unpkg.com/docsify-copy-code@2"></script> -->
+<!--   <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script> -->
+  <script src="//unpkg.com/docsify/lib/plugins/gitalk.min.js"></script>
+  <script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-c.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-matlab.min.js"></script>
+  <script src="scripts/md5.min.js"></script>
+  <script>
+//     const gitment = new Gitment({
+// //       id: 'Your page ID', // optional
+//       owner: 'ScarboroughCoral',
+//       repo: 'Gitalk-Issue',
+//       oauth: {
+//         client_id: 'e62f5ee8199f670b2b2d',
+//         client_secret: 'e427e538411006fdb2774d473970a9fe58adb5ba',
+//       },
+//       // ...
+//       // For more available options, check out the documentation below
+//     })
+//     document.body.appendChild(gitment.render())
+    function NewGitalk(){
+      return new Gitalk({
+        clientID: 'e62f5ee8199f670b2b2d',
+        clientSecret: 'e427e538411006fdb2774d473970a9fe58adb5ba',
+        repo: 'Gitalk-Issue',
+        owner: 'orzbox',
+        admin: ['ScarboroughCoral','orzbox'],
+        // facebook-like distraction free mode
+        id: md5(location.href),
+        distractionFreeMode: false
+      })
+    }
+    const gitalk = NewGitalk()
+    
+  </script>
+</body>
+</html>
