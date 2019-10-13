@@ -1,47 +1,12 @@
-## 简单数据结构和应用
-
-
-
-### 目录
-
-##### 队列和栈
-
-- 队列和广度优先搜索
-- 广度优先搜索和Dijkstra
-- 栈和表达式计算
-- 栈和深度优先搜索
-- 队列实现栈
-- 栈实现队列
-
-##### 数组和字符串
-
-- 双指针技巧
-
-##### 链表
-
-- 翻转链表
-
-##### 哈希表
-
-- 哈希集
-- 哈系映射
-- 哈希映射键的设计
-
-##### 排序
-
-- 归并排序
+# 简单数据结构和应用
 
 
 
 
 
----
+## 队列和栈
 
-
-
-### 队列和栈
-
-##### 队列和广度优先搜索
+### 队列和广度优先搜索
 
 - 算法
   1. `根节点入队并标记已访问`
@@ -53,7 +18,7 @@
 
 - 例子：[《岛屿数量》](https://leetcode-cn.com/problems/number-of-islands/)
 
-##### 广度优先搜索和Dijkstra
+### 广度优先搜索和Dijkstra
 
 > - 简单广度优先搜索是图的所有边权值都为1的情况下的搜索。
 >
@@ -163,7 +128,7 @@ int main()
 
 
 
-##### 栈和表达式求值
+### 栈和表达式求值
 
 - 中缀表达式转后缀表达式
 
@@ -187,7 +152,7 @@ int main()
 
 
 
-##### 栈和深度优先搜索
+### 栈和深度优先搜索
 
 - 算法
 
@@ -237,7 +202,7 @@ int main()
   ```
 
 
-##### 队列实现栈
+### 队列实现栈
 
 - 算法
 
@@ -313,7 +278,7 @@ int main()
   ```
 
 
-##### 栈实现队列
+### 栈实现队列
 
 - 算法
 
@@ -377,21 +342,22 @@ int main()
    */
   ```
 
-### 数组和字符串
+## 数组和字符串
 
 
 
-- 双指针技巧
-  - 情景一——加速迭代（`从两端向中间迭代数组（比如翻转数组）`）
-  - 情景二——快指针和慢指针的不同步来解决问题（`给定一个数组和一个值，原地删除改值的所有实例并返回新的长度;判断链表中是否有环（快慢指针肯定相遇第二次）`）
+### 双指针技巧
 
-### 链表
+- 情景一——加速迭代（`从两端向中间迭代数组（比如翻转数组）`）
+- 情景二——快指针和慢指针的不同步来解决问题（`给定一个数组和一个值，原地删除改值的所有实例并返回新的长度;判断链表中是否有环（快慢指针肯定相遇第二次）`）
 
-- 反转链表
+## 链表
 
-  - 算法
+### 反转链表
 
-  > 按原始顺序迭代，并将已翻转列表的后续列表依次放到已翻转列表头部
+- 算法
+
+> 按原始顺序迭代，并将已翻转列表的后续列表依次放到已翻转列表头部
 
 
 
@@ -428,206 +394,206 @@ int main()
   ```
 
 
-### 哈希表
+## 哈希表
 
-- 原理
+### 原理
 
-  > 利用哈希函数将数据转换为索引，以实现快速插入和搜索
+> 利用哈希函数将数据转换为索引，以实现快速插入和搜索
 
-- 哈希集
+### 哈希集
 
-  > 哈希集的存储数据只有一个数value
+> 哈希集的存储数据只有一个数value
 
-  - 应用情景
+- 应用情景
 
-    1. 查重
+  1. 查重
 
-  - 代码
+- 代码
 
-    ```c++
-    struct Node{
-        int val;
-        Node * next;
-        Node(int x):val(x),next(NULL){}
-    };
-    
-    class MyHashSet {
-    private:
-        Node* set[1000];
-    public:
-        /** Initialize your data structure here. */
-        MyHashSet() {
-            for(int i=0;i<1000;i++){
-                set[i]=NULL;
-            }
-        }
-        
-        void add(int key) {
-            int box=key%1000;
-            if(!set[box]){
-                Node * node = new Node(key);
-                set[box]=node;
-                return;
-            }
-            Node * cur=set[box];
-            Node * pre=NULL;
-            while(cur){
-                if(cur->val==key) return;
-                pre=cur;
-                cur=cur->next;
-            }
-            Node * node = new Node(key);
-            pre->next=node;
-        }
-        
-        void remove(int key) {
-            int box=key%1000;
-            if(!set[box]){
-                return;
-            }
-            Node * cur=set[box];
-            if(cur->val==key){
-                set[box]=set[box]->next;
-                delete(cur);
-                return;
-            }
-            Node * pre=NULL;
-            while(cur){
-                if(cur->val==key){
-                    pre->next=cur->next;
-                    delete(cur);
-                    return;
-                }
-                pre=cur;
-                cur=cur->next;
-            }
-        }
-        
-        /** Returns true if this set contains the specified element */
-        bool contains(int key) {
-            int box=key%1000;
-            if(!set[box]){
-                return false;
-            }
-            Node * cur=set[box];
-            while(cur){
-                if(cur->val==key) return true;
-                cur=cur->next;
-            }
-            return false;
-        }
-    };
-    
-    /**
-     * Your MyHashSet object will be instantiated and called as such:
-     * MyHashSet* obj = new MyHashSet();
-     * obj->add(key);
-     * obj->remove(key);
-     * bool param_3 = obj->contains(key);
-     */
-    ```
+  ```c++
+  struct Node{
+      int val;
+      Node * next;
+      Node(int x):val(x),next(NULL){}
+  };
+  
+  class MyHashSet {
+  private:
+      Node* set[1000];
+  public:
+      /** Initialize your data structure here. */
+      MyHashSet() {
+          for(int i=0;i<1000;i++){
+              set[i]=NULL;
+          }
+      }
+      
+      void add(int key) {
+          int box=key%1000;
+          if(!set[box]){
+              Node * node = new Node(key);
+              set[box]=node;
+              return;
+          }
+          Node * cur=set[box];
+          Node * pre=NULL;
+          while(cur){
+              if(cur->val==key) return;
+              pre=cur;
+              cur=cur->next;
+          }
+          Node * node = new Node(key);
+          pre->next=node;
+      }
+      
+      void remove(int key) {
+          int box=key%1000;
+          if(!set[box]){
+              return;
+          }
+          Node * cur=set[box];
+          if(cur->val==key){
+              set[box]=set[box]->next;
+              delete(cur);
+              return;
+          }
+          Node * pre=NULL;
+          while(cur){
+              if(cur->val==key){
+                  pre->next=cur->next;
+                  delete(cur);
+                  return;
+              }
+              pre=cur;
+              cur=cur->next;
+          }
+      }
+      
+      /** Returns true if this set contains the specified element */
+      bool contains(int key) {
+          int box=key%1000;
+          if(!set[box]){
+              return false;
+          }
+          Node * cur=set[box];
+          while(cur){
+              if(cur->val==key) return true;
+              cur=cur->next;
+          }
+          return false;
+      }
+  };
+  
+  /**
+   * Your MyHashSet object will be instantiated and called as such:
+   * MyHashSet* obj = new MyHashSet();
+   * obj->add(key);
+   * obj->remove(key);
+   * bool param_3 = obj->contains(key);
+   */
+  ```
 
-- 哈希映射
+### 哈希映射
 
-  > 哈希映射的存储数据是{key,value}键值对
+> 哈希映射的存储数据是{key,value}键值对
 
-  - 应用情景
+- 应用情景
 
-    1. 提供更多信息
-    2. 按键聚合数据：
-       - 属于同一组的所有值都将映射到同一组中。
-       - 需要分成不同组的值不会映射到同一组。
+  1. 提供更多信息
+  2. 按键聚合数据：
+     - 属于同一组的所有值都将映射到同一组中。
+     - 需要分成不同组的值不会映射到同一组。
 
-  - 代码
+- 代码
 
-    ```c++
-    struct Node{
-        int key;
-        int val;
-        Node* next;
-        Node(int k,int v):key(k),val(v),next(NULL){}
-    };
-    
-    class MyHashMap {
-        
-    private:
-        Node* map[1000];
-        
-    public:
-        /** Initialize your data structure here. */
-        MyHashMap() {
-            for(int i=0;i<1000;i++){
-                map[i]=NULL;
-            }
-        }
-        
-        /** value will always be non-negative. */
-        void put(int key, int value) {
-            int box=key%1000;
-            if(!map[box]){
-                Node *node = new Node(key,value);
-                map[box]=node;
-                return;
-            }
-            Node*cur=map[box],*pre=NULL;
-            while(cur){
-                if(cur->key==key){
-                    cur->val=value;
-                    return;
-                }
-                pre=cur;
-                cur=cur->next;
-            }
-            Node *node = new Node(key,value);
-            pre->next=node;
-        }
-        
-        /** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */
-        int get(int key) {
-            int box=key%1000;
-            if(!map[box]) return -1;
-            Node*cur=map[box];
-            while(cur){
-                if(cur->key==key){
-                    return cur->val;
-                }
-                cur=cur->next;
-            }
-            return -1;
-            
-        }
-        
-        /** Removes the mapping of the specified value key if this map contains a mapping for the key */
-        void remove(int key) {
-            int box=key%1000;
-            if(!map[box]) return;
-            Node*cur=map[box],*pre=NULL;
-            if(map[box]->key==key){
-                map[box]=map[box]->next;
-                delete(cur);
-                return;
-            }
-            while(cur){
-                if(cur->key==key){
-                    pre->next=cur->next;
-                    delete cur;
-                    return;
-                }
-                
-                pre=cur;
-                cur=cur->next;
-            }
-        }
-    };
-    
-    /**
-     * Your MyHashMap object will be instantiated and called as such:
-     * MyHashMap* obj = new MyHashMap();
-     * obj->put(key,value);
-     * int param_2 = obj->get(key);
-     * obj->remove(key);
-     */
-    ```
+  ```c++
+  struct Node{
+      int key;
+      int val;
+      Node* next;
+      Node(int k,int v):key(k),val(v),next(NULL){}
+  };
+  
+  class MyHashMap {
+      
+  private:
+      Node* map[1000];
+      
+  public:
+      /** Initialize your data structure here. */
+      MyHashMap() {
+          for(int i=0;i<1000;i++){
+              map[i]=NULL;
+          }
+      }
+      
+      /** value will always be non-negative. */
+      void put(int key, int value) {
+          int box=key%1000;
+          if(!map[box]){
+              Node *node = new Node(key,value);
+              map[box]=node;
+              return;
+          }
+          Node*cur=map[box],*pre=NULL;
+          while(cur){
+              if(cur->key==key){
+                  cur->val=value;
+                  return;
+              }
+              pre=cur;
+              cur=cur->next;
+          }
+          Node *node = new Node(key,value);
+          pre->next=node;
+      }
+      
+      /** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */
+      int get(int key) {
+          int box=key%1000;
+          if(!map[box]) return -1;
+          Node*cur=map[box];
+          while(cur){
+              if(cur->key==key){
+                  return cur->val;
+              }
+              cur=cur->next;
+          }
+          return -1;
+          
+      }
+      
+      /** Removes the mapping of the specified value key if this map contains a mapping for the key */
+      void remove(int key) {
+          int box=key%1000;
+          if(!map[box]) return;
+          Node*cur=map[box],*pre=NULL;
+          if(map[box]->key==key){
+              map[box]=map[box]->next;
+              delete(cur);
+              return;
+          }
+          while(cur){
+              if(cur->key==key){
+                  pre->next=cur->next;
+                  delete cur;
+                  return;
+              }
+              
+              pre=cur;
+              cur=cur->next;
+          }
+      }
+  };
+  
+  /**
+   * Your MyHashMap object will be instantiated and called as such:
+   * MyHashMap* obj = new MyHashMap();
+   * obj->put(key,value);
+   * int param_2 = obj->get(key);
+   * obj->remove(key);
+   */
+  ```
 
 - 例子：[《字母异位词分组》](<https://leetcode-cn.com/problems/group-anagrams/>)
 
@@ -661,9 +627,9 @@ public:
 
 
 
-### 排序
+## 排序
 
-#### 归并排序
+### 归并排序
 
 > 顾名思义，先递归，后合并。通过二分递归至每个子数组只有一个元素，然后每两个进行合并成一个较大数组，然后回溯合并较大数组成更大数组，循环往复，直到结束
 
