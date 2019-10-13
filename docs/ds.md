@@ -27,6 +27,10 @@
 - 哈系映射
 - 哈希映射键的设计
 
+##### 排序
+
+- 归并排序
+
 
 
 
@@ -651,6 +655,73 @@ public:
         }
         return result;
         
+    }
+};
+```
+
+
+
+### 排序
+
+#### 归并排序
+
+> 顾名思义，先递归，后合并。通过二分递归至每个子数组只有一个元素，然后每两个进行合并成一个较大数组，然后回溯合并较大数组成更大数组，循环往复，直到结束
+
+- 算法
+
+  - 递归
+
+    1. 给定数组边界：left、right
+    2. 中间值mid=left+(right-left)/2
+    3. 递归左边[left,mid]
+    4. 递归右边[mid+1,right]
+    5. 合并[left,right]
+
+  - 合并
+
+    > 即合并[left,mid]和[mid+1,right]两个有序数组
+
+- 代码
+
+```c++
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        mergeSort(nums,0,nums.size()-1);
+        return nums;
+    }
+    //归并排序
+    void mergeSort(vector<int>&nums,int left,int right){
+        if(left>=right) return;
+        int mid=left+(right-left)/2;
+        mergeSort(nums,left,mid);
+        mergeSort(nums,mid+1,right);
+        merge(nums,left,right,mid);
+    }
+    //合并已有序的两个相邻子数组
+    void merge(vector<int>&nums,int left,int right,int mid){
+        vector<int> tmp;
+        int i=left,j=mid+1;
+        while(i<=mid&&j<=right){
+            if(nums[i]<=nums[j]){
+                tmp.push_back(nums[i]);
+                i++;
+            }else{
+                tmp.push_back(nums[j]);
+                j++;
+            }
+        }
+        while(i<=mid){
+            tmp.push_back(nums[i]);
+            i++;
+        }
+        while(j<=right){
+            tmp.push_back(nums[j]);
+            j++;
+        }
+        for(int k=left,p=0;k<=right;k++,p++){
+            nums[k]=tmp[p];
+        }
     }
 };
 ```
