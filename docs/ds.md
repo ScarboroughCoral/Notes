@@ -931,6 +931,41 @@ int main(int argc, const char** argv) {
 
 
 
+### 桶排序
+
+> 类似计数排序。取不同的桶，每个桶放入同范围的数，桶内的元素自动排序。
+
+#### 特点
+
+- 时间复杂度O(n)，空间复杂度O(n+m)，m是桶的个数
+
+#### 代码
+
+```c++
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        int maxValue = *max_element(nums.begin(),nums.end());
+        int minValue = *min_element(nums.begin(),nums.end());
+        int n=maxValue-minValue+1;
+        vector<int> bucket(n);
+        for(int i=0;i<nums.size();i++){
+            bucket[nums[i]-minValue]++;
+        }
+        int k=0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<bucket[i];j++){
+                nums[k++]=i+minValue;
+            }
+        }
+        return nums;
+        
+    }
+};
+```
+
+
+
 
 ### 归并排序
 
@@ -997,6 +1032,174 @@ public:
         for(int k=left,p=0;k<=right;k++,p++){
             nums[k]=tmp[p];
         }
+    }
+};
+```
+
+
+
+### 快速排序
+
+> 分治策略。冒泡的升级版，一堆数据一起冒泡，基准值当水面。
+
+#### 特征
+
+- 时间复杂度O(nlogn)，最差时间复杂度O(n^2)
+- 不稳定排序
+
+#### 算法
+
+1. `选基准值pivot`
+2. `大于pivot的放右边，小于等于的放左边`
+3. `左边和右边分治迭代`
+
+#### 代码
+
+##### 递归版本
+
+```c++
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        quickSort(nums,0,nums.size()-1);
+        return nums;
+    }
+    void quickSort(vector<int>& nums,int start,int end){
+        if(start>=end) return;
+        int pivotIndex=partition(nums,start,end);
+        quickSort(nums,start,pivotIndex-1);
+        quickSort(nums,pivotIndex+1,end);
+    }
+    int partition(vector<int>& nums,int start,int end){
+        int pivot=nums[start];
+        int left=start;
+        int right=end;
+        while(left!=right){
+            while(right>left&&nums[right]>pivot){
+                right--;
+            }
+            while(left<right&&nums[left]<=pivot){
+                left++;
+            }
+            int tmp=nums[left];
+            nums[left]=nums[right];
+            nums[right]=tmp;
+        }
+        nums[start]=nums[left];
+        nums[left]=pivot;
+        return left;
+    }
+};
+```
+
+
+
+##### 迭代版本
+
+> 用栈模拟函数栈，保存所需参数即可
+
+```c++
+struct Border{
+    int start;
+    int end;
+};
+
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        quickSort(nums,0,nums.size()-1);
+        return nums;
+    }
+    void quickSort(vector<int>& nums,int start,int end){
+        stack<Border*> s;
+        s.push(new Border{start,end});
+        while(!s.empty()){
+            Border* cur=s.top();
+            s.pop();
+            int pivotIndex=partition(nums,cur->start,cur->end);
+            if(cur->start<pivotIndex-1){
+                s.push(new Border{cur->start,pivotIndex-1});
+            }
+            if(cur->end>pivotIndex+1){
+                s.push(new Border{pivotIndex+1,cur->end});
+            }
+        }
+    }
+    int partition(vector<int>& nums,int start,int end){
+        int pivot=nums[start];
+        int left=start;
+        int right=end;
+        while(left!=right){
+            while(right>left&&nums[right]>pivot){
+                right--;
+            }
+            while(left<right&&nums[left]<=pivot){
+                left++;
+            }
+            int tmp=nums[left];
+            nums[left]=nums[right];
+            nums[right]=tmp;
+        }
+        nums[start]=nums[left];
+        nums[left]=pivot;
+        return left;
+    }
+};
+```
+
+
+
+
+
+### 堆排序
+
+> 堆是完全二叉树，可直接用数组来存。堆排序基于堆。
+
+#### 特点
+
+- 不稳定
+- 空间复杂度O(1)，时间复杂度O(nlogn)
+
+#### 算法
+
+1. `构建堆`
+2. `替换堆顶和末尾元素，末尾部分已有序`
+3. `长度减一`
+4. `调整，继续执行2，直到全部有序`
+
+#### 代码
+
+```c++
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        for(int i=(nums.size()-2)/2;i>=0;i--){
+            ajust(nums,i,nums.size());
+        }
+        for(int i=nums.size()-1;i>0;i--){
+            int tmp=nums[i];
+            nums[i]=nums[0];
+            nums[0]=tmp;
+            ajust(nums,0,i);
+        }
+        return nums;
+    }
+
+    void ajust(vector<int>& nums,int parent,int len){
+        int tmp=nums[parent];
+        int child=2*parent+1;
+        while(child<len){
+            if(child+1<len&&nums[child+1]>nums[child]){
+                child++;
+            }
+            if(tmp>=nums[child]){
+                break;
+            }
+            nums[parent]=nums[child];
+            parent=child;
+            child=2*parent+1;
+        }
+        nums[parent]=tmp;
     }
 };
 ```
