@@ -10,14 +10,46 @@
 
 ### 0x05 “= =” vs “= = =” vs typeof
 
-#### reference:
+#### reference
 
 -  [*== vs === JavaScript: Double Equals and Coercion*](<https://www.codementor.io/javascript/tutorial/double-equals-and-coercion-in-javascript>)
-- [**]
+- [*Checking Types in Javascript*](<http://tobyho.com/2011/01/28/checking-types-in-javascript/>)
 
-
+#### “= =” 运行机制
 
 ![1571807907052](pics/1571807907052.png)
+
+#### 类型检查
+
+1. `typeof`适用于原始类型，但`typeof null==="obect"`。所有引用类型都是object，除了`typeof function==="function"`。
+
+2. `instanceof`使用于所有`native types`，除了原始类型（除了null、undefined不是所有对象的实例，其他数值、字符串、布尔检测对应对象全返回false，eg：`3 instanceof Number // false`）
+
+3. 在一个页面创建iframe，instanceof应用应该用iframeWindow下的判断，eg：
+
+   ```javascript
+   var iframe = document.createElement('iframe')
+   document.body.appendChild(iframe)
+   var iWindow = iframe.contentWindow // get a reference to the window object of the iframe
+   iWindow.document.write('<script>var arr = [1, 2, 3]</script>') // create an array var in iframe's window
+   iWindow.arr // [1, 2, 3]
+   iWindow.arr instanceof Array // false
+   iWindow.arr instanceof iWindow.Array // true
+   Array === iWindow.Array // false
+   
+   ```
+
+4. 用属性constructor判断，只能判断被创建的函数，此方法原型链不适用。
+
+5. 检测内置类型（native types）的比较好方法：`Object.prototype.toString.call(xxx)==="[object XXXType]"`，eg：`Object.prototype.toString.call(1)==="[object Number]"`。用户自定义对象将返回`"[object Object]"`。IE存在问题（检测新打开的window内的对象，the following eg）。
+
+   ```javascript
+   var pWindow = open("")
+   pWindow.document.write('<script>var arr = [1, 2, 3]</script>')
+   Object.prototype.toString.call(pWindow.arr) // you get "[object Object]" in IE; "[object Array]" else where.
+   ```
+
+6. 检测类型的另一种方法：`Function.prototype.toString.call(x.constructor)`将返回构造函数的源码，利用正则匹配函数名字即为类型。和上面一样IE存在问题（检测新打开的window内的对象会报错应当传入函数而不是object，just likc the last eg）。
 
 ### 0x17 原型链和原型继承
 
