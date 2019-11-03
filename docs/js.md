@@ -23,7 +23,7 @@
 
 1. `typeof`适用于原始类型，但`typeof null==="obect"`。所有引用类型都是object，除了`typeof function==="function"`。
 
-2. `instanceof`使用于所有`native types`，除了原始类型（除了null、undefined不是所有对象的实例，其他数值、字符串、布尔检测对应对象全返回false，eg：`3 instanceof Number // false`）
+2. `instanceof`适用于所有`native types`，除了原始类型（除了null、undefined不是所有对象的实例，其他数值、字符串、布尔检测对应对象全返回false，eg：`3 instanceof Number // false`）
 
 3. 在一个页面创建iframe，instanceof应用应该用iframeWindow下的判断，eg：
 
