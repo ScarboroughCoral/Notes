@@ -4,3 +4,6 @@
 - [LeetCode 题解](lc.md)
 - [简单计算机网络](network.md)
 - [计算机系统](csapp.md)
+- [语言相关](cpp.md)
+- [数据库相关](sql.md)
+
