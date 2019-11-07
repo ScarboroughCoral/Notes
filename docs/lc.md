@@ -4,7 +4,7 @@
 
 ### 简单
 
-#### 13. 罗马数字转整数
+#### [13. 罗马数字转整数](https://leetcode-cn.com/problems/roman-to-integer/)
 
 > 通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 IIII，而是 IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 IX。这个特殊的规则只适用于以下六种情况：
 >
@@ -104,7 +104,20 @@ public:
 ##### 代码2
 
 ```c++
-
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if(nums.size()==0) return 0;
+        int i=0;
+        for(int j=1;j<nums.size();j++){
+            if(nums[i]!=nums[j]){
+                i++;
+                nums[i]=nums[j];
+            }
+        }
+        return i+1;
+    }
+};
 ```
 
 
@@ -262,6 +275,112 @@ public:
 
 
 
+#### [189. 旋转数组](https://leetcode-cn.com/problems/rotate-array/)
+
+> 给定一个数组，将数组中的元素向右移动 *k* 个位置，其中 *k* 是非负数。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/rotate-array
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+利用额外数组，将前面部分移动到后面，再将前面的清除。空间复杂度是On，对应**代码1**
+
+- 时间复杂度On，空间复杂度On
+
+还有更高效的方法就是利用翻转，不使用额外空间。对应**代码2**
+
+```
+原始数组                  : 1 2 3 4 5 6 7
+反转所有数字后             : 7 6 5 4 3 2 1
+反转前 k 个数字后          : 5 6 7 4 3 2 1
+反转后 n-k 个数字后        : 5 6 7 1 2 3 4 --> 结果
+```
+
+- 时间复杂度On，空间复杂度O1
+
+##### 代码1
+
+```c++
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        k=k%nums.size();
+        if(k==0) return;
+        int size=nums.size();
+        for(int i=0;i<size-k;i++){
+            nums.push_back(nums[i]);
+        }
+        nums.erase(nums.begin(),nums.begin()+size-k);
+    }
+};
+```
+
+##### 代码2
+
+```c++
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        k=k%nums.size();
+        if(k==0) return;
+        reverse(nums.begin(),nums.end());
+        reverse(nums.begin(),nums.begin()+k);
+        reverse(nums.begin()+k,nums.end());
+    }
+};
+```
+
+
+
+
+
+#### [283. 移动零](https://leetcode-cn.com/problems/move-zeroes/)
+
+> 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+>
+>
+> 说明:
+>
+> 必须在原数组上操作，不能拷贝额外的数组。
+> 尽量减少操作次数。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/move-zeroes
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+利用双指针，一个指向“新”数组的当前元素，一个指向“旧”数组的非零元素。最后将新数组末尾全部置0即可。
+
+- 时间复杂度On，空间复杂度O1
+
+
+
+##### 代码
+
+```c++
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int size=nums.size();
+        int i=0,j=0;
+        for(;j<size;j++){
+            if(nums[j]!=0){
+                nums[i++]=nums[j];
+            }
+        }
+        while(i<size){
+            nums[i]=0;
+            i++;
+        }
+    }
+};
+```
+
+
+
 #### [557. 反转字符串中的单词 III](https://leetcode-cn.com/problems/reverse-words-in-a-string-iii/)
 
 > 给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。
@@ -306,9 +425,115 @@ public:
 
 
 
+#### [724. 寻找数组的中心索引](https://leetcode-cn.com/problems/find-pivot-index/)
+
+> 给定一个整数类型的数组 nums，请编写一个能够返回数组“中心索引”的方法。
+>
+> 我们是这样定义数组中心索引的：数组中心索引的左侧所有元素相加的和等于右侧所有元素相加的和。
+>
+> 如果数组不存在中心索引，那么我们应该返回 -1。如果数组有多个中心索引，那么我们应该返回最靠近左边的那一个。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/find-pivot-index
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
 
-#### 5249. 移除无效的括号
+
+##### 思路
+
+先排除数组为空的情况。求和减去第一个元素，表示第一个元素右边的和，左边的和初始化为0，依次右移修改sum值直到两者相等或者中心索引超出数组的最大索引
+
+- 时间复杂度On，空间O1
+
+##### 代码
+
+```c++
+class Solution {
+public:
+    int pivotIndex(vector<int>& nums) {
+        if(nums.size()==0) return -1;
+        int sum_right=0;
+        for_each(nums.begin(),nums.end(),[&](int n){
+            sum_right+=n;
+        });
+        sum_right-=nums[0];
+        int sum_left=0;
+        int i=0;
+        while(i+1<nums.size()&&sum_left!=sum_right){
+            sum_left+=nums[i];
+            sum_right-=nums[i+1];
+            i++;
+        }
+        return sum_left==sum_right?i:-1;
+    }
+};
+```
+
+
+
+#### [747. 至少是其他数字两倍的最大数](https://leetcode-cn.com/problems/largest-number-at-least-twice-of-others/)
+
+> 在一个给定的数组nums中，总是存在一个最大元素 。
+>
+> 查找数组中的最大元素是否至少是数组中每个其他数字的两倍。
+>
+> 如果是，则返回最大元素的索引，否则返回-1。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/largest-number-at-least-twice-of-others
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思略
+
+首先如果这个最大数存在的话就肯定是整个数组的最大值。那么思路就是找到这个最大值，并且比较其他元素是否满足条件即可。
+
+- 时间复杂度On，空间O1
+
+##### 代码
+
+```c++
+class Solution {
+public:
+    int dominantIndex(vector<int>& nums) {
+        if(nums.size()==0) return -1;
+        int index=0,max=nums[0];
+        for(int i=1;i<nums.size();i++){
+            if(nums[index]<nums[i]){
+                max=nums[i];
+                index=i;
+            }
+        }
+        
+        for(int i=0;i<nums.size();i++){
+            if(index==i) continue;
+            if(nums[i]*2>max) return -1;
+        }
+        return index;
+    }
+};
+```
+
+
+
+
+
+#### [1249. 移除无效的括号](https://leetcode-cn.com/problems/minimum-remove-to-make-valid-parentheses/)
+
+> 给你一个由 '('、')' 和小写字母组成的字符串 s。
+>
+> 你需要从字符串中删除最少数目的 '(' 或者 ')' （可以删除任意位置的括号)，使得剩下的「括号字符串」有效。
+>
+> 请返回任意一个合法字符串。
+>
+> 有效「括号字符串」应当符合以下 **任意一条** 要求：
+>
+> - 空字符串或只包含小写字母的字符串
+> - 可以被写作 AB（A 连接 B）的字符串，其中 A 和 B 都是有效「括号字符串」
+> - 可以被写作 (A) 的字符串，其中 A 是一个有效的「括号字符串」
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/minimum-remove-to-make-valid-parentheses
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
 ##### 思路
 
@@ -420,7 +645,7 @@ public:
 
 > 二维数组对角线遍历。
 >
-> ![img](https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/10/12/diagonal_traverse.png)
+> ![img](pics/diagonal_traverse.png)
 
 
 
@@ -469,7 +694,7 @@ public:
 
 ### 困难
 
-#### 5250. 检查「好数组」
+#### [1250. 检查「好数组」](https://leetcode-cn.com/problems/check-if-it-is-a-good-array/)
 
 > 给你一个正整数数组 `nums`，你需要从中任选一些子集，然后将子集中每一个数乘以一个 **任意整数**，并求出他们的和。
 >
