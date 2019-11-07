@@ -1,11 +1,9 @@
-# Data-Structure-Notes
+# Coral的计算机知识笔记
 
-## [简单数据结构](./docs/ds.md)
 
-## [LeetCode题解](./docs/lc.md)
 
-## [简单计算机网络](./docs/network.md)
+## Get Started
 
-## [简单计算机系统](./docs/csapp.md)
+- [Blog在线阅读（★★★★★）](<http://scarboroughcoral.top/Notes/>)
+- [GitHub在线阅读（★★★★☆）](docs/README.md)
 
-## [计算机系统实例](./docs/js.md)

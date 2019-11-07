@@ -4,13 +4,62 @@
 
 ### 简单
 
+#### [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
+
+> 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
+>
+> 你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/two-sum
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+一遍哈希，键值对为（数组值，索引）。遍历数组，如果target-nums[i]存在于哈希中，则返回这个值的索引和i；不存在哈希中则插入。
+
+- 时间复杂度On，空间On
+
+##### 代码
+
+```c++
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int,int> map;
+        int size=nums.size();
+        vector<int> result;
+        for(int i=0;i<size;i++){
+            int c=target-nums[i];
+            if(map.count(c)>0){
+                result.push_back(map[c]);
+                result.push_back(i);
+                return result;
+            }
+            map[nums[i]]=i;
+        }
+        
+        return result;
+    }
+};
+```
+
+
+
+
+
+
+
 #### [13. 罗马数字转整数](https://leetcode-cn.com/problems/roman-to-integer/)
 
-> 通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 IIII，而是 IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 IX。这个特殊的规则只适用于以下六种情况：
+> 通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 IIII，而是 IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 IX。这个特殊的规则只适用于以下**六种情况：**
 >
-> I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。
-> X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。 
-> C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。
+> - I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。
+>
+> - X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。 
+> - C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。
+>
 > 给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。
 >
 > 来源：力扣（LeetCode）
@@ -60,6 +109,109 @@ public:
     }
 };
 ```
+
+
+
+#### [20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
+
+##### 思路
+
+使用栈，拿到当前元素，如果当前元素和栈顶元素匹配则弹出，否则把当前元素压栈，直到遍历完。如果此时栈不为空则无效，为空则有效。
+
+- 时间复杂度On，空间On
+
+##### 代码
+
+```c++
+class Solution {
+public:
+    bool isValid(string s) {
+        if(!s.size()) return true;
+        map<char,char> m;
+        m['(']=')';
+        m['[']=']';
+        m['{']='}';
+        stack<char> st;
+        for(int i=0;i<s.size();i++){
+            if(st.empty()){
+                st.push(s[i]);
+                continue;
+            }
+            char top=st.top();
+            if(m[top]==s[i]) st.pop();
+            else st.push(s[i]);
+        }
+        
+        return st.empty();
+    }
+};
+```
+
+
+
+#### [21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
+
+> 将两个有序链表合并为一个新的有序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
+
+##### 思路
+
+数组**升序。**类似于合并有序数组，使用2+1指针，两个指针分别指向两个链表未被合并部分的最小元素，一个指针指向当前已经合并的最大元素。
+
+- 时间复杂度O(m+n)，空间复杂度O1
+
+##### 代码
+
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        ListNode* cur1=l1,*cur2=l2,*head=NULL,*cur=NULL,*tmp;
+        if(cur1&&cur2){
+            if(cur1->val>cur2->val){
+                head=cur=l2;
+                cur2=cur2->next;
+            }else{
+                head=cur=l1;
+                cur1=cur1->next;
+            }
+            //more than 0 is NULL
+        }else if(cur1){
+            return cur1;
+        }else{
+            return cur2;
+        }
+        while(cur1&&cur2){
+            if(cur1->val<cur2->val){
+                cur->next=cur1;
+                cur1=cur1->next;
+            }else{
+                cur->next=cur2;
+                cur2=cur2->next;
+            }
+            cur=cur->next;
+            
+        }
+        
+        if(cur1) cur->next=cur1;
+        if(cur2) cur->next=cur2;
+        return head;
+    }
+};
+```
+
+
+
+
+
+
 
 #### [26. 删除排序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
 
@@ -119,6 +271,80 @@ public:
     }
 };
 ```
+
+
+
+#### [27. 移除元素](https://leetcode-cn.com/problems/remove-element/)
+
+> 给定一个数组 *nums* 和一个值 *val*，你需要**原地**移除所有数值等于 *val* 的元素，返回移除后数组的新长度。
+
+##### 思路
+
+使用双指针，一个指向当前元素，一个指向被删除后前缀数组的最后元素。
+
+- 时间复杂度On，空间O1
+
+##### 代码
+
+```c++
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int l=0;
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]!=val){
+                nums[l]=nums[i];
+                l++;
+            }
+        }
+        return l;
+    }
+};
+```
+
+
+
+
+
+#### [66. 加一](https://leetcode-cn.com/problems/plus-one/)
+
+> 给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。
+>
+> 最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。
+>
+> 你可以假设除了整数 0 之外，这个整数不会以零开头。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/plus-one
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+仅需要处理进一的情况，还有溢出的情况。
+
+- 复杂度：时间On，空间O1
+
+##### 代码
+
+```c++
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        digits[digits.size()-1]++;
+        int i=digits.size()-1;
+        while(digits[i]==10){
+            digits[i]=0;
+            i--;
+            if(i<0) break;
+            digits[i]++;
+        }
+        if(i<0) digits.insert(digits.begin(),1);
+        return digits;
+    }
+};
+```
+
+
 
 
 
@@ -194,43 +420,213 @@ public:
 
 
 
-#### [66. 加一](https://leetcode-cn.com/problems/plus-one/)
+#### [69. x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
 
-> 给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。
+> 实现 int sqrt(int x) 函数。
 >
-> 最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。
+> 计算并返回 x 的平方根，其中 x 是非负整数。
 >
-> 你可以假设除了整数 0 之外，这个整数不会以零开头。
+> 由于返回类型是整数，结果只保留整数的部分，小数部分将被舍去。
 >
 > 来源：力扣（LeetCode）
-> 链接：https://leetcode-cn.com/problems/plus-one
+> 链接：https://leetcode-cn.com/problems/sqrtx
 > 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
 ##### 思路
 
-仅需要处理进一的情况，还有溢出的情况。
+利用二分查找（还有牛顿法，没整，感觉logn挺好了），除了开始的几个数外，总有$ \sqrt{x}<=\frac{x}{2} $。右边界从这开始找就行了。
 
-- 复杂度：时间On，空间O1
+- 时间复杂度Ologn，空间O1
 
 ##### 代码
 
 ```c++
 class Solution {
 public:
-    vector<int> plusOne(vector<int>& digits) {
-        digits[digits.size()-1]++;
-        int i=digits.size()-1;
-        while(digits[i]==10){
-            digits[i]=0;
-            i--;
-            if(i<0) break;
-            digits[i]++;
+    int mySqrt(int x) {
+        
+        int left=0,right=x;
+        if(x>4) right=x/2;
+        while(left<=right){
+            long mid=left+(right-left)/2;
+            long s=mid*mid;
+            long s1=(mid+1)*(mid+1);
+            if(s>x) right=mid-1;
+            else if(s<=x&&s1>x) return mid;
+            else left=mid+1;
         }
-        if(i<0) digits.insert(digits.begin(),1);
-        return digits;
+        return -1;
     }
 };
 ```
+
+
+
+#### [88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
+
+> 给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。
+>
+> **说明:**
+>
+> - 初始化 nums1 和 nums2 的元素数量分别为 m 和 n。
+>
+> - 你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/merge-sorted-array
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+和合并两个有序链表类似，使用2+1指针，2个指针分别指向两个数组的最小待合并元素，1个指针指向已合并元素的最后位置。
+
+- 时间复杂度O(m+n)，空间复杂度O(m+n)
+
+##### 代码
+
+```c++
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        if(!nums2.size()) return;
+        if(!nums1.size()){
+            nums1=nums2;
+            return;
+        }
+        vector<int> r;
+        int i=0,j=0;
+        while(i<m&&j<n){
+            if(nums1[i]<nums2[j]){
+                r.push_back(nums1[i]);
+                i++;
+            }else{
+                r.push_back(nums2[j]);
+                j++;
+            }
+        }
+        while(i<m){
+                r.push_back(nums1[i]);
+                i++;
+        }
+        while(j<n){
+                r.push_back(nums2[j]);
+                j++;
+        }
+        nums1=r;
+
+    }
+};
+```
+
+
+
+#### [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
+
+>给定一个二叉树，找出其最大深度。
+>
+>二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。
+>
+>**说明**: 叶子节点是指没有子节点的节点。
+>
+>
+>
+>来源：力扣（LeetCode）
+>链接：https://leetcode-cn.com/problems/maximum-depth-of-binary-tree
+>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+使用递归实现，二叉树的最大深度就是1+左右子树的最大深度。
+
+- 时间复杂度On，空间复杂度On
+
+
+
+##### 代码
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if(!root) return 0;
+        return 1+max(maxDepth(root->left),maxDepth(root->right));
+    }
+    int max(int left,int right){
+        return left>right?left:right;
+    }
+};
+```
+
+
+
+#### [107. 二叉树的层次遍历 II](https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/)
+
+> 给定一个二叉树，返回其节点值自底向上的层次遍历。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）
+
+##### 思路
+
+简单粗暴，层次遍历然后reverse。
+
+- 时间复杂度On，空间On
+
+##### 代码
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrderBottom(TreeNode* root) {
+        queue<TreeNode*> q;
+        q.push(root);
+        vector<vector<int>> result;
+        if(!root) return result;
+        while(!q.empty()){
+            int size=q.size();
+            vector<int> v;
+            for(int i=0;i<size;i++){
+                TreeNode*cur=q.front();
+                v.push_back(cur->val);
+                q.pop();
+                if(cur->left) q.push(cur->left);
+                if(cur->right) q.push(cur->right);
+            }
+            result.push_back(v);
+        }
+        int i=0,j=result.size()-1;
+        while(i<j){
+            auto tmp=result[i];
+            result[i]=result[j];
+            result[j]=tmp;
+            i++;
+            j--;
+        }
+        return result;
+    }
+};
+```
+
+
+
+
 
 #### [125. 验证回文串](https://leetcode-cn.com/problems/valid-palindrome/)
 
@@ -579,6 +975,244 @@ public:
 ```
 
 ### 中等
+
+
+
+#### [49. 字母异位词分组](https://leetcode-cn.com/problems/group-anagrams/)
+
+>  给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。
+>
+> **示例:**
+>
+> 输入: ["eat", "tea", "tan", "ate", "nat", "bat"],
+> 输出:
+> [
+>   ["ate","eat","tea"],
+>   ["nat","tan"],
+>   ["bat"]
+> ]
+> **说明：**
+>
+> 所有输入均为小写字母。
+> 不考虑答案输出的顺序。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/group-anagrams
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+首先想到哈希。因为这是一种映射，将字母异位词映射到同一个组，哈希函数就是字符串排序结果。
+
+- 时间复杂度On，空间复杂度On（也可以认为空间是结果的一部分可以看做和不同字母异位词的个数相关）
+
+##### 代码
+
+```c++
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> result;
+        unordered_map<string,vector<string>> map;
+        for(int i=0;i<strs.size();i++){
+            string tmp=strs[i];
+            sort(tmp.begin(),tmp.end());
+            map[tmp].push_back(strs[i]);
+        }
+        for(auto it=map.begin();it!=map.end();it++){
+            result.push_back(it->second);
+        }
+        return result;
+    }
+};
+```
+
+
+
+#### [94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
+
+> 给定一个二叉树，返回它的*中序* 遍历。
+
+##### 思路
+
+二叉树的前中后序遍历都是深度优先搜索，前序是第一次访问时便记录，中序是第二次访问，后序是第三次访问。我们可以使用自定义栈来模拟函数栈。
+
+- 时间复杂度On，空间复杂度On
+
+##### 代码
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        set<TreeNode*> visited;
+        stack<TreeNode*> s;
+        vector<int> result;
+        if(!root) return result;
+        s.push(root);
+        while(!s.empty()){
+            TreeNode* cur=s.top();
+            s.pop();
+            if(!cur) continue;
+            if(visited.find(cur)==visited.end()){
+                visited.insert(cur);
+                s.push(cur->right);
+                s.push(cur);
+                s.push(cur->left);
+            }
+            else{
+                result.push_back(cur->val);
+            }
+        }
+        return result;
+    }
+};
+```
+
+
+
+#### [98. 验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+
+> 给定一个二叉树，判断其是否是一个有效的二叉搜索树。
+>
+> 假设一个二叉搜索树具有**如下特征**：
+>
+> - 节点的左子树只包含小于当前节点的数。
+>
+> - 节点的右子树只包含大于当前节点的数。
+> - 所有左子树和右子树自身必须也是二叉搜索树。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/validate-binary-search-tree
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+利用中序遍历有序，如果中序遍历存在当前元素比上一个元素小（假设升序）则不是二叉搜索树，否则遍历完成则是二叉搜索树。
+
+- 时间复杂度On，空间复杂度On
+
+##### 代码
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        stack<TreeNode*> s;
+        set<TreeNode*> visited;
+        s.push(root);
+        int last,first=1;
+        while(!s.empty()){
+            TreeNode* cur=s.top();
+            s.pop();
+            if(!cur) continue;
+            if(!visited.count(cur)){
+                visited.insert(cur);
+                s.push(cur->right);
+                s.push(cur);
+                s.push(cur->left);
+            }else{
+                if(first==1){
+                    first=0;
+                    last=cur->val;
+                    continue;
+                }
+                if(last>=cur->val) return false;
+                last=cur->val;
+            }
+        }
+        return true;
+    }
+};
+```
+
+
+
+#### [102. 二叉树的层次遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+> 给定一个二叉树，返回其按层次遍历的节点值。 （即逐层地，从左到右访问所有节点）。
+>
+>
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/binary-tree-level-order-traversal
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+树的层次遍历就是一种广度优先搜索，使用队列来完成操作。
+
+- 时间复杂度On，空间复杂度On
+
+##### 代码
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> result;        
+        queue<TreeNode*> q;
+        if(!root) return result;
+        q.push(root);
+        while(!q.empty()){
+            
+            int size=q.size();
+            vector<int> curlevel;
+            for(int i=0;i<size;i++){
+                TreeNode* cur=q.front();
+                curlevel.push_back(cur->val);
+                if(cur->left)
+                    q.push(cur->left);
+                if(cur->right)
+                    q.push(cur->right);
+                q.pop();
+            }
+            result.push_back(curlevel);
+            
+            
+        }
+        return result;
+        
+    }
+};
+```
+
+
+
+
 
 #### [151. 翻转字符串里的单词](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
 
