@@ -462,6 +462,45 @@ public:
 
 
 
+
+
+#### [70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+
+> 假设你正在爬楼梯。需要 *n* 阶你才能到达楼顶。
+>
+> 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
+>
+> **注意：**给定 *n* 是一个正整数。
+
+##### 思路
+
+斐波那契数列，利用动态规划`dp[i]=dp[i-1]+dp[i-2]`。
+
+- 时间复杂度On，空间O1
+
+##### 代码
+
+```c++
+class Solution {
+public:
+    int climbStairs(int n) {
+        if(n<3) return n;
+        long f1=1,f2=2,r=0;
+        while(n>2){
+            f2= f1 +f2;
+            f1 = f2-f1;
+            n--;
+        }
+
+        return f2;
+    }
+};
+```
+
+
+
+
+
 #### [88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
 
 > 给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。
@@ -730,6 +769,50 @@ public:
 
 
 
+#### [205. 同构字符串](https://leetcode-cn.com/problems/isomorphic-strings/)
+
+> 给定两个字符串 s 和 t，判断它们是否是同构的。
+>
+> 如果 s 中的字符可以被替换得到 t ，那么这两个字符串是同构的。
+>
+> 所有出现的字符都必须用另一个字符替换，同时保留字符的顺序。两个字符不能映射到同一个字符上，但字符可以映射自己本身。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/isomorphic-strings
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+不考虑技巧，直观思路，同构根据题意可知一个字符能够映射到唯一的字符（x对应唯一的y），并且两个字符不能映射到同一个字符（y对应唯一的x），即两个字符一一对应，即双射。
+
+- 时间复杂度On，空间On
+
+##### 代码
+
+```c++
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        map<char,char> m1,m2;
+        for(int i=0;i<s.size();i++){
+            if(m1.count(s[i])){
+                if(m1[s[i]]!=t[i]) return false;
+            }else{
+                m1[s[i]]=t[i];
+            }
+            if(m2.count(t[i])){
+                if(m2[t[i]]!=s[i]) return false;
+            }else{
+                m2[t[i]]=s[i];
+            }
+        }
+        return true;
+    }
+};
+```
+
+
+
 
 
 #### [283. 移动零](https://leetcode-cn.com/problems/move-zeroes/)
@@ -777,6 +860,107 @@ public:
 
 
 
+#### [389. 找不同](https://leetcode-cn.com/problems/find-the-difference/)
+
+> 给定两个字符串 s 和 t，它们只包含小写字母。
+>
+> 字符串 t 由字符串 s 随机重排，然后在随机位置添加一个字母。
+>
+> 请找出在 t 中被添加的字母。
+>
+>
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/find-the-difference
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+首先想到的是哈希计数，把第一个字符串每个字符统计个数，第二个字符串减，最后判断那个字符已经为0则当前字符就是要找的字符。**更简单的方法是使用异或，除了目标字符其他字符都是出现两次**
+
+- 时间复杂度On，空间On；（异或时间On，空间O1）
+
+##### 代码
+
+```c++
+class Solution {
+public:
+    char findTheDifference(string s, string t) {
+        map<char,int> m;
+        for(int i=0;i<s.size();i++){
+            if(m.count(s[i])==0||m[s[i]]==0){
+                m[s[i]]=1;
+            }else{
+                m[s[i]]++;
+            }
+        }
+        for(int i=0;i<t.size();i++){
+            if(m.count(t[i])==0||m[t[i]]==0) return t[i];
+            m[t[i]]--;
+        }
+        return -1;
+    }
+};
+```
+
+
+
+#### [520. 检测大写字母](https://leetcode-cn.com/problems/detect-capital/)
+
+> 给定一个单词，你需要判断单词的大写使用是否正确。
+>
+>
+>
+> 我们定义，在以下情况时，单词的大写用法是正确的：
+>
+> - 全部字母都是大写，比如"USA"。
+>
+> - 单词中所有字母都不是大写，比如"leetcode"。
+> - 如果单词不只含有一个字母，只有首字母大写， 比如 "Google"。
+>
+> 否则，我们定义这个单词没有正确使用大写字母。
+>
+>
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/detect-capital
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+条件判断就行。
+
+- 时间On，空间O1
+
+##### 代码
+
+
+
+```c++
+class Solution {
+public:
+    bool detectCapitalUse(string word) {
+        if(word.size()<2) return true;
+        if(word.size()==2) return !(word[0]>='a'&&word[1]<'a');
+        bool first=word[0]<'a';
+        bool second=word[1]<'a';
+        if(!first&&second) return false;
+        for(int i=2;i<word.size();i++){
+            if(first&&second&&word[i]>='a') return false;
+            else if(!second&&word[i]<'a') return false;
+            else if(!first&&word[i]<'a') return false;
+        }
+        return true;
+    }
+};
+```
+
+
+
 #### [557. 反转字符串中的单词 III](https://leetcode-cn.com/problems/reverse-words-in-a-string-iii/)
 
 > 给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。
@@ -815,6 +999,114 @@ public:
             j=i;
         }
         return s;
+    }
+};
+```
+
+
+
+#### [589. N叉树的前序遍历](https://leetcode-cn.com/problems/n-ary-tree-preorder-traversal/)
+
+> 给定一个 N 叉树，返回其节点值的*前序遍历*。
+
+#####  思路
+
+和二叉树类似，直接写就行。
+
+##### 代码
+
+```c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+class Solution {
+public:
+    vector<int> preorder(Node* root) {
+        set<Node*> st;
+        stack<Node*> s;
+        vector<int> r;
+        if(!root) return r;
+        s.push(root);
+        while(!s.empty()){
+            Node * cur=s.top();
+            s.pop();
+            if(!st.count(cur)){
+                for(int i=cur->children.size()-1;i>=0;i--){
+                    if(cur->children[i]) s.push(cur->children[i]);
+                }
+                s.push(cur);
+                st.insert(cur);
+            }else{
+                r.push_back(cur->val);
+            }
+        }
+        return r;
+    }
+};
+```
+
+
+
+#### [590. N叉树的后序遍历](https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/)
+
+> 给定一个 N 叉树，返回其节点值的*后序遍历*。
+
+##### 思路
+
+和二叉树类似，直接写就行。
+
+##### 代码
+
+```c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+class Solution {
+public:
+    vector<int> postorder(Node* root) {
+        set<Node*> st;
+        stack<Node*> s;
+        vector<int> r;
+        if(!root) return r;
+        s.push(root);
+        while(!s.empty()){
+            Node * cur=s.top();
+            s.pop();
+            if(!st.count(cur)){
+                s.push(cur);
+                st.insert(cur);
+                for(int i=cur->children.size()-1;i>=0;i--){
+                    if(cur->children[i]) s.push(cur->children[i]);
+                }
+            }else{
+                r.push_back(cur->val);
+            }
+        }
+        return r;
     }
 };
 ```
