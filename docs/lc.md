@@ -1504,6 +1504,113 @@ public:
 
 
 
+#### [133. 克隆图](https://leetcode-cn.com/problems/clone-graph/)
+
+> 给定无向[**连通**](https://baike.baidu.com/item/%E8%BF%9E%E9%80%9A%E5%9B%BE/6460995?fr=aladdin)图中一个节点的引用，返回该图的[**深拷贝**](https://baike.baidu.com/item/%E6%B7%B1%E6%8B%B7%E8%B4%9D/22785317?fr=aladdin)（克隆）。图中的每个节点都包含它的值 `val`（`Int`） 和其邻居的列表（`list[Node]`）。
+>
+> **提示：**
+>
+> 1. 节点数介于 1 到 100 之间。
+>
+> 2. 无向图是一个简单图，这意味着图中没有重复的边，也没有自环。
+> 3. 由于图是无向的，如果节点 p 是节点 q 的邻居，那么节点 q 也必须是节点 p 的邻居。
+> 4. 必须将给定节点的拷贝作为对克隆图的引用返回。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/clone-graph
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+深度优先搜索迭代实现。
+
+
+
+1. 定义遍历原图的栈`olds`和集合`oldst`
+2. 定义已拷贝节点和原图节点的映射`created<old,new>`
+3. 对原图进行遍历：
+   1. 访问当前节点`oldCur`
+   2. 如果没有创建拷贝节点`cur`则创建拷贝节点，否则通过`created`集合获取，定义拷贝节点邻居集合`neighbors`
+   3. 访问`oldCur`的所有邻居`oldCur->neighbors`
+      1. 如果当前邻居`oldCur->neighbors[i]`已经被创建过，则通过`created[oldCur->neighbors[i]]`获取加入到`neighbors`
+      2. 如果当前邻居`oldCur->neighbors[i]`未被创建过，那么创建并加入到`created`映射中和`neighbors`中
+   4. 令当前拷贝节点`cur->neighbors=neighbors`
+4. 返回原图起始节点的拷贝
+
+
+
+- 时间复杂度On（**好像是吧。。考虑邻居怎么说？**），空间On
+
+
+
+##### 代码
+
+```c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> neighbors;
+
+    Node() {}
+
+    Node(int _val, vector<Node*> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+};
+*/
+class Solution {
+public:
+    Node* cloneGraph(Node* node) {
+        if(!node) return NULL;
+        set<Node*> oldst;
+        stack<Node*> olds;
+        map<Node*,Node*> created;
+        olds.push(node);
+        Node * root=NULL;
+        while(!olds.empty()){
+            Node *oldCur=olds.top();
+            olds.pop();
+            if(!oldst.count(oldCur)){
+                oldst.insert(oldCur);
+                for(int i=0;i<oldCur->neighbors.size();i++){
+                    if(oldCur->neighbors[i]) olds.push(oldCur->neighbors[i]);
+                }
+                olds.push(oldCur);
+            }else{//右左根，访问当前节点
+                vector<Node*> neighbors;
+                for(int i=0;i<oldCur->neighbors.size();i++){
+                    if(!created.count(oldCur->neighbors[i])){
+                        Node * neighbor = new Node(oldCur->neighbors[i]->val,{});
+                        neighbors.push_back(neighbor);
+                        created[oldCur->neighbors[i]]=neighbor;
+                    }else{
+                        neighbors.push_back(created[oldCur->neighbors[i]]);
+                    }
+                }
+                Node * cur;
+                if(!created.count(oldCur)){
+                    cur=new Node(oldCur->val,neighbors);
+                }else{
+                    cur=created[oldCur];
+                    cur->neighbors=neighbors;
+                }
+                if(oldCur==node){
+                    root=cur;
+                }
+            }
+        }
+        return root;
+    }
+};
+```
+
+
+
 
 
 #### [151. 翻转字符串里的单词](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
@@ -1615,6 +1722,49 @@ public:
     }
 };
 ```
+
+
+
+#### [713. 乘积小于K的子数组](https://leetcode-cn.com/problems/subarray-product-less-than-k/)
+
+> 给定一个正整数数组 nums。
+>
+> 找出该数组内乘积小于 k 的连续的子数组的个数。
+>
+>
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/subarray-product-less-than-k
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+使用双指针，每次增加right，乘积乘上right，调整left使得当前prod满足条件，则当前的count应该增加`right-left+1`，因为left到right范围内不包含right的子数组已经在前面的right中考虑过了。
+
+- 时间On，空间O1
+
+##### 代码
+
+```c++
+class Solution {
+public:
+    int numSubarrayProductLessThanK(vector<int>& nums, int k) {
+        if(k<=1) return 0;
+        int count=0;
+        int prod=1,left=0,right=0;
+        for(;right<nums.size();right++){
+            prod*=nums[right];
+            while(prod>=k) prod/=nums[left++];
+            count+=right-left+1;
+        }
+        return count;
+    }
+};
+```
+
+
 
 
 

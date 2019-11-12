@@ -6,7 +6,7 @@
 
 ### 0x01 call stack
 
-
+> 暂时省略，参考csapp实验
 
 ### 0x05 “= =” vs “= = =” vs typeof
 
@@ -83,6 +83,12 @@
 
 
 
+
+### Promises
+
+
+
+### async/await
 
 
 
