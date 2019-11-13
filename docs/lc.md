@@ -1323,6 +1323,48 @@ public:
 
 
 
+#### [54. 螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix/)
+
+> 给定一个包含 *m* x *n* 个元素的矩阵（*m* 行, *n* 列），请按照顺时针螺旋顺序，返回矩阵中的所有元素。
+
+
+
+##### 思路
+
+设置边界值，每遍历一行或者一列，缩小边界，如果边界重合则说明无剩余元素，退出。
+
+- 时间复杂度On，空间O1
+
+##### 代码
+
+
+
+```c++
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int> result;
+        if(matrix.size()==0) return result;
+        int up=0,down=matrix.size()-1,left=0,right=matrix[0].size()-1;
+        while(true){
+            for(int i=left;i<=right;i++) result.push_back(matrix[up][i]);
+            if(++up>down) break;
+            for(int i=up;i<=down;i++) result.push_back(matrix[i][right]);
+            if(--right<left) break;
+            for(int i=right;i>=left;i--) result.push_back(matrix[down][i]);
+            if(--down<up) break;
+            for(int i=down;i>=up;i--) result.push_back(matrix[i][left]);
+            if(++left>right) break;
+        }
+        return result;
+    }
+};
+```
+
+
+
+
+
 #### [94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
 
 > 给定一个二叉树，返回它的*中序* 遍历。
@@ -1526,8 +1568,6 @@ public:
 
 深度优先搜索迭代实现。
 
-
-
 1. 定义遍历原图的栈`olds`和集合`oldst`
 2. 定义已拷贝节点和原图节点的映射`created<old,new>`
 3. 对原图进行遍历：
@@ -1671,6 +1711,139 @@ public:
     }
 };
 ```
+
+
+
+#### [450. 删除二叉搜索树中的节点](https://leetcode-cn.com/problems/delete-node-in-a-bst/)
+
+> 给定一个二叉搜索树的根节点 root 和一个值 key，删除二叉搜索树中的 key 对应的节点，并保证二叉搜索树的性质不变。返回二叉搜索树（有可能被更新）的根节点的引用。
+>
+> 一般来说，删除节点可分为两个步骤：
+>
+> 首先找到需要删除的节点；
+> 如果找到了，删除它。
+> **说明**： 要求算法时间复杂度为 O(h)，h 为树的高度。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/delete-node-in-a-bst
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+1. 如果空树则直接返回根
+2. 查找待删除节点，如果没有则直接返回根
+3. 如果找到了，（查找时记录父亲节点`pre`和当前节点是父亲的左孩子还是右孩子（`left`），找到时`key==cur->val`）
+   1. 如果没有孩子，直接删除：`pre->child=NULL `（删除如果是根节点单独处理）
+   2. 如果有一个孩子，则令`pre->child=cur->child`（删除如果是根节点单独处理）
+   3. 如果两个孩子，则替换`cur->val`和`successor->val`，然后使用步骤1和步骤2来删除`successor`节点（该节点不可能有两个孩子，因为`cur`的中序遍历的后续节点是在右子树上的最左下角）
+
+- 时间复杂度Oh，空间O1
+
+##### 代码
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(!root) return root;
+        TreeNode*cur=root;
+        TreeNode*pre=NULL;
+        bool left=false;
+        while(cur&&cur->val!=key){
+            pre=cur;
+            if(cur->val>key){
+                cur=cur->left;
+                left=true;
+            }
+            else{
+                cur=cur->right;
+                left=false;
+            }
+        }
+        
+        if(!cur) return root;//not found
+        if(cur->left&&cur->right){//case 3:two child
+            //if two child,exchange from the successor and delete
+            pre=cur;
+            TreeNode * tmp=cur->right;
+            left=false;
+            while(tmp->left){
+                left=true;
+                pre=tmp;
+                tmp=tmp->left;
+            }
+            cur->val=tmp->val;
+            cur=tmp;
+        }
+        
+        if(cur->left||cur->right){//case 2:one child
+            if(pre==NULL) return cur->left?cur->left:cur->right;//delete root
+            //if one child,delete and move child to the node
+            (left?pre->left:pre->right)=(cur->left?cur->left:cur->right);
+            return root;
+            
+        }else{//case 1:no child
+            if(pre==NULL) return NULL;//delete root;
+            //if no child,delete directly
+            (left?pre->left:pre->right)=NULL;
+            return root;
+        }
+        
+    }
+};
+```
+
+
+
+
+
+#### [494. 目标和](https://leetcode-cn.com/problems/target-sum/)
+
+> 给定一个非负整数数组，a1, a2, ..., an, 和一个目标数，S。现在你有两个符号 + 和 -。对于数组中的任意一个整数，你都可以从 + 或 -中选择一个符号添加在前面。
+>
+> 返回可以使最终数组和为目标数 S 的所有添加符号的方法数。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/target-sum
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+深度优先搜索递归实现。之前用迭代实现参数的保存太麻烦了，剪不断理还乱。递归实现思路清晰。当深度到达最深处时判断当前是否满足条件，满足条件总数加一。
+
+- 时间复杂度O($2^n​$)，空间On（函数栈到最深层会回溯销毁栈帧）
+
+##### 代码
+
+```c++
+class Solution {
+public:
+    int findTargetSumWays(vector<int>& nums, int S) {
+        return ways(nums,S,0);
+    }
+    
+    int ways(vector<int>& nums,long s,int i){
+        if(i>=nums.size()){
+            return s==0;
+        }
+        return ways(nums,s-nums[i],i+1)+ways(nums,s+nums[i],i+1);
+    }
+    
+};
+```
+
+
 
 
 
