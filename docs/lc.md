@@ -665,6 +665,61 @@ public:
 
 
 
+#### [108. 将有序数组转换为二叉搜索树](https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree/)
+
+> 将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树。
+>
+> 本题中，一个高度平衡二叉树是指一个二叉树*每个节点* 的左右两个子树的高度差的绝对值不超过 1。
+>
+>
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+利用二分查找构造的二叉树一定是高度平衡的二叉树。
+
+- 时间复杂度On，空间复杂度Ologn
+
+##### 代码
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        int left=0,right=nums.size()-1;
+        return build(nums,left,right);
+    }
+    TreeNode* build(vector<int>& nums,int left,int right){
+        if(left>right) return NULL;
+        int mid=left+(right-left)/2;
+        TreeNode * cur= new TreeNode(nums[mid]);
+        cur->left=build(nums,left,mid-1);
+        cur->right=build(nums,mid+1,right);
+        return cur;
+    }
+};
+```
+
+
+
+
+
+
+
 #### [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
 
 > 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
@@ -1219,6 +1274,70 @@ public:
     }
 };
 ```
+
+
+
+#### [703. 数据流中的第K大元素](https://leetcode-cn.com/problems/kth-largest-element-in-a-stream/)
+
+> 设计一个找到数据流中第K大元素的类（class）。注意是排序后的第K大元素，不是第K个不同的元素。
+>
+> 你的 KthLargest 类需要一个同时接收整数 k 和整数数组nums 的构造器，它包含数据流中的初始元素。每次调用 KthLargest.add，返回当前数据流中第K大的元素。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/kth-largest-element-in-a-stream
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+用`C++`实现前先看一下C++的优先级队列（也就是堆）是怎么用的，第一次用，有点懵。
+
+定义，下面是从[CPP Reference](http://www.cplusplus.com/reference/queue/priority_queue/)里摘出来的。模板需要接受至少一个参数，即队列元素的类型。另外还要选择性的传入存储容器类型和比较函数类。默认的容器是`vector`，比较函数是`less`即大根堆。
+
+```c++
+template <class T, class Container = vector<T>,
+  class Compare = less<typename Container::value_type> > class priority_queue;
+```
+
+题目要求找数据流中第K大的数，我们仅需要维护一个小根堆，这个小根堆大小最大为K，小根堆里存的是当前前K大的数。当有新的数`val`加入的时候，如果小根堆的元素数量小于K那么直接加入，否则比较`val`和堆顶的数，如果比堆顶的值要大那就替换掉，否则忽略当前值。
+
+- 插入时间O(logK)，空间复杂度O(K)
+
+##### 代码
+
+```c++
+class KthLargest {
+private:
+    priority_queue<int,vector<int>,greater<int>> p;
+    int limit;
+public:
+    KthLargest(int k, vector<int>& nums) {
+        this->limit=k;
+        for(int i=0;i<nums.size();i++){
+            add(nums[i]);
+        }
+    }
+    
+    int add(int val) {
+        if(p.size()<limit){
+            p.push(val);
+        }else if(p.top()<val){
+            p.pop();
+            p.push(val);
+        }
+        return p.top();
+    }
+};
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * KthLargest* obj = new KthLargest(k, nums);
+ * int param_1 = obj->add(val);
+ */
+```
+
+
 
 
 
@@ -1820,6 +1939,65 @@ public:
     }
 };
 ```
+
+
+
+#### [429. N叉树的层序遍历](https://leetcode-cn.com/problems/n-ary-tree-level-order-traversal/)
+
+> 给定一个 N 叉树，返回其节点值的*层序遍历*。 (即从左到右，逐层遍历)。
+
+##### 思路
+
+和二叉树层次遍历类似，BFS，使用队列。
+
+- 时间复杂度On，空间On
+
+##### 代码
+
+```c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+class Solution {
+public:
+    vector<vector<int>> levelOrder(Node* root) {
+        vector<vector<int>> result;
+        if(!root) return result;
+        queue<Node*> q;
+        q.push(root);
+        while(!q.empty()){
+            int size=q.size();
+            vector<int> row;
+            for(int i=0;i<size;i++){
+                Node* cur=q.front();
+                row.push_back(cur->val);
+                q.pop();
+                for(int j=0;j<cur->children.size();j++){
+                    if(cur->children[j]){
+                        q.push(cur->children[j]);
+                    }
+                }
+            }
+            result.push_back(row);
+        }
+        return result;
+    }
+};
+```
+
+
 
 
 
