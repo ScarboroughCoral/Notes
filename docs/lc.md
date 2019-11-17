@@ -559,6 +559,49 @@ public:
 
 
 
+#### [101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
+
+> 给定一个二叉树，检查它是否是镜像对称的。
+
+##### 思路
+
+利用递归，自顶向下的递归。先判断当前节点对的情况，然后判断子节点对的情况，子节点对的情况依赖于其父节点对的参数。
+
+- 时间复杂度On，空间On
+
+##### 代码
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if(!root) return true;
+        return top_down(root->left,root->right);
+    }
+private:
+    bool top_down(TreeNode* x,TreeNode*y){
+        if(!x&&!y) return true;
+        if(!x||!y) return false;
+        if(x->val!=y->val) return false;
+        return top_down(x->left,y->right)&&top_down(x->right,y->left);
+    }
+    
+};
+```
+
+
+
+
+
 #### [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
 
 >给定一个二叉树，找出其最大深度。
@@ -715,6 +758,50 @@ public:
 ```
 
 
+
+#### [112. 路径总和](https://leetcode-cn.com/problems/path-sum/)
+
+> 给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。
+>
+> **说明:** 叶子节点是指没有子节点的节点。
+
+
+
+##### 思路
+
+采用递归，自顶向下的递归。先访问当前节点，然后子节点的状态需要父节点传入参数。
+
+- 时间复杂度On。空间复杂度一般Ologn，最差On
+
+##### 代码
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int sum) {
+        if(!root&&sum==0) return false;
+        return top_down(root,sum);
+    }
+    bool top_down(TreeNode* root, int sum){
+        if(!root&&sum!=0) return false;
+        if(!root) return true;
+        int nextSum=sum-root->val;
+        if(root->left&&root->right) return top_down(root->left,nextSum)||top_down(root->right,nextSum);
+        if(root->left) return top_down(root->left,nextSum);
+        return top_down(root->right,nextSum);
+        
+    }
+};
+```
 
 
 
@@ -1166,6 +1253,56 @@ public:
     }
 };
 ```
+
+
+
+#### [559. N叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-n-ary-tree/)
+
+> 给定一个 N 叉树，找到其最大深度。
+>
+> 最大深度是指从根节点到最远叶子节点的最长路径上的节点总数。
+
+
+
+##### 思路
+
+采用递归，自底向上的递归，先求子节点的深度，父节点的深度由子节点的深度决定。
+
+- 时间复杂度On，空间复杂度Oh
+
+##### 代码
+
+```c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+class Solution {
+public:
+    int maxDepth(Node* root) {
+        if(!root) return 0;
+        int max=0;
+        for(int i=0;i<root->children.size();i++){
+            int cur=maxDepth(root->children[i]);
+            if(cur>max) max=cur;
+        }
+        return max+1;
+    }
+};
+```
+
+
 
 
 
