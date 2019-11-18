@@ -1020,6 +1020,58 @@ public:
 
 
 
+#### [202. 快乐数](https://leetcode-cn.com/problems/happy-number/)
+
+> 编写一个算法来判断一个数是不是“快乐数”。
+>
+> 一个“快乐数”定义为：对于一个正整数，每一次将该数替换为它每个位置上的数字的平方和，然后重复这个过程直到这个数变为 1，也可能是无限循环但始终变不到 1。如果可以变为 1，那么这个数就是快乐数。
+>
+>
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/happy-number
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+利用哈希集合，计算当前值sum，如果当前值为1则返回`true`，如果当前值已经出现过（`set`中存在）则返回false，否则下一次使用这个sum值并把sum值加入到集合内。
+
+- 时间复杂度未知。。空间复杂度未知。。
+
+##### 代码
+
+```javascript
+/**
+ * @param {number} n
+ * @return {boolean}
+ */
+var isHappy = function(n) {
+    if(n==1) return true;
+    const s = new Set();
+    s.add(n);
+    let cur=n;
+    while(true){
+        let sum=0;
+        while(cur!=0){
+            let mod=cur%10;
+            sum+=mod**2;
+            cur=parseInt(cur/10);
+        }
+        if(sum==1) return true;
+        if(s.has(sum)) return false;
+        s.add(sum);
+        cur=sum;
+    }
+    return false;
+};
+```
+
+
+
+
+
 #### [205. 同构字符串](https://leetcode-cn.com/problems/isomorphic-strings/)
 
 > 给定两个字符串 s 和 t，判断它们是否是同构的。
@@ -2366,6 +2418,51 @@ public:
 
 
 ### 困难
+
+
+
+#### [10. 正则表达式匹配](https://leetcode-cn.com/problems/regular-expression-matching/)
+
+> 给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 '.' 和 '*' 的正则表达式匹配。
+>
+> ```
+> '.' 匹配任意单个字符
+> '*' 匹配零个或多个前面的那一个元素
+> ```
+>
+>
+> 所谓匹配，是要涵盖 整个 字符串 s的，而不是部分字符串。
+>
+> **说明:**
+>
+> - s 可能为空，且只包含从 a-z 的小写字母。
+>
+> - p 可能为空，且只包含从 a-z 的小写字母，以及字符 . 和 *。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/regular-expression-matching
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+tricky，利用JavaScript正则表达式。
+
+##### 代码
+
+```javascript
+/**
+ * @param {string} s
+ * @param {string} p
+ * @return {boolean}
+ */
+var isMatch = function(s, p) {
+    return (new RegExp("^"+p+"$")).test(s);
+};
+```
+
+
+
+
 
 #### [1250. 检查「好数组」](https://leetcode-cn.com/problems/check-if-it-is-a-good-array/)
 
