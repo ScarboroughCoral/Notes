@@ -112,6 +112,55 @@ public:
 
 
 
+#### [14. 最长公共前缀](https://leetcode-cn.com/problems/longest-common-prefix/)
+
+> 编写一个函数来查找字符串数组中的最长公共前缀。
+>
+> 如果不存在公共前缀，返回空字符串 `""`。
+>
+> **示例 1:**
+>
+> ```bash
+> 输入: ["flower","flow","flight"]
+> 输出: "fl"
+> ```
+
+
+
+##### 思路
+
+简单暴力，效率并不低。取第一个字符串当做最大前缀，然后遍历剩余的字符串，比较，取相同的公共前缀当做最大前缀，如果出现了并无相同前缀则直接返回空串，否则继续遍历，剩余的即最大公共前缀。
+
+- 时间O(n*k)，空间O(k)，k是第一个字符串的长度。
+
+
+
+##### 代码
+
+```javascript
+/**
+ * @param {string[]} strs
+ * @return {string}
+ */
+var longestCommonPrefix = function(strs) {
+    if(strs.length===0) return "";
+    let max=strs[0];
+    for(let i=1;i<strs.length;i++){
+        let cur=strs[i];
+        let j=0;
+        while(j<cur.length&&j<max.length&&max[j]===cur[j]) j++;
+        if(j==0) return "";
+        if(j===max.length) continue;
+        max=max.slice(0,j);
+    }
+    return max;
+};
+```
+
+
+
+
+
 #### [20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
 
 ##### 思路
@@ -299,6 +348,35 @@ public:
         }
         return l;
     }
+};
+```
+
+
+
+#### [28. 实现 strStr()](https://leetcode-cn.com/problems/implement-strstr/)
+
+> 实现 strStr() 函数。
+>
+> 给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/implement-strstr
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+方法一是直接indexOf，方法二是KMP。
+
+##### 代码
+
+```javascript
+/**
+ * @param {string} haystack
+ * @param {string} needle
+ * @return {number}
+ */
+var strStr = function(haystack, needle) {
+    return haystack.indexOf(needle);
 };
 ```
 
