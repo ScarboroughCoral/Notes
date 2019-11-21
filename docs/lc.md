@@ -1194,6 +1194,37 @@ public:
 
 
 
+#### [242. 有效的字母异位词](https://leetcode-cn.com/problems/valid-anagram/)
+
+> 给定两个字符串 *s* 和 *t* ，编写一个函数来判断 *t* 是否是 *s* 的字母异位词。
+
+
+
+##### 思路
+
+排序后字符串相同，但是时间复杂度较高。
+
+- 时间复杂度Onlogn，空间On
+
+更有效的方法是字母计数，然后比较次数。在此就不写了。
+
+- 时间复杂度On，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+var isAnagram = function(s, t) {
+    return s.split('').sort().join('')===t.split('').sort().join('');
+};
+```
+
+
+
 
 
 #### [283. 移动零](https://leetcode-cn.com/problems/move-zeroes/)
@@ -1241,6 +1272,38 @@ public:
 
 
 
+#### [349. 两个数组的交集](https://leetcode-cn.com/problems/intersection-of-two-arrays/)
+
+> 给定两个数组，编写一个函数来计算它们的交集。
+
+##### 思路
+
+利用集合和filter。
+
+- 时间复杂度O(n+m)，空间O(n+m)
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[]}
+ */
+var intersection = function(nums1, nums2) {
+    let result=[];
+    let s1=new Set(nums1);
+    let s2=new Set(nums2);
+    return [...s1].filter(x=>s2.has(x));
+};
+
+
+```
+
+
+
+
+
 #### [389. 找不同](https://leetcode-cn.com/problems/find-the-difference/)
 
 > 给定两个字符串 s 和 t，它们只包含小写字母。
@@ -1285,6 +1348,55 @@ public:
     }
 };
 ```
+
+
+
+#### [500. 键盘行](https://leetcode-cn.com/problems/keyboard-row/)
+
+> 给定一个单词列表，只返回可以使用在键盘同一行的字母打印出来的单词。
+
+##### 思路
+
+创建三个集合（键盘三行字母的集合），然后取当前字符串取交集，如果交集结果和当前字符串相同，那么满足条件。
+
+- 时间复杂度O(n*k)，空间复杂度O(1)
+
+##### 代码
+
+```javascript
+/**
+ * @param {string[]} words
+ * @return {string[]}
+ */
+var findWords = function(words) {
+    l1 = 'qwertyuiopQWERTYUIOP'
+    l2 = 'asdfghjklASDFGHJKL'
+    l3 = 'zxcvbnmZXCVBNM'
+    let result=[];
+    const s1=new Set(l1);
+    const s2=new Set(l2);
+    const s3=new Set(l3);
+    for(let i=0;i<words.length;i++){
+        const cur=words[i];
+        if(s1.has(cur[0])){
+            let j=1;
+            while(j<cur.length&&s1.has(cur[j])) j++;
+            if(j===cur.length) result.push(words[i]);
+        }else if(s2.has(cur[0])){
+            let j=1;
+            while(j<cur.length&&s2.has(cur[j])) j++;
+            if(j===cur.length) result.push(words[i]);
+        }else{
+            let j=1;
+            while(j<cur.length&&s3.has(cur[j])) j++;
+            if(j===cur.length) result.push(words[i]);
+        }
+    }
+    return result;
+};
+```
+
+
 
 
 
@@ -1697,6 +1809,46 @@ public:
 ```
 
 
+
+#### [922. 按奇偶排序数组 II](https://leetcode-cn.com/problems/sort-array-by-parity-ii/)
+
+> 给定一个非负整数数组 A， A 中一半整数是奇数，一半整数是偶数。
+>
+> 对数组进行排序，以便当 A[i] 为奇数时，i 也是奇数；当 A[i] 为偶数时， i 也是偶数。
+>
+> 你可以返回任何满足上述条件的数组作为答案。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/sort-array-by-parity-ii
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+双指针。
+
+- 时间复杂度On，空间复杂度O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} A
+ * @return {number[]}
+ */
+var sortArrayByParityII = function(A) {
+    let slow=0,fast=1;
+    while(slow<A.length&&fast<A.length){
+        while(slow<A.length&&A[slow]%2===0) slow+=2;
+        while(fast<A.length&&A[fast]%2===1) fast+=2;
+        if(slow>=A.length) break;
+        if(fast>=A.length) break;
+        A[slow]=A[slow]+A[fast];
+        A[fast]=A[slow]-A[fast];
+        A[slow]=A[slow]-A[fast];
+    }
+    return A;
+};
+```
 
 
 
