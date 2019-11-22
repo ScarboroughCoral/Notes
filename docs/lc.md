@@ -1194,6 +1194,47 @@ public:
 
 
 
+#### [226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
+
+> 翻转一棵二叉树。
+
+
+
+##### 思路
+
+递归。交换当前左右孩子，递归左孩子和右孩子。
+
+- 时间复杂度On，空间Ologn（假设树是相对平衡的）
+
+##### 代码
+
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {TreeNode}
+ */
+var invertTree = function(root) {
+    if(root===null) return root;
+    let tmp=root.left;
+    root.left=root.right;
+    root.right=tmp;
+    invertTree(root.left);
+    invertTree(root.right);
+    return root;
+};
+```
+
+
+
+
+
 #### [242. 有效的字母异位词](https://leetcode-cn.com/problems/valid-anagram/)
 
 > 给定两个字符串 *s* 和 *t* ，编写一个函数来判断 *t* 是否是 *s* 的字母异位词。
@@ -2193,6 +2234,62 @@ public:
 
 
 
+#### [114. 二叉树展开为链表](https://leetcode-cn.com/problems/flatten-binary-tree-to-linked-list/)
+
+> 给定一个二叉树，[原地](https://baike.baidu.com/item/%E5%8E%9F%E5%9C%B0%E7%AE%97%E6%B3%95/8010757)将它展开为链表。
+
+##### 思路
+
+遍历的同时构造，所以需要记录上一个节点，但是根元素必须晚于孩子元素的遍历，也就是说自底向上。所以说遍历只能“左右根”或者“右左根”。根据题意，通过right连接链表节点，而且顺序有规定，所以需要通过“右左根”顺序遍历。
+
+- 时间复杂度On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {void} Do not return anything, modify root in-place instead.
+ */
+var flatten = function(root) {
+    if(root===null) return;
+    let st=new Set();
+    let s=[];
+    s.push(root);
+    let pre;
+    let first=true;
+    while(s.length!==0){
+        let cur=s.pop();
+        if(!st.has(cur)){
+            st.add(cur);
+            s.push(cur);
+            if(cur.left!==null) s.push(cur.left);
+            if(cur.right!==null) s.push(cur.right);
+        }else{
+            if(first){
+                pre=cur;
+                first=false;
+                continue;
+            }
+            cur.left=null;
+            cur.right=pre;
+            pre=cur;
+        }
+    }
+};
+```
+
+
+
+
+
 #### [133. 克隆图](https://leetcode-cn.com/problems/clone-graph/)
 
 > 给定无向[**连通**](https://baike.baidu.com/item/%E8%BF%9E%E9%80%9A%E5%9B%BE/6460995?fr=aladdin)图中一个节点的引用，返回该图的[**深拷贝**](https://baike.baidu.com/item/%E6%B7%B1%E6%8B%B7%E8%B4%9D/22785317?fr=aladdin)（克隆）。图中的每个节点都包含它的值 `val`（`Int`） 和其邻居的列表（`list[Node]`）。
@@ -2358,6 +2455,59 @@ public:
     }
 };
 ```
+
+
+
+#### [230. 二叉搜索树中第K小的元素](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)
+
+> 给定一个二叉搜索树，编写一个函数 `kthSmallest` 来查找其中第 **k** 个最小的元素。
+
+##### 思路
+
+BST中序遍历有序，加个计数器即可。
+
+- 时间复杂度On，空间On
+
+进阶：二叉搜索树可以动态插入，即有数据流流入，可以使用大根堆，始终保证大根堆里的K个元素始终是最小的K个元素即可，堆顶就是第K小的。
+
+##### 代码
+
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} k
+ * @return {number}
+ */
+var kthSmallest = function(root, k) {
+    let st=new Set();
+    let s=[];
+    if(root===null) return -1;
+    s.push(root);
+    let count=0;
+    while(s.length!==0){
+        let cur=s.pop();
+        if(!st.has(cur)){
+            st.add(cur);
+            if(cur.right!==null) s.push(cur.right);
+            s.push(cur);
+            if(cur.left!==null) s.push(cur.left);
+        }else{
+            count++;
+            if(count===k) return cur.val;
+        }
+    }
+    return -1;
+};
+```
+
+
 
 
 
@@ -2601,6 +2751,51 @@ public:
     }
 };
 ```
+
+
+
+#### [513. 找树左下角的值](https://leetcode-cn.com/problems/find-bottom-left-tree-value/)
+
+> 给定一个二叉树，在树的最后一行找到最左边的值。
+
+##### 思路
+
+二叉树的层次遍历，即BFS，使用队列，每次遍历更新结果值为最新一行的第一个元素。
+
+- 时间复杂度On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var findBottomLeftValue = function(root) {
+    let q=[];
+    q.push(root);
+    let result=root.val;
+    while(q.length!==0){
+        let size=q.length;
+        for(let i=0;i<size;i++){
+            let cur=q.shift();
+            if(i===0) result=cur.val;
+            if(cur.left!==null) q.push(cur.left);
+            if(cur.right!==null) q.push(cur.right);
+        }
+    }
+    return result;
+};
+```
+
+
 
 
 
