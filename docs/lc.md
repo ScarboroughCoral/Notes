@@ -4,7 +4,7 @@
 
 ### 简单
 
-#### [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
+#### 1. 两数之和
 
 > 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
 >
@@ -51,7 +51,7 @@ public:
 
 
 
-#### [13. 罗马数字转整数](https://leetcode-cn.com/problems/roman-to-integer/)
+#### 13. 罗马数字转整数
 
 > 通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 IIII，而是 IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 IX。这个特殊的规则只适用于以下**六种情况：**
 >
@@ -112,7 +112,7 @@ public:
 
 
 
-#### [14. 最长公共前缀](https://leetcode-cn.com/problems/longest-common-prefix/)
+#### 14. 最长公共前缀
 
 > 编写一个函数来查找字符串数组中的最长公共前缀。
 >
@@ -161,7 +161,7 @@ var longestCommonPrefix = function(strs) {
 
 
 
-#### [20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
+#### 20. 有效的括号
 
 ##### 思路
 
@@ -198,7 +198,7 @@ public:
 
 
 
-#### [21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
+#### 21. 合并两个有序链表
 
 > 将两个有序链表合并为一个新的有序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
 
@@ -262,7 +262,7 @@ public:
 
 
 
-#### [26. 删除排序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
+#### 26. 删除排序数组中的重复项
 
 > 给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。
 >
@@ -323,7 +323,7 @@ public:
 
 
 
-#### [27. 移除元素](https://leetcode-cn.com/problems/remove-element/)
+#### 27. 移除元素
 
 > 给定一个数组 *nums* 和一个值 *val*，你需要**原地**移除所有数值等于 *val* 的元素，返回移除后数组的新长度。
 
@@ -353,7 +353,7 @@ public:
 
 
 
-#### [28. 实现 strStr()](https://leetcode-cn.com/problems/implement-strstr/)
+#### 28. 实现 strStr()
 
 > 实现 strStr() 函数。
 >
@@ -384,7 +384,7 @@ var strStr = function(haystack, needle) {
 
 
 
-#### [66. 加一](https://leetcode-cn.com/problems/plus-one/)
+#### 66. 加一
 
 > 给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。
 >
@@ -426,7 +426,7 @@ public:
 
 
 
-#### [67. 二进制求和](https://leetcode-cn.com/problems/add-binary/)
+#### 67. 二进制求和
 
 > 给定两个二进制字符串，返回他们的和（用二进制表示）。
 >
@@ -498,7 +498,7 @@ public:
 
 
 
-#### [69. x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
+#### 69. x 的平方根
 
 > 实现 int sqrt(int x) 函数。
 >
@@ -542,7 +542,7 @@ public:
 
 
 
-#### [70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+#### 70. 爬楼梯
 
 > 假设你正在爬楼梯。需要 *n* 阶你才能到达楼顶。
 >
@@ -579,7 +579,7 @@ public:
 
 
 
-#### [88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
+#### 88. 合并两个有序数组
 
 > 给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。
 >
@@ -637,7 +637,7 @@ public:
 
 
 
-#### [101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
+#### 101. 对称二叉树
 
 > 给定一个二叉树，检查它是否是镜像对称的。
 
@@ -680,7 +680,7 @@ private:
 
 
 
-#### [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
+#### 104. 二叉树的最大深度
 
 >给定一个二叉树，找出其最大深度。
 >
@@ -730,7 +730,7 @@ public:
 
 
 
-#### [107. 二叉树的层次遍历 II](https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/)
+#### 107. 二叉树的层次遍历 II
 
 > 给定一个二叉树，返回其节点值自底向上的层次遍历。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）
 
@@ -786,7 +786,7 @@ public:
 
 
 
-#### [108. 将有序数组转换为二叉搜索树](https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree/)
+#### 108. 将有序数组转换为二叉搜索树
 
 > 将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树。
 >
@@ -837,7 +837,7 @@ public:
 
 
 
-#### [112. 路径总和](https://leetcode-cn.com/problems/path-sum/)
+#### 112. 路径总和
 
 > 给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。
 >
@@ -885,7 +885,7 @@ public:
 
 
 
-#### [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+#### 121. 买卖股票的最佳时机
 
 > 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
 >
@@ -936,7 +936,7 @@ public:
 
 
 
-#### [125. 验证回文串](https://leetcode-cn.com/problems/valid-palindrome/)
+#### 125. 验证回文串
 
 > 给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。
 >
@@ -979,7 +979,7 @@ public:
 
 
 
-#### [189. 旋转数组](https://leetcode-cn.com/problems/rotate-array/)
+#### 189. 旋转数组
 
 > 给定一个数组，将数组中的元素向右移动 *k* 个位置，其中 *k* 是非负数。
 >
@@ -1038,7 +1038,7 @@ public:
 
 
 
-#### [198. 打家劫舍](https://leetcode-cn.com/problems/house-robber/)
+#### 198. 打家劫舍
 
 >你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
 >
@@ -1098,7 +1098,7 @@ public:
 
 
 
-#### [202. 快乐数](https://leetcode-cn.com/problems/happy-number/)
+#### 202. 快乐数
 
 > 编写一个算法来判断一个数是不是“快乐数”。
 >
@@ -1150,7 +1150,7 @@ var isHappy = function(n) {
 
 
 
-#### [205. 同构字符串](https://leetcode-cn.com/problems/isomorphic-strings/)
+#### 205. 同构字符串
 
 > 给定两个字符串 s 和 t，判断它们是否是同构的。
 >
@@ -1194,7 +1194,7 @@ public:
 
 
 
-#### [226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
+#### 226. 翻转二叉树
 
 > 翻转一棵二叉树。
 
@@ -1235,7 +1235,7 @@ var invertTree = function(root) {
 
 
 
-#### [242. 有效的字母异位词](https://leetcode-cn.com/problems/valid-anagram/)
+#### 242. 有效的字母异位词
 
 > 给定两个字符串 *s* 和 *t* ，编写一个函数来判断 *t* 是否是 *s* 的字母异位词。
 
@@ -1268,7 +1268,7 @@ var isAnagram = function(s, t) {
 
 
 
-#### [283. 移动零](https://leetcode-cn.com/problems/move-zeroes/)
+#### 283. 移动零
 
 > 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
 >
@@ -1313,7 +1313,7 @@ public:
 
 
 
-#### [349. 两个数组的交集](https://leetcode-cn.com/problems/intersection-of-two-arrays/)
+#### 349. 两个数组的交集
 
 > 给定两个数组，编写一个函数来计算它们的交集。
 
@@ -1345,7 +1345,7 @@ var intersection = function(nums1, nums2) {
 
 
 
-#### [389. 找不同](https://leetcode-cn.com/problems/find-the-difference/)
+#### 389. 找不同
 
 > 给定两个字符串 s 和 t，它们只包含小写字母。
 >
@@ -1392,7 +1392,7 @@ public:
 
 
 
-#### [500. 键盘行](https://leetcode-cn.com/problems/keyboard-row/)
+#### 500. 键盘行
 
 > 给定一个单词列表，只返回可以使用在键盘同一行的字母打印出来的单词。
 
@@ -1441,7 +1441,7 @@ var findWords = function(words) {
 
 
 
-#### [520. 检测大写字母](https://leetcode-cn.com/problems/detect-capital/)
+#### 520. 检测大写字母
 
 > 给定一个单词，你需要判断单词的大写使用是否正确。
 >
@@ -1495,7 +1495,7 @@ public:
 
 
 
-#### [557. 反转字符串中的单词 III](https://leetcode-cn.com/problems/reverse-words-in-a-string-iii/)
+#### 557. 反转字符串中的单词 III
 
 > 给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。
 >
@@ -1539,7 +1539,7 @@ public:
 
 
 
-#### [559. N叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-n-ary-tree/)
+#### 559. N叉树的最大深度
 
 > 给定一个 N 叉树，找到其最大深度。
 >
@@ -1589,7 +1589,7 @@ public:
 
 
 
-#### [589. N叉树的前序遍历](https://leetcode-cn.com/problems/n-ary-tree-preorder-traversal/)
+#### 589. N叉树的前序遍历
 
 > 给定一个 N 叉树，返回其节点值的*前序遍历*。
 
@@ -1643,7 +1643,7 @@ public:
 
 
 
-#### [590. N叉树的后序遍历](https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/)
+#### 590. N叉树的后序遍历
 
 > 给定一个 N 叉树，返回其节点值的*后序遍历*。
 
@@ -1697,7 +1697,7 @@ public:
 
 
 
-#### [703. 数据流中的第K大元素](https://leetcode-cn.com/problems/kth-largest-element-in-a-stream/)
+#### 703. 数据流中的第K大元素
 
 > 设计一个找到数据流中第K大元素的类（class）。注意是排序后的第K大元素，不是第K个不同的元素。
 >
@@ -1761,7 +1761,7 @@ public:
 
 
 
-#### [724. 寻找数组的中心索引](https://leetcode-cn.com/problems/find-pivot-index/)
+#### 724. 寻找数组的中心索引
 
 > 给定一个整数类型的数组 nums，请编写一个能够返回数组“中心索引”的方法。
 >
@@ -1807,7 +1807,7 @@ public:
 
 
 
-#### [747. 至少是其他数字两倍的最大数](https://leetcode-cn.com/problems/largest-number-at-least-twice-of-others/)
+#### 747. 至少是其他数字两倍的最大数
 
 > 在一个给定的数组nums中，总是存在一个最大元素 。
 >
@@ -1851,7 +1851,7 @@ public:
 
 
 
-#### [922. 按奇偶排序数组 II](https://leetcode-cn.com/problems/sort-array-by-parity-ii/)
+#### 922. 按奇偶排序数组 II
 
 > 给定一个非负整数数组 A， A 中一半整数是奇数，一半整数是偶数。
 >
@@ -1893,7 +1893,7 @@ var sortArrayByParityII = function(A) {
 
 
 
-#### [1249. 移除无效的括号](https://leetcode-cn.com/problems/minimum-remove-to-make-valid-parentheses/)
+#### 1249. 移除无效的括号
 
 > 给你一个由 '('、')' 和小写字母组成的字符串 s。
 >
@@ -1958,7 +1958,7 @@ public:
 
 
 
-#### [49. 字母异位词分组](https://leetcode-cn.com/problems/group-anagrams/)
+#### 49. 字母异位词分组
 
 >  给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。
 >
@@ -2011,7 +2011,7 @@ public:
 
 
 
-#### [54. 螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix/)
+#### 54. 螺旋矩阵
 
 > 给定一个包含 *m* x *n* 个元素的矩阵（*m* 行, *n* 列），请按照顺时针螺旋顺序，返回矩阵中的所有元素。
 
@@ -2053,7 +2053,7 @@ public:
 
 
 
-#### [94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
+#### 94. 二叉树的中序遍历
 
 > 给定一个二叉树，返回它的*中序* 遍历。
 
@@ -2104,7 +2104,7 @@ public:
 
 
 
-#### [98. 验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+#### 98. 验证二叉搜索树
 
 > 给定一个二叉树，判断其是否是一个有效的二叉搜索树。
 >
@@ -2172,7 +2172,7 @@ public:
 
 
 
-#### [102. 二叉树的层次遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+#### 102. 二叉树的层次遍历
 
 > 给定一个二叉树，返回其按层次遍历的节点值。 （即逐层地，从左到右访问所有节点）。
 >
@@ -2234,7 +2234,7 @@ public:
 
 
 
-#### [114. 二叉树展开为链表](https://leetcode-cn.com/problems/flatten-binary-tree-to-linked-list/)
+#### 114. 二叉树展开为链表
 
 > 给定一个二叉树，[原地](https://baike.baidu.com/item/%E5%8E%9F%E5%9C%B0%E7%AE%97%E6%B3%95/8010757)将它展开为链表。
 
@@ -2290,7 +2290,7 @@ var flatten = function(root) {
 
 
 
-#### [133. 克隆图](https://leetcode-cn.com/problems/clone-graph/)
+#### 133. 克隆图
 
 > 给定无向[**连通**](https://baike.baidu.com/item/%E8%BF%9E%E9%80%9A%E5%9B%BE/6460995?fr=aladdin)图中一个节点的引用，返回该图的[**深拷贝**](https://baike.baidu.com/item/%E6%B7%B1%E6%8B%B7%E8%B4%9D/22785317?fr=aladdin)（克隆）。图中的每个节点都包含它的值 `val`（`Int`） 和其邻居的列表（`list[Node]`）。
 >
@@ -2395,7 +2395,7 @@ public:
 
 
 
-#### [148. 排序链表](https://leetcode-cn.com/problems/sort-list/)
+#### 148. 排序链表
 
 > 在 *O*(*n* log *n*) 时间复杂度和常数级空间复杂度下，对链表进行排序。
 
@@ -2482,7 +2482,7 @@ var sortList = function(head) {
 
 
 
-#### [151. 翻转字符串里的单词](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
+#### 151. 翻转字符串里的单词
 
 > 给定一个字符串，逐个翻转字符串中的每个单词。
 >
@@ -2543,7 +2543,7 @@ public:
 
 
 
-#### [230. 二叉搜索树中第K小的元素](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)
+#### 230. 二叉搜索树中第K小的元素
 
 > 给定一个二叉搜索树，编写一个函数 `kthSmallest` 来查找其中第 **k** 个最小的元素。
 
@@ -2596,7 +2596,7 @@ var kthSmallest = function(root, k) {
 
 
 
-#### [429. N叉树的层序遍历](https://leetcode-cn.com/problems/n-ary-tree-level-order-traversal/)
+#### 429. N叉树的层序遍历
 
 > 给定一个 N 叉树，返回其节点值的*层序遍历*。 (即从左到右，逐层遍历)。
 
@@ -2655,7 +2655,7 @@ public:
 
 
 
-#### [450. 删除二叉搜索树中的节点](https://leetcode-cn.com/problems/delete-node-in-a-bst/)
+#### 450. 删除二叉搜索树中的节点
 
 > 给定一个二叉搜索树的根节点 root 和一个值 key，删除二叉搜索树中的 key 对应的节点，并保证二叉搜索树的性质不变。返回二叉搜索树（有可能被更新）的根节点的引用。
 >
@@ -2747,7 +2747,7 @@ public:
 
 
 
-#### [494. 目标和](https://leetcode-cn.com/problems/target-sum/)
+#### 494. 目标和
 
 > 给定一个非负整数数组，a1, a2, ..., an, 和一个目标数，S。现在你有两个符号 + 和 -。对于数组中的任意一个整数，你都可以从 + 或 -中选择一个符号添加在前面。
 >
@@ -2788,7 +2788,7 @@ public:
 
 
 
-#### [498. 对角线遍历](https://leetcode-cn.com/problems/diagonal-traverse/)
+#### 498. 对角线遍历
 
 > 二维数组对角线遍历。
 >
@@ -2839,7 +2839,7 @@ public:
 
 
 
-#### [513. 找树左下角的值](https://leetcode-cn.com/problems/find-bottom-left-tree-value/)
+#### 513. 找树左下角的值
 
 > 给定一个二叉树，在树的最后一行找到最左边的值。
 
@@ -2884,7 +2884,7 @@ var findBottomLeftValue = function(root) {
 
 
 
-#### [713. 乘积小于K的子数组](https://leetcode-cn.com/problems/subarray-product-less-than-k/)
+#### 713. 乘积小于K的子数组
 
 > 给定一个正整数数组 nums。
 >
@@ -2931,7 +2931,7 @@ public:
 
 
 
-#### [10. 正则表达式匹配](https://leetcode-cn.com/problems/regular-expression-matching/)
+#### 10. 正则表达式匹配
 
 > 给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 '.' 和 '*' 的正则表达式匹配。
 >
@@ -2974,7 +2974,7 @@ var isMatch = function(s, p) {
 
 
 
-#### [41. 缺失的第一个正数](https://leetcode-cn.com/problems/first-missing-positive/)
+#### 41. 缺失的第一个正数
 
 > 给定一个未排序的整数数组，找出其中没有出现的最小的正整数。
 
@@ -3013,7 +3013,7 @@ var firstMissingPositive = function(nums) {
 
 
 
-#### [1250. 检查「好数组」](https://leetcode-cn.com/problems/check-if-it-is-a-good-array/)
+#### 1250. 检查「好数组」
 
 > 给你一个正整数数组 `nums`，你需要从中任选一些子集，然后将子集中每一个数乘以一个 **任意整数**，并求出他们的和。
 >
