@@ -2395,6 +2395,91 @@ public:
 
 
 
+#### [148. 排序链表](https://leetcode-cn.com/problems/sort-list/)
+
+> 在 *O*(*n* log *n*) 时间复杂度和常数级空间复杂度下，对链表进行排序。
+
+
+
+##### 思路
+
+使用归并排序。因为是链表所以可以原地归并，不需要使用额外空间（非常数空间）。归并使用迭代方式，因此需要自底向上直接分cut然后merge。
+
+- 时间复杂度Onlogn，空间O1
+
+
+
+##### 代码
+
+```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var sortList = function(head) {
+    function mergeSort(head){
+        let dummyHead=new ListNode(0);
+        dummyHead.next=head;
+        let p=head;
+        let length=0;
+        while(p){
+            p=p.next;
+            length++;
+        }
+        for(let size=1;size<length;size*=2){
+            let cur=dummyHead.next;
+            let tail=dummyHead;
+            while(cur!==null){
+                let left=cur;
+                let right=cut(left,size);
+                cur=cut(right,size);
+                tail.next=merge(left,right);
+                while(tail.next!==null) tail=tail.next;
+            }
+        }
+        return dummyHead.next;
+    }
+    function cut(node,len){
+        for(let i=1;i<len;i++){
+            if(node===null) return null;
+            node=node.next;
+        }
+        if(node===null) return null;
+        let tmp=node.next;
+        node.next=null;
+        return tmp;
+    }
+    function merge(l1,l2){
+        let dummyHead=new ListNode(0);
+        let p=dummyHead;
+        while(l1!==null&&l2!==null){
+            if(l1.val<l2.val){
+                p.next=l1;
+                p=l1;
+                l1=l1.next;
+            }else{
+                p.next=l2;
+                p=l2;
+                l2=l2.next;
+            }
+        }
+        p.next=l1===null?l2:l1;
+        return dummyHead.next;
+    }
+    
+    return mergeSort(head);
+};
+```
+
+
+
 
 
 #### [151. 翻转字符串里的单词](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
@@ -2882,6 +2967,45 @@ tricky，利用JavaScript正则表达式。
  */
 var isMatch = function(s, p) {
     return (new RegExp("^"+p+"$")).test(s);
+};
+```
+
+
+
+
+
+#### [41. 缺失的第一个正数](https://leetcode-cn.com/problems/first-missing-positive/)
+
+> 给定一个未排序的整数数组，找出其中没有出现的最小的正整数。
+
+
+
+##### 思路
+
+n个数，没有出现最小的正整数的范围是[1,n+1]。创建一个大小为n的数组用于标记，出现过的标记为1。全部标记完后从小向大找，第一个未被标记的对应值为目标值，如果都已经标记则结果就是n+1
+
+
+
+- 时间复杂度On，空间On
+
+
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var firstMissingPositive = function(nums) {
+    let mark=(new Array(nums.length)).fill(0);
+    for(let i=0;i<nums.length;i++){
+        if(nums[i]>=1&&nums[i]<=nums.length) mark[nums[i]-1]=1;
+    }
+    for(let i=0;i<mark.length;i++){
+        if(mark[i]===0) return i+1;
+    }
+    return nums.length+1;
 };
 ```
 
