@@ -1893,6 +1893,51 @@ var sortArrayByParityII = function(A) {
 
 
 
+#### 976. 三角形的最大周长
+
+> 给定由一些正数（代表长度）组成的数组 A，返回由其中三个长度组成的、面积不为零的三角形的最大周长。
+>
+> 如果不能形成任何面积不为零的三角形，返回 0。
+>
+>  
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/largest-perimeter-triangle
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+三角形的最大周长一定来自于相对较大的几个数，所以说需要排序。假如说是升序排序则从后向前找只要满足三角形的构造规则即可。JS中比较坑的一点是`Array.prototype.sort`如果不指定比较函数则对其`UTF-16`编码进行排序。
+
+- 时间复杂度Onlogn，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} A
+ * @return {number}
+ */
+var largestPerimeter = function(A) {
+    A.sort((a,b)=>a-b);
+    let i=A.length-1;
+    while(i-2>=0){
+        if(A[i-2]+A[i-1]<=A[i]){
+            i--;
+            continue;
+        }
+        return A[i-2]+A[i-1]+A[i];
+    }
+    return 0;
+};
+```
+
+
+
+
+
 #### 1249. 移除无效的括号
 
 > 给你一个由 '('、')' 和小写字母组成的字符串 s。
@@ -3131,7 +3176,7 @@ public:
 
 > 已经冒泡结束的有序部分长度，可能小于有序的部分，此时做了无用比较，如下图，4-8已经有序了，8是已经冒泡的部分，下一轮冒泡4-7还得比较，浪费了资源
 
-![img](https://mmbiz.qpic.cn/mmbiz_png/NtO5sialJZGow5P5qiaicSEib1InC3PzJ1tsuKDArK6z7dN0eZibUic4WoRyvMOgTScybibFuaxEeCtYPIYKCib9PZDnZw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![img](pics/640.webp)
 
 ####### 思路
 
