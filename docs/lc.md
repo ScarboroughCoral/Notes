@@ -1893,6 +1893,51 @@ var sortArrayByParityII = function(A) {
 
 
 
+#### 961. 重复 N 次的元素
+
+> 在大小为 2N 的数组 A 中有 N+1 个不同的元素，其中有一个元素重复了 N 次。
+>
+> 返回重复了 N 次的那个元素。
+>
+> **提示：**
+>
+> - 4 <= A.length <= 10000
+> - 0 <= A[i] < 10000
+> - A.length 为偶数
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/n-repeated-element-in-size-2n-array
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+利用集合。2N个数中N+1个不同的数，其中1个数出现了N次。那么其余所有数都出现了一次。当出现第二次的时候就是这个数。
+
+- 时间复杂度On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} A
+ * @return {number}
+ */
+var repeatedNTimes = function(A) {
+    let s=new Set();
+    for(let i=0;i<A.length;i++){
+        if(s.has(A[i])) return A[i];
+        s.add(A[i]);
+    }
+    return -1;
+};
+```
+
+
+
+
+
 #### 976. 三角形的最大周长
 
 > 给定由一些正数（代表长度）组成的数组 A，返回由其中三个长度组成的、面积不为零的三角形的最大周长。
@@ -1935,6 +1980,54 @@ var largestPerimeter = function(A) {
 ```
 
 
+
+#### 1207. 独一无二的出现次数
+
+> 给你一个整数数组 arr，请你帮忙统计数组中每个数的出现次数。
+>
+> 如果每个数的出现次数都是独一无二的，就返回 true；否则返回 false。
+>
+> **提示：**
+>
+> - 1 <= arr.length <= 1000
+> - -1000 <= arr[i] <= 1000
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/unique-number-of-occurrences
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+用map计数，用set检测重复。
+
+- 时间复杂度On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {boolean}
+ */
+var uniqueOccurrences = function(arr) {
+    let m=new Map();
+    for(let i=0;i<arr.length;i++){
+        if(m.has(arr[i])){
+            m.set(arr[i],m.get(arr[i])+1);
+            continue;
+        }
+        m.set(arr[i],1);
+    }
+    let s=new Set();
+    for(let value of m.values()){
+        if(s.has(value)) return false;
+        s.add(value);
+    }
+    return true;
+};
+```
 
 
 
