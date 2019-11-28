@@ -2096,6 +2096,61 @@ public:
 
 
 
+#### 48. 旋转图像
+
+> 给定一个 n × n 的二维矩阵表示一个图像。
+>
+> 将图像顺时针旋转 90 度。
+>
+> 说明：
+>
+> 你必须在原地旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要使用另一个矩阵来旋转图像。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/rotate-image
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+先沿着主对角线做对称，后沿着垂直中线做对称。
+
+- 时间复杂度On，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[][]} matrix
+ * @return {void} Do not return anything, modify matrix in-place instead.
+ */
+var rotate = function(matrix) {
+    //mirror with main axis
+    let n=matrix.length;
+    for(let i=0;i<n;i++){
+        for(let j=0;j<i;j++){
+            let tmp=matrix[i][j];
+            matrix[i][j]=matrix[j][i];
+            matrix[j][i]=tmp;
+        }
+    }
+
+    //mirror with vertical line
+    let mid=parseInt(n/2);
+    for(let i=0;i<n;i++){
+        for(let j=0;j<mid;j++){
+            let tmp=matrix[i][j];
+            matrix[i][j]=matrix[i][n-j-1];
+            matrix[i][n-j-1]=tmp;
+        }
+    }
+    return matrix;
+};
+```
+
+
+
+
+
 #### 49. 字母异位词分组
 
 >  给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。
@@ -3614,38 +3669,38 @@ public:
 
 ###### 代码
 
-```c++
-class Solution {
-public:
-    vector<int> sortArray(vector<int>& nums) {
-        for(int i=(nums.size()-2)/2;i>=0;i--){
-            ajust(nums,i,nums.size());
-        }
-        for(int i=nums.size()-1;i>0;i--){
-            int tmp=nums[i];
-            nums[i]=nums[0];
-            nums[0]=tmp;
-            ajust(nums,0,i);
-        }
-        return nums;
-    }
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var sortArray = function(nums) {
 
-    void ajust(vector<int>& nums,int parent,int len){
-        int tmp=nums[parent];
-        int child=2*parent+1;
+    function ajust(nums,parent,len){
+        let tmp=nums[parent];
+        let child=2*parent+1;
         while(child<len){
-            if(child+1<len&&nums[child+1]>nums[child]){
-                child++;
-            }
-            if(tmp>=nums[child]){
-                break;
-            }
+            if(child+1<len&&nums[child+1]>nums[child]) child++;
+            if(tmp>=nums[child]) break;
             nums[parent]=nums[child];
             parent=child;
             child=2*parent+1;
         }
         nums[parent]=tmp;
     }
+    
+    for(let i=parseInt((nums.length-2)/2);i>=0;i--){
+        ajust(nums,i,nums.length);
+    }
+
+    for(let i=nums.length-1;i>0;i--){
+        let tmp=nums[i];
+        nums[i]=nums[0];
+        nums[0]=tmp;
+        ajust(nums,0,i);
+    }
+    return nums;
+
 };
 ```
 
