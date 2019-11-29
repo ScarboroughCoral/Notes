@@ -2094,6 +2094,104 @@ public:
 
 ### 中等
 
+#### 24. 两两交换链表中的节点
+
+> 给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。
+>
+> 你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+>
+>  
+>
+> **示例:**
+>
+> ```
+> 给定 1->2->3->4, 你应该返回 2->1->4->3.
+> ```
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/swap-nodes-in-pairs
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+递归的交换，并返回交换后第一个节点的值，用于递归完成后上一层递归的第二个节点的指向修改。
+
+- 时间复杂度On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var swapPairs = function(head) {
+    if(head===null||head.next===null) return head;
+    let t=head.next;
+    head.next=t.next;
+    t.next=head;
+    let r=swapPairs(t.next.next);
+    head.next=r;
+    return t;
+};
+```
+
+
+
+#### 46. 全排列
+
+> 给定一个**没有重复**数字的序列，返回其所有可能的全排列。
+>
+>
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/permutations
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+利用递归回溯，每次保留当前状态，数组需要拷贝。**回溯=深度优先+状态重置+剪枝**。
+
+- 时间复杂度O(n!)，空间O(n!)
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var permute = function(nums) {
+    
+    function swap(nums,i,j){
+        let t=nums[i];
+        nums[i]=nums[j];
+        nums[j]=t;
+    }
+    function construct(n,nums,output,first){
+        if(first===n) output.push([...nums]);
+        for(let i=first;i<n;i++){
+            swap(nums,first,i);
+            construct(n,nums,output,first+1);
+            swap(nums,first,i);
+        }
+    }
+    let result=[];
+    let n=nums.length;
+    construct(n,nums,result,0);
+    return result;
+};
+```
+
 
 
 #### 48. 旋转图像
