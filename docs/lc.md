@@ -883,6 +883,63 @@ public:
 
 
 
+#### 118. 杨辉三角
+
+> 给定一个非负整数 *numRows，*生成杨辉三角的前 *numRows* 行。
+>
+> ![img](https://upload.wikimedia.org/wikipedia/commons/0/0d/PascalTriangleAnimated2.gif)
+>
+> 在杨辉三角中，每个数是它左上方和右上方的数的和。
+>
+> **示例:**
+>
+> ```text
+> 输入: 5
+> 输出:
+> [
+>      [1],
+>     [1,1],
+>    [1,2,1],
+>   [1,3,3,1],
+>  [1,4,6,4,1]
+> ]
+> 
+> ```
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/pascals-triangle
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+递归或者动态规划，找到基本情况（**每行第一个和最后一个是1**）和递推关系（**`a[i][j]=a[i-1][j-1]+a[i-1]`[j]**）。
+
+- 时间复杂度O(n^2)，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number} numRows
+ * @return {number[][]}
+ */
+var generate = function(numRows) {
+    if(numRows<=0) return [];
+    let result=[];
+    for(let i=0;i<numRows;i++){
+        let tmp=[];
+        for(let j=0;j<i+1;j++){
+            if(j==0||j==i) tmp.push(1);
+            else tmp.push(result[i-1][j-1]+result[i-1][j]);
+        }
+        result.push(tmp);
+    }
+    return result;
+};
+```
+
 
 
 #### 121. 买卖股票的最佳时机
@@ -1981,6 +2038,44 @@ var largestPerimeter = function(A) {
 
 
 
+#### 1108. IP 地址无效化
+
+> 给你一个有效的 IPv4 地址 address，返回这个 IP 地址的无效化版本。
+>
+> 所谓无效化 IP 地址，其实就是用 "[.]" 代替了每个 "."。
+>
+>
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/defanging-an-ip-address
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+使用JavaScript的replace函数。第一个参数是正则对象或者字符串（仅仅匹配第一次出现），第二个参数是用于替换的字符串或者匹配转换函数。
+
+```javascript
+var newStr = str.replace(regexp|substr, newSubstr|function)
+```
+
+
+
+##### 代码
+
+```javascript
+/**
+ * @param {string} address
+ * @return {string}
+ */
+var defangIPaddr = function(address) {
+    return address.replace(/\./g,'[.]');
+};
+```
+
+
+
+
+
 #### 1207. 独一无二的出现次数
 
 > 给你一个整数数组 arr，请你帮忙统计数组中每个数的出现次数。
@@ -2337,6 +2432,50 @@ public:
         }
         return result;
     }
+};
+```
+
+
+
+#### 78. 子集
+
+> 给定一组**不含重复元素**的整数数组 nums，返回该数组所有可能的子集（幂集）。
+>
+> 说明：解集不能包含重复的子集。
+>
+>
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/subsets
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+暴力回溯。利用每次选取当前元素后下次只能选取后面的元素以防重复。
+
+- 时间复杂度O(n!)，空间On
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var subsets = function(nums) {
+    if(nums.length===0) return [];
+    let result=[];
+    let len=nums.length;
+    function construct(idx,tmp){
+        result.push(tmp);
+        for(let i=idx;i<len;i++){
+            construct(i+1,tmp.concat([nums[i]]));
+        }
+    }
+    construct(0,[]);
+    return result;
 };
 ```
 
