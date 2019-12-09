@@ -159,6 +159,69 @@ var longestCommonPrefix = function(strs) {
 
 
 
+#### 15. 三数之和
+
+> 给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。
+>
+> **注意：答案中不可以包含重复的三元组。**
+>
+>
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/3sum
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+和2sum几乎完全不同，首先想到的是暴力解（n^3），显然不行。比较好的思路是排序+双指针。
+
+1. 排除数组长度小于3的情况。
+2. 排序数组（nlogn）
+3. 遍历数组，当前元素下标设为i，值设为x，已经重复的跳过
+   1. x>0，后续并无结果，直接返回
+   2. 双指针设Left=i+1，L为对应值，Right=nums.length-1，R为对应值
+   3. 如果L+R+x===0则添加到结果集合，并检查接下来是否有重复元素如果有则直接跳过
+   4. 如果L+R+x<0，则Left++
+   5. 如果L+R+x>0，则Right--
+
+- 时间复杂度Onlogn，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var threeSum = function(nums) {
+    let result=[];
+    if(nums.length<3) return result;
+    nums.sort((a,b)=>a-b);
+    for(let i=0;i<nums.length;i++){
+        if(nums[i]>0) return result;
+        if(i>0&&nums[i]===nums[i-1]) continue;
+        let L=i+1,R=nums.length-1;
+        while(L<R){
+            if(nums[i]+nums[L]+nums[R]===0){
+                result.push([nums[i],nums[L],nums[R]]);
+                while(L<R&&nums[L]===nums[L+1]) L++;
+                while(L<R&&nums[R]===nums[R-1]) R--;
+                L+=1;
+                R-=1;
+            }else if(nums[i]+nums[L]+nums[R]>0){
+                R--;
+            }else{
+                L++;
+            }
+            
+        }
+    }
+    return result;
+};
+```
+
 
 
 #### 20. 有效的括号
