@@ -4051,6 +4051,79 @@ var isMatch = function(s, p) {
 
 
 
+#### 32. 最长有效括号
+
+> 给定一个只包含 '(' 和 ')' 的字符串，找出最长的包含有效括号的子串的长度。
+>
+> **示例 1:**
+>
+> ```
+> 输入: "(()"
+> 输出: 2
+> 解释: 最长有效括号子串为 "()"
+> ```
+>
+> **示例 2:**
+>
+> ```
+> 输入: ")()())"
+> 输出: 4
+> 解释: 最长有效括号子串为 "()()"
+> ```
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/longest-valid-parentheses
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+利用栈，就像检测括号有效性那样，如果当前右括号匹配栈顶左括号，就将左括号弹栈。只不过这次栈内的元素不仅仅是`()`，另外还添加了当前括号的下标。最终将检测栈内剩余的元素两两相邻的下标之差就是合法括号的长度（注意栈内第一个元素前和最后一个元素后）。结果就是这些差值中的最大值。
+
+
+
+- 时间复杂度On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var longestValidParentheses = function(str) {
+    const m={
+        ')':'('
+    };
+    let s=[];
+    for(let i=0;i<str.length;i++){
+        if(s.length===0){
+            s.push({
+                idx:i,
+                v:str[i]
+            });
+            continue;
+        }
+        if(s[s.length-1].v===m[str[i]]){
+            s.pop();
+        }else{
+            s.push({
+                idx:i,
+                v:str[i]
+            });
+        }
+    }
+    if(s.length===0) return str.length;
+    let max=s[0].idx;
+    for(let i=1;i<s.length;i++){
+        let cur=s[i].idx-s[i-1].idx-1;
+        if(cur>max) max=cur;
+    }
+    return str.length-s[s.length-1].idx-1>max?str.length-s[s.length-1].idx-1:max;
+};
+```
+
 
 
 #### 41. 缺失的第一个正数
