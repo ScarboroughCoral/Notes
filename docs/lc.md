@@ -2250,6 +2250,95 @@ public:
 };
 ```
 
+
+
+#### 1287. 有序数组中出现次数超过25%的元素
+
+> 给你一个非递减的 有序 整数数组，已知这个数组中恰好有一个整数，它的出现次数超过数组元素总数的 25%。
+>
+> 请你找到并返回这个整数
+>
+>
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/element-appearing-more-than-25-in-sorted-array
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+数组有序，单调递增。如果存在数组下标差值为1/4长度的元素相等，那么这个元素就是目标值。
+
+- 时间复杂度On，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number}
+ */
+var findSpecialInteger = function(arr) {
+    let start=parseInt(arr.length/4);
+    for(let i=start;i<arr.length;i++){
+        if(arr[i]===arr[i-start]||arr[i]===arr[i+start]) return arr[i];
+    }
+    return 0;
+};
+```
+
+
+
+
+
+#### 1290. 二进制链表转整数
+
+> 给你一个单链表的引用结点 head。链表中每个结点的值不是 0 就是 1。已知此链表是一个整数数字的二进制表示形式。
+>
+> 请你返回该链表所表示数字的 十进制值 。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/convert-binary-number-in-a-linked-list-to-integer
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+迭代，每次乘2加当前值作为当前结果值。
+
+- 时间复杂度On，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {number}
+ */
+var getDecimalValue = function(head) {
+    let result=0;
+    let cur=head;
+    while(cur){
+        result=result*2+cur.val;
+        cur=cur.next;
+    }
+    return result;
+};
+```
+
+
+
+
+
 ### 中等
 
 #### 24. 两两交换链表中的节点
