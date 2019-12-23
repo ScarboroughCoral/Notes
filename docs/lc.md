@@ -2339,6 +2339,53 @@ var getDecimalValue = function(head) {
 
 
 
+#### 5291. 统计位数为偶数的数字
+
+> 给你一个整数数组 nums，请你返回其中位数为 偶数 的数字的个数。
+>
+>
+>
+>
+> 提示：
+>
+> - 1 <= nums.length <= 500
+> - 1 <= nums[i] <= 10^5
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/find-numbers-with-even-number-of-digits
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+遍历查找即可。使用Functional Programming，reduce函数。
+
+- 时间复杂度On，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findNumbers = function(nums) {
+    return nums.reduce((count,x)=>{
+        let bit=0;
+        while(x!==0){
+            x=parseInt(x/10);
+            bit++;
+        }
+        return count+(bit%2===0);
+    },0)
+};
+```
+
+
+
+
+
 ### 中等
 
 #### 24. 两两交换链表中的节点
