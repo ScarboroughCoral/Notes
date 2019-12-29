@@ -4142,6 +4142,89 @@ var sortArray = function(nums) {
 
 
 
+#### 5296. 两棵二叉搜索树中的所有元素
+
+> 给你 root1 和 root2 这两棵二叉搜索树。
+>
+> 请你返回一个列表，其中包含 两棵树 中的所有整数并按 升序 排序。.
+>
+>  
+>
+> **示例 1：**
+>
+> ![img](pics/q2-e1.png)
+>
+> ```
+> 输入：root1 = [2,1,4], root2 = [1,0,3]
+> 输出：[0,1,1,2,3,4]
+> ```
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/all-elements-in-two-binary-search-trees
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+
+
+##### 思路
+
+二叉搜索树中序遍历有序，假设得到有序数组后就类似于合并两个有序数组，这儿使用一个数组暂存第一棵树的遍历结果，第二棵树遍历同时进行构建结果。
+
+- 时间复杂度O(M+N)，空间O(M+N)
+
+##### 代码
+
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root1
+ * @param {TreeNode} root2
+ * @return {number[]}
+ */
+var getAllElements = function(root1, root2) {
+    let tmp=[];
+    let s=[];
+    let st=new Set();
+    if(root1) s.push(root1);
+    while(s.length!==0){
+        let cur=s.pop();
+        if(!st.has(cur)){
+            st.add(cur);
+            if(cur.right) s.push(cur.right);
+            s.push(cur);
+            if(cur.left) s.push(cur.left);
+        }else{
+            tmp.push(cur.val);
+        }
+    }
+    let result=[];
+    if(root2) s.push(root2);
+    while(s.length!==0){
+        let cur=s.pop();
+        if(!st.has(cur)){
+            st.add(cur);
+            if(cur.right) s.push(cur.right);
+            s.push(cur);
+            if(cur.left) s.push(cur.left);
+        }else{
+            while(tmp.length>0&&tmp[0]<=cur.val) result.push(tmp.shift());
+            result.push(cur.val);
+        }
+    }
+    for(let i=0;i<tmp.length;i++) result.push(tmp[i]);
+    return result;
+};
+```
+
+
+
 ### 困难
 
 
