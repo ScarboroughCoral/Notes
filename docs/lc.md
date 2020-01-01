@@ -47,100 +47,6 @@ public:
 
 
 
-#### 2. 两数相加
-
-> 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
->
-> 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
->
-> 您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
->
-> 来源：力扣（LeetCode）
-> 链接：https://leetcode-cn.com/problems/add-two-numbers
-> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-
-
-
-##### 思路
-
-目的很明确，加的过程中注意进位，还要注意999的情况，可能还要添加最后新节点。
-
-- 时间O(max{M,N})，空间O(max{M,N})
-
-```javascript
-/**
- * Definition for singly-linked list.
- * function ListNode(val) {
- *     this.val = val;
- *     this.next = null;
- * }
- */
-/**
- * @param {ListNode} l1
- * @param {ListNode} l2
- * @return {ListNode}
- */
-var addTwoNumbers = function(l1, l2) {
-    if(!l1||!l2) return l1||l2;
-    let cur1=l1,cur2=l2;
-    let carry=0;
-    let pre1=null,pre2=null;
-    while(cur1&&cur2){
-        let tmp=cur1.val+cur2.val+carry;
-        if(tmp>9){
-            carry=1;
-            cur1.val=tmp-10;
-        }else{
-            carry=0;
-            cur1.val=tmp;
-        }
-        pre1=cur1;
-        pre2=cur2;
-        cur1=cur1.next;
-        cur2=cur2.next;
-    }
-    if(cur1){
-        while(cur1){
-            let tmp=cur1.val+carry;
-            if(tmp>9){
-                carry=1;
-                cur1.val=tmp-10;
-            }else{
-                carry=0;
-                cur1.val=tmp;
-            }
-            pre1=cur1;
-            cur1=cur1.next;
-        }
-        if(carry) pre1.next=new ListNode(carry);
-        return l1;
-    };
-    if(!cur2){
-        if(carry) pre1.next=new ListNode(carry);
-        return l1;
-    }
-    pre1.next=cur2;
-    while(cur2){
-        let tmp=cur2.val+carry;
-        if(tmp>9){
-            carry=1;
-            cur2.val=tmp-10;
-        }else{
-            carry=0;
-            cur2.val=tmp;
-        }
-        pre2=cur2;
-        cur2=cur2.next;
-    }
-    if(carry) pre2.next=new ListNode(carry);
-    return l1;
-};
-```
-
-
-
-
-
 #### 13. 罗马数字转整数
 
 > 通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 IIII，而是 IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 IX。这个特殊的规则只适用于以下**六种情况：**
@@ -1092,6 +998,65 @@ var generate = function(numRows) {
     return result;
 };
 ```
+
+
+
+#### 119. 杨辉三角 II
+
+> 给定一个非负索引 *k*，其中 *k* ≤ 33，返回杨辉三角的第 *k* 行。
+>
+> ![img](pics/PascalTriangleAnimated2.gif)
+>
+> 在杨辉三角中，每个数是它左上方和右上方的数的和。
+>
+> **示例:**
+>
+> ```
+> 输入: 3
+> 输出: [1,3,3,1]
+> ```
+>
+> **进阶：**
+>
+> 你可以优化你的算法到 *O*(*k*) 空间复杂度吗？
+>
+>
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/pascals-triangle-ii/
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+只返回第K行的元素，为了避免创建二维数组，可以使用一维进行优化，思考每次在数组末尾新添加一个元素从后向前计算，这样不会覆盖原来的结果。
+
+- 时间复杂度O(k^2)，空间O(k)
+
+
+
+##### 代码
+
+```javascript
+/**
+ * @param {number} rowIndex
+ * @return {number[]}
+ */
+var getRow = function(rowIndex) {
+    let result=[];
+    for(let i=0;i<rowIndex;i++){
+        result.push(1);
+        for(let j=i;j>0;j--){
+            result[j]=result[j]+result[j-1];
+        }
+    }
+    result.push(1);
+    return result;
+};
+```
+
+
 
 
 
@@ -2477,6 +2442,106 @@ var findNumbers = function(nums) {
 
 
 ### 中等
+
+
+
+
+
+#### 2. 两数相加
+
+> 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
+>
+> 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
+>
+> 您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/add-two-numbers
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+目的很明确，加的过程中注意进位，还要注意999的情况，可能还要添加最后新节点。
+
+- 时间O(max{M,N})，空间O(max{M,N})
+
+```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+var addTwoNumbers = function(l1, l2) {
+    if(!l1||!l2) return l1||l2;
+    let cur1=l1,cur2=l2;
+    let carry=0;
+    let pre1=null,pre2=null;
+    while(cur1&&cur2){
+        let tmp=cur1.val+cur2.val+carry;
+        if(tmp>9){
+            carry=1;
+            cur1.val=tmp-10;
+        }else{
+            carry=0;
+            cur1.val=tmp;
+        }
+        pre1=cur1;
+        pre2=cur2;
+        cur1=cur1.next;
+        cur2=cur2.next;
+    }
+    if(cur1){
+        while(cur1){
+            let tmp=cur1.val+carry;
+            if(tmp>9){
+                carry=1;
+                cur1.val=tmp-10;
+            }else{
+                carry=0;
+                cur1.val=tmp;
+            }
+            pre1=cur1;
+            cur1=cur1.next;
+        }
+        if(carry) pre1.next=new ListNode(carry);
+        return l1;
+    };
+    if(!cur2){
+        if(carry) pre1.next=new ListNode(carry);
+        return l1;
+    }
+    pre1.next=cur2;
+    while(cur2){
+        let tmp=cur2.val+carry;
+        if(tmp>9){
+            carry=1;
+            cur2.val=tmp-10;
+        }else{
+            carry=0;
+            cur2.val=tmp;
+        }
+        pre2=cur2;
+        cur2=cur2.next;
+    }
+    if(carry) pre2.next=new ListNode(carry);
+    return l1;
+};
+```
+
+
+
+
+
+
 
 #### 24. 两两交换链表中的节点
 
