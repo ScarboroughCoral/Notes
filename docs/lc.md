@@ -2111,6 +2111,50 @@ var repeatedNTimes = function(A) {
 
 
 
+#### 965. 单值二叉树
+
+> 如果二叉树每个节点都具有相同的值，那么该二叉树就是*单值*二叉树。
+>
+> 只有给定的树是单值二叉树时，才返回 `true`；否则返回 `false`。
+>
+> **提示：**
+>
+> 1. 给定树的节点数范围是 `[1, 100]`。
+> 2. 每个节点的值都是整数，范围为 `[0, 99]` 。
+
+
+
+##### 思路
+
+遍历或者递归，遍历可以深度遍历和层次遍历。以下代码是递归。
+
+- 时间复杂度On，空间Ologn
+
+##### 代码
+
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isUnivalTree = function(root) {
+    if(!root) return true;
+    if(root.left&&root.right&&!(root.left.val===root.val&&root.right.val===root.val)) return false;
+    else if((root.left||root.right)&&((root.left||root.right).val!==root.val)) return false;
+    else if(!root.left&&!root.right) return true;
+    return isUnivalTree(root.left)&&isUnivalTree(root.right);
+};
+```
+
+
+
 
 
 #### 976. 三角形的最大周长
