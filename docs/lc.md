@@ -1213,6 +1213,49 @@ public:
 
 
 
+#### 190. 颠倒二进制位
+
+> 颠倒给定的 32 位无符号整数的二进制位。
+>
+>  
+>
+> **示例 1**：
+>
+> ```
+> 输入: 00000010100101000001111010011100
+> 输出: 00111001011110000010100101000000
+> 解释: 输入的二进制串 00000010100101000001111010011100 表示无符号整数 43261596，
+>       因此返回 964176192，其二进制表示形式为 00111001011110000010100101000000。
+> ```
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/reverse-bits
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+利用tostring和parseInt函数，另外前面补〇用substr函数。
+
+- 时间复杂度O1，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number} n - a positive integer
+ * @return {number} - a positive integer
+ */
+var reverseBits = function(n) {
+    return parseInt(('00000000000000000000000000000000'+n.toString(2)).substr(-32).split('').reverse().join(''),2);
+};
+```
+
+
+
+
+
 #### 198. 打家劫舍
 
 >你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
@@ -1609,6 +1652,52 @@ var findWords = function(words) {
         }
     }
     return result;
+};
+```
+
+
+
+#### 504. 七进制数
+
+> 给定一个整数，将其转化为7进制，并以字符串形式输出。
+>
+> **示例 1**:
+>
+> ```
+> 输入: 100
+> 输出: "202"
+> ```
+>
+> **示例 2**:
+>
+> ```
+> 输入: -7
+> 输出: "-10"
+> ```
+>
+> **注意**: 输入范围是 [-1e7, 1e7] 。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/base-7
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+可以取余取商法做。直接用toString了。
+
+- 时间复杂度O1，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number} num
+ * @return {string}
+ */
+var convertToBase7 = function(num) {
+    return num.toString(7);
 };
 ```
 
@@ -3417,6 +3506,62 @@ var kthSmallest = function(root, k) {
         }
     }
     return -1;
+};
+```
+
+
+
+#### 240. 搜索二维矩阵 II
+
+> 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target。该矩阵具有以下特性：
+>
+> 每行的元素从左到右升序排列。
+> 每列的元素从上到下升序排列。
+> **示例**:
+>
+> 现有矩阵 matrix 如下：
+>
+> ```
+> [
+>   [1,   4,  7, 11, 15],
+>   [2,   5,  8, 12, 19],
+>   [3,   6,  9, 16, 22],
+>   [10, 13, 14, 17, 24],
+>   [18, 21, 23, 26, 30]
+> ]
+> ```
+>
+>
+> 给定 target = 5，返回 true。
+>
+> 给定 target = 20，返回 false。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/search-a-2d-matrix-ii
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+从右上向左下搜，如果当前值比目标值大那一定在下面的行中，如果比目标值小那么一定在左边的列中。
+
+- 时间复杂度O(m+n)，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[][]} matrix
+ * @param {number} target
+ * @return {boolean}
+ */
+var searchMatrix = function(matrix, target) {
+    if(!matrix||matrix.length===0) return false;
+    let i=0,j=matrix[0].length-1;
+    while(i<matrix.length&&j>=0&&matrix[i][j]!=target){
+        if(matrix[i][j]>target) j--;
+        else i++;
+    }
+    return i<matrix.length&&j>=0;
 };
 ```
 
