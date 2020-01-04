@@ -2289,6 +2289,42 @@ var largestPerimeter = function(A) {
 
 
 
+#### 1009. 十进制整数的反码
+
+> 每个非负整数 N 都有其二进制表示。例如， 5 可以被表示为二进制 "101"，11 可以用二进制 "1011" 表示，依此类推。注意，除 N = 0 外，任何二进制表示中都不含前导零。
+>
+> 二进制的反码表示是将每个 1 改为 0 且每个 0 变为 1。例如，二进制数 "101" 的二进制反码为 "010"。
+>
+> 给定十进制数 N，返回其二进制表示的反码所对应的十进制整数。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/complement-of-base-10-integer
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+使用toString和map方法转换反码，用parseInt函数转换为数值。
+
+- 时间复杂度O1，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number} N
+ * @return {number}
+ */
+var bitwiseComplement = function(N) {
+    return parseInt(N.toString(2).split('').map(x=>x==='0'?'1':'0').join(''),2);
+};
+```
+
+
+
+
+
 #### 1108. IP 地址无效化
 
 > 给你一个有效的 IPv4 地址 address，返回这个 IP 地址的无效化版本。
@@ -2921,6 +2957,126 @@ public:
     }
 };
 ```
+
+
+
+#### 62. 不同路径
+
+> 一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。
+>
+> 机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。
+>
+> 问总共有多少条不同的路径？
+>
+> ![img](pics/robot_maze.png)
+>
+> 例如，上图是一个7 x 3 的网格。有多少可能的路径？
+>
+> 说明：m 和 n 的值均不超过 100。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/unique-paths
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+动态规划，除了第一行和第一列，设置dp数组，从`(0,0)`到`(i,j)`共有`dp[i][j]=dp[i-1][j]+dp[i][j-1]`种情况。
+
+- 时间复杂度O(mn)，空间O(mn)
+
+##### 代码
+
+```javascript
+/**
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var uniquePaths = function(m, n) {
+    let dp=Array(m).fill(Array(n).fill(0));
+    for(let i=0;i<m;i++){
+        for(let j=0;j<n;j++){
+            if(i===0||j===0){
+                dp[i][j]=1;
+            }else{
+                dp[i][j]=dp[i-1][j]+dp[i][j-1];
+            }
+        }
+    }
+    return dp[m-1][n-1];
+};
+```
+
+
+
+#### 63. 不同路径 II
+
+> 一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。
+>
+> 机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。
+>
+> 现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？
+>
+> ![img](pics/robot_maze.png)
+>
+> 网格中的障碍物和空位置分别用 1 和 0 来表示。
+>
+> 说明：m 和 n 的值均不超过 100。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/unique-paths-ii
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+动态规划。如果当前位置是障碍物则`dp[i][j]=0`，否则考虑：第一行`dp[i][j]=dp[i][j-1]`，第一列`dp[i][j]=dp[i-1][j]`，其他`dp[i][j]=dp[i-1][j]+dp[i][j-1]。`
+
+- 时间Omn，空间Omn
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[][]} obstacleGrid
+ * @return {number}
+ */
+var uniquePathsWithObstacles = function(obstacleGrid) {
+    let m=obstacleGrid.length,n=obstacleGrid[0].length;
+    let dp=Array(m).fill(Array(n).fill(0));
+    for(let i=0;i<m;i++){
+        for(let j=0;j<n;j++){
+            if(i===0&&j===0){
+                dp[i][j]=obstacleGrid[i][j]===0?1:0;
+                continue;
+            }
+            if(i===0||j===0){
+                if(obstacleGrid[i][j]!==1){
+                    if(i===0){
+                        dp[i][j]=dp[i][j-1];
+                    }else{
+                        dp[i][j]=dp[i-1][j];
+                    }
+                }else{
+                    dp[i][j]=0;
+                }
+            }else{
+                if(obstacleGrid[i][j]!==1){
+                    dp[i][j]=dp[i-1][j]+dp[i][j-1];
+                }else{
+                    dp[i][j]=0;
+                }
+            }
+        }
+    }
+    return dp[m-1][n-1];
+};
+```
+
+
 
 
 
