@@ -1213,6 +1213,62 @@ public:
 
 
 
+#### 169. 多数元素
+
+> 给定一个大小为 n 的数组，找到其中的多数元素。多数元素是指在数组中出现次数大于 ⌊ n/2 ⌋ 的元素。
+>
+> 你可以假设数组是非空的，并且给定的数组总是存在多数元素。
+>
+> **示例 1:**
+>
+> ```
+> 输入: [3,2,3]
+> 输出: 3
+> ```
+>
+> **示例 2:**
+>
+> ```
+> 输入: [2,2,1,1,1,2,2]
+> 输出: 2
+> ```
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/majority-element
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+使用哈希映射计数，计数过程中计算。
+
+- 时间复杂度On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var majorityElement = function(nums) {
+    let threshold = Math.floor(nums.length/2);
+    let m=new Map();
+    for(let i=0;i<nums.length;i++){
+        if(!m.has(nums[i])){
+            m.set(nums[i],1);
+        }else{
+            m.set(nums[i],m.get(nums[i])+1)
+        }
+        if(m.get(nums[i])>threshold) return nums[i];
+    }
+    return -1;
+};
+```
+
+
+
 #### 190. 颠倒二进制位
 
 > 颠倒给定的 32 位无符号整数的二进制位。
@@ -1479,6 +1535,54 @@ var invertTree = function(root) {
  */
 var isAnagram = function(s, t) {
     return s.split('').sort().join('')===t.split('').sort().join('');
+};
+```
+
+
+
+#### 268. 缺失数字
+
+> 给定一个包含 0, 1, 2, ..., n 中 n 个数的序列，找出 0 .. n 中没有出现在序列中的那个数。
+>
+> **示例 1:**
+>
+> ```
+> 输入: [3,0,1]
+> 输出: 2
+> ```
+>
+>
+> **示例 2:**
+>
+> ```
+> 输入: [9,6,4,2,3,5,7,0,1]
+> 输出: 8
+> ```
+>
+> 说明:
+> 你的算法应具有线性时间复杂度。你能否仅使用额外常数空间来实现?
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/missing-number
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+因为是连续的n+1个数缺少了其中1个，因此可以将连续的数求和减去缺少数字的序列之和，差值就是结果。
+
+- 时间复杂度On，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var missingNumber = function(nums) {
+    return parseInt((nums.length)*(nums.length+1)/2)-nums.reduce((sum,x)=>x+sum);
 };
 ```
 
@@ -2022,6 +2126,36 @@ public:
 ```
 
 
+
+#### 709. 转换成小写字母
+
+> 实现函数 ToLowerCase()，该函数接收一个字符串参数 str，并将该字符串中的大写字母转换成小写字母，之后返回新的字符串。
+>
+>  
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/to-lower-case
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+直接使用内置`String.prototype.toLowerCase`函数。
+
+- 时间On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * @param {string} str
+ * @return {string}
+ */
+var toLowerCase = function(str) {
+    return str.toLowerCase();
+};
+```
 
 
 
