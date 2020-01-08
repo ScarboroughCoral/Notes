@@ -2065,6 +2065,74 @@ public:
 
 
 
+#### 674. 最长连续递增序列
+
+> 给定一个未经排序的整数数组，找到最长且连续的的递增序列。
+>
+> **示例 1:**
+>
+> ```
+> 输入: [1,3,5,4,7]
+> 输出: 3
+> 解释: 最长连续递增序列是 [1,3,5], 长度为3。
+> 尽管 [1,3,5,7] 也是升序的子序列, 但它不是连续的，因为5和7在原数组里被4隔开。
+> ```
+>
+>
+> **示例 2:**
+>
+> ```
+> 输入: [2,2,2,2,2]
+> 输出: 1
+> 解释: 最长连续递增序列是 [2], 长度为1。
+> ```
+>
+> **注意：**数组长度不会超过10000。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/longest-continuous-increasing-subsequence
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+遍历统计即可。
+
+- 时间复杂度On，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findLengthOfLCIS = function(nums) {
+    return nums.length===0?0:nums.reduce((last,cur,i)=>{
+        if(i===0){
+            return {
+                v:cur,
+                count:1,
+                max:1
+            }
+        }
+        if(cur>last.v){
+            last.count++;
+        }else{
+            last.count=1;
+        }
+        last.v=cur;
+        last.max=last.max>last.count?last.max:last.count;
+        return last;
+    },null).max;
+};
+```
+
+
+
+
+
 #### 703. 数据流中的第K大元素
 
 > 设计一个找到数据流中第K大元素的类（class）。注意是排序后的第K大元素，不是第K个不同的元素。
@@ -2841,6 +2909,64 @@ var addTwoNumbers = function(l1, l2) {
 ```
 
 
+
+
+
+#### 11. 盛最多水的容器
+
+> 给定 n 个非负整数 a1，a2，...，an，每个数代表坐标中的一个点 (i, ai) 。在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0)。找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
+>
+> 说明：你不能倾斜容器，且 n 的值至少为 2。
+>
+> ![img](pics/question_11.jpg)
+>
+> *图中垂直线代表输入数组 [1,8,6,2,5,4,8,3,7]。在此情况下，容器能够容纳水（表示为蓝色部分）的最大值为 49。*
+>
+> **示例:**
+>
+> ```
+> 输入: [1,8,6,2,5,4,8,3,7]
+> 输出: 49
+> ```
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/container-with-most-water
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+双指针，分别从头和尾部进行扫描，当前双指针状态计算面积，更新max。然后双指针中指向高度较低的向较高方向移动。
+
+- 时间复杂度On，空间O1
+
+
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var maxArea = function(height) {
+    let l=0,r=height.length-1;
+    let max=0;
+    while(l<r){
+        let cur;
+        if(height[l]<height[r]){
+            cur=height[l]*(r-l);
+            l++;
+        }else{
+            cur=height[r]*(r-l);
+            r--;
+        }
+        max=max>cur?max:cur;
+    }
+    return max;
+};
+```
 
 
 
@@ -4185,6 +4311,95 @@ public:
     }
 };
 ```
+
+
+
+##### 695. 岛屿的最大面积
+
+> 给定一个包含了一些 0 和 1的非空二维数组 grid , 一个 岛屿 是由四个方向 (水平或垂直) 的 1 (代表土地) 构成的组合。你可以假设二维矩阵的四个边缘都被水包围着。
+>
+> 找到给定的二维数组中最大的岛屿面积。(如果没有岛屿，则返回面积为0。)
+>
+> **示例 1**:
+>
+> ```
+> [[0,0,1,0,0,0,0,1,0,0,0,0,0],
+>  [0,0,0,0,0,0,0,1,1,1,0,0,0],
+>  [0,1,1,0,1,0,0,0,0,0,0,0,0],
+>  [0,1,0,0,1,1,0,0,1,0,1,0,0],
+>  [0,1,0,0,1,1,0,0,1,1,1,0,0],
+>  [0,0,0,0,0,0,0,0,0,0,1,0,0],
+>  [0,0,0,0,0,0,0,1,1,1,0,0,0],
+>  [0,0,0,0,0,0,0,1,1,0,0,0,0]]
+> ```
+>
+>
+> 对于上面这个给定矩阵应返回 6。注意答案不应该是11，因为岛屿只能包含水平或垂直的四个方向的‘1’。
+>
+> **示例 2**:
+>
+> ```
+> [[0,0,0,0,0,0,0,0]]
+> ```
+>
+>
+> 对于上面这个给定的矩阵, 返回 0。
+>
+> **注意:** 给定的矩阵grid 的长度和宽度都不超过 50。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/max-area-of-island
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+深度优先搜索。每次搜索到一个1前先把count置为0，然后统计，更新max。
+
+- 时间复杂度Omn，空间Omn
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var maxAreaOfIsland = function(grid) {
+    let max=0;
+    let m=grid.length,n=grid[0].length;
+    let count;
+    function dfs(i,j){
+        if(i<0||j<0||i>=m||j>=n) return;
+        if(grid[i][j]===1){
+            count++;
+            grid[i][j]=0;
+        }else{
+            return;
+        }
+        if(i+1<m) dfs(i+1,j);
+        if(i-1>=0) dfs(i-1,j);
+        if(j+1<n) dfs(i,j+1);
+        if(j-1>=0) dfs(i,j-1);
+    }
+    for(let i=0;i<m;i++){
+        for(let j=0;j<n;j++){
+            if(grid[i][j]===0) continue;
+            count=0;
+            dfs(i,j);
+            max=count>max?count:max;
+        }
+    }
+    return max;
+};
+```
+
+
+
+
+
+
 
 
 
