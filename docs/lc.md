@@ -617,6 +617,8 @@ public:
 
 ##### 代码
 
+- 动态规划
+
 ```c++
 class Solution {
 public:
@@ -634,6 +636,19 @@ public:
 };
 ```
 
+- 公式法
+
+  ```javascript
+  /**
+   * @param {number} n
+   * @return {number}
+   */
+  var climbStairs = function(n) {
+      let sqrtFive=Math.sqrt(5);
+      phi=(1+sqrtFive)/2;
+      return ((phi**(n+1))-((1-phi)**(n+1)))/sqrtFive;
+  };
+  ```
 
 
 
@@ -1802,6 +1817,60 @@ var findWords = function(words) {
  */
 var convertToBase7 = function(num) {
     return num.toString(7);
+};
+```
+
+
+
+#### 509. 斐波那契数
+
+> 斐波那契数，通常用 F(n) 表示，形成的序列称为斐波那契数列。该数列由 0 和 1 开始，后面的每一项数字都是前面两项数字的和。也就是：
+>
+> ```
+> F(0) = 0,   F(1) = 1
+> F(N) = F(N - 1) + F(N - 2), 其中 N > 1.
+> 给定 N，计算 F(N)。
+> ```
+>
+>  
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/fibonacci-number
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+目前知道四种思路。1是递归求解有重复计算；2是动态规划；3是递归求解加记忆化技术（`memorization`）；
+
+4是最快的使用公式法（`通过差分方程可以推出公式`）。以下代码使用记忆化技术。
+
+- 时间复杂度On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * @param {number} N
+ * @return {number}
+ */
+var fib = function(N) {
+    let computed=new Map();
+    function helper(n){
+        if(computed.has(n)){
+            return computed.get(n);
+        }
+        let result;
+        if(n<2){
+            result=n;
+        }else{
+            result=helper(n-1)+helper(n-2)
+        }
+        computed.set(n,result);
+        return result;
+    }
+    return helper(N);
 };
 ```
 
