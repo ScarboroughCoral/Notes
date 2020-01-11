@@ -1522,6 +1522,87 @@ var invertTree = function(root) {
 
 
 
+#### 235. 二叉搜索树的最近公共祖先
+
+> 给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
+>
+> 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+>
+> 例如，给定如下二叉搜索树:  root = [6,2,8,0,4,7,9,null,null,3,5]
+>
+> ![img](pics/binarysearchtree_improved.png)
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+最近的祖先元素一定在中序遍历的p和q之间的节点。共同祖先便是这些结点中前序遍历最先出现的。
+
+- 时间On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {TreeNode}
+ */
+var lowestCommonAncestor = function(root, p, q) {
+    //the first node in preorder of the sequence for inorder between p&q
+    let s=[];
+    let visited=new Set();
+    if(root===null) return null;
+    let tmp=new Set();
+    s.push(root);
+    let flag=0;
+    while(s.length!==0){
+        let cur=s.pop();
+        if(!visited.has(cur)){
+            visited.add(cur);
+            if(cur.right) s.push(cur.right);
+            s.push(cur);
+            if(cur.left) s.push(cur.left);
+        }else{
+            if(cur===p||cur===q){
+                flag++;
+            }
+            if(flag>0){
+                tmp.add(cur);
+            }
+            if(flag===2) break;
+        }
+    }
+    s=[];
+    visited.clear();
+    s.push(root);
+    while(s.length!==0){
+        let cur=s.pop();
+        if(!visited.has(cur)){
+            visited.add(cur);
+            if(cur.right) s.push(cur.right);
+            if(cur.left) s.push(cur.left);
+            s.push(cur);
+        }else{
+            if(tmp.has(cur)) return cur;
+        }
+    }
+    return null;
+};
+```
+
+
+
 
 
 #### 242. 有效的字母异位词
@@ -1552,6 +1633,53 @@ var isAnagram = function(s, t) {
     return s.split('').sort().join('')===t.split('').sort().join('');
 };
 ```
+
+
+
+#### 258. 各位相加
+
+> 给定一个非负整数 num，反复将各个位上的数字相加，直到结果为一位数。
+>
+> **示例:**
+>
+> ```
+> 输入: 38
+> 输出: 2 
+> 解释: 各位相加的过程为：3 + 8 = 11, 1 + 1 = 2。 由于 2 是一位数，所以返回 2。
+> ```
+>
+> **进阶:**
+> 你可以不使用循环或者递归，且在 O(1) 时间复杂度内解决这个问题吗？
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/add-digits
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+使用字符串分割循环计算。
+
+- 时间复杂度不确定，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number} num
+ * @return {number}
+ */
+var addDigits = function(num) {
+    let tmp=num;
+    while(tmp>=10){
+        tmp=(tmp+"").split("").reduce((sum,x)=>sum+Number(x),0);
+    }
+    return tmp;
+};
+```
+
+
 
 
 
@@ -2131,6 +2259,78 @@ public:
     }
 };
 ```
+
+
+
+
+
+#### 637. 二叉树的层平均值
+
+> 给定一个非空二叉树, 返回一个由每层节点平均值组成的数组.
+>
+> **示例 1:**
+>
+> ```
+> 输入:
+>     3
+>    / \
+>   9  20
+>     /  \
+>    15   7
+> 输出: [3, 14.5, 11]
+> 解释:
+> 第0层的平均值是 3,  第1层是 14.5, 第2层是 11. 因此返回 [3, 14.5, 11].
+> ```
+>
+> **注意：**
+>
+> 节点值的范围在32位有符号整数范围内。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/average-of-levels-in-binary-tree
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+使用队列进行层次遍历，每层计算平均值。
+
+- 时间复杂度On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var averageOfLevels = function(root) {
+    let q=[];
+    let result=[];
+    if(!root) return result;
+    q.push(root);
+    while(q.length!==0){
+        let size=q.length;
+        let sum=0;
+        for(let i=0;i<size;i++){
+            let cur=q.shift();
+            sum+=cur.val;
+            if(cur.left) q.push(cur.left);
+            if(cur.right) q.push(cur.right);
+        }
+        result.push(sum/size);
+    }
+    return result;
+};
+```
+
+
 
 
 
