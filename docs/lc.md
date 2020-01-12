@@ -3032,6 +3032,128 @@ var getDecimalValue = function(head) {
 
 
 
+#### 1299. 将每个元素替换为右侧最大元素
+
+> 给你一个数组 arr ，请你将每个元素用它右边最大的元素替换，如果是最后一个元素，用 -1 替换。
+>
+> 完成所有替换操作后，请你返回这个数组。
+>
+>
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/replace-elements-with-greatest-element-on-right-side
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+从右向左替换。
+
+- 时间On，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number[]}
+ */
+var replaceElements = function(arr) {
+    let max=arr[arr.length-1];
+    let last=arr[arr.length-1];
+    arr[arr.length-1]=-1;
+    for(let i=arr.length-2;i>=0;i--){
+        last=arr[i];
+        arr[i]=max;
+        max=max>last?max:last;
+    }
+    return arr;
+};
+```
+
+
+
+
+
+#### 1304. 和为零的N个唯一整数
+
+> 给你一个整数 n，请你返回 任意 一个由 n 个 各不相同 的整数组成的数组，并且这 n 个数相加和为 0 。
+>
+>  
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/find-n-unique-integers-sum-up-to-zero
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+前n-1使用下标，最后一个使用前面下标和的相反数。
+
+- 时间On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * @param {number} n
+ * @return {number[]}
+ */
+var sumZero = function(n) {
+    return Array(n).fill(0).map((x,i,arr)=>i<n-1?i:-(n-2)*(1+n-2)/2);
+};
+```
+
+
+
+#### 1309. 解码字母到整数映射
+
+> 给你一个字符串 s，它由数字（'0' - '9'）和 '#' 组成。我们希望按下述规则将 s 映射为一些小写英文字符：
+>
+> 字符（'a' - 'i'）分别用（'1' - '9'）表示。
+> 字符（'j' - 'z'）分别用（'10#' - '26#'）表示。 
+> 返回映射之后形成的新字符串。
+>
+> 题目数据保证映射始终唯一。
+>
+> **示例 1**：
+>
+> ```
+> 输入：s = "10#11#12"
+> 输出："jkab"
+> 解释："j" -> "10#" , "k" -> "11#" , "a" -> "1" , "b" -> "2".
+> ```
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/decrypt-string-from-alphabet-to-integer-mapping
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+
+##### 思路
+
+正则表达式匹配。贪婪模式，优先匹配#类别，再匹配其他。
+
+![1578791884138](pics/1578791884138.png)
+
+- 时间复杂度On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var freqAlphabets = function(s) {
+    return s.match(/((1[0-9])|(2[0-6]))#|[1-9]/g).map(x=>{
+        return x.includes('#')?String.fromCharCode(+(x.split('#')[0])+'j'.charCodeAt(0)-10):String.fromCharCode(+x+'a'.charCodeAt(0)-1);
+    }).join('');
+};
+```
+
 
 
 #### 5291. 统计位数为偶数的数字
