@@ -2832,6 +2832,50 @@ var defangIPaddr = function(address) {
 
 
 
+#### 1137. 第 N 个泰波那契数
+
+> 泰波那契序列 Tn 定义如下： 
+>
+> T0 = 0, T1 = 1, T2 = 1, 且在 n >= 0 的条件下 Tn+3 = Tn + Tn+1 + Tn+2
+>
+> 给你整数 n，请返回第 n 个泰波那契数 Tn 的值。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/n-th-tribonacci-number
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+递归加记忆化。
+
+- 时间复杂度On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var tribonacci = function(n) {
+    let computed=new Map();
+    function helper(n){
+        if(computed.has(n)){
+            return computed.get(n);
+        }
+        let result;
+        if(n<2) result=n;
+        else if(n===2) result=1;
+        else result=helper(n-1)+helper(n-2)+helper(n-3);
+        computed.set(n,result);
+        return result;
+    }
+    return helper(n);
+};
+```
+
+
+
 
 
 #### 1207. 独一无二的出现次数
@@ -2944,6 +2988,48 @@ public:
     }
 };
 ```
+
+
+
+
+
+#### 1281. 整数的各位积和之差
+
+> 给你一个整数 `n`，请你帮忙计算并返回该整数「各位数字之积」与「各位数字之和」的差。
+
+##### 思路
+
+使用toString、split、map、ToNumber转换，遍历计算。
+
+- 时间复杂度On，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var subtractProductAndSum = function(n) {
+    return n.toString().split('').map(x=>+x).reduce(({sum,prod},x,i,arr)=>{
+        if(i===0&&arr.length>1){
+            return {
+                sum:x,
+                prod:x
+            }
+        }
+        if(i!==arr.length-1){
+            return {
+                sum:sum+x,
+                prod:prod*x
+            }
+        }
+        return i===0?0:prod*x-sum-x;
+    },{sum:0,prod:1})
+};
+```
+
+
 
 
 
@@ -3153,6 +3239,57 @@ var freqAlphabets = function(s) {
     }).join('');
 };
 ```
+
+
+
+#### 5143. 解压缩编码列表
+
+> 给你一个以行程长度编码压缩的整数列表 nums 。
+>
+> 考虑每相邻两个元素 [a, b] = [nums[2*i], nums[2*i+1]] （其中 i >= 0 ），每一对都表示解压后有 a 个值为 b 的元素。
+>
+> 请你返回解压后的列表。
+>
+> **示例：**
+>
+> ```
+> 输入：nums = [1,2,3,4]
+> 输出：[2,4,4,4]
+> ```
+>
+> **提示：**
+>
+> - 2 <= nums.length <= 100
+> - nums.length % 2 == 0
+> - 1 <= nums[i] <= 100
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/decompress-run-length-encoded-list
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+每两个进行遍历，将结果加入result数组
+
+- 时间On，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var decompressRLElist = function(nums) {
+    let result=[];
+    for(let i=0;i+1<nums.length;i+=2){
+        result.push.apply(result,Array(nums[i]).fill(nums[i+1]));
+    }
+    return result;
+};
+```
+
+
 
 
 
