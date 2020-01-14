@@ -2586,6 +2586,59 @@ public:
 
 
 
+#### 917. 仅仅反转字母
+
+> 给定一个字符串 S，返回 “反转后的” 字符串，其中不是字母的字符都保留在原地，而所有字母的位置发生反转。 
+>
+> **示例 1：**
+>
+> ```
+> 输入："ab-cd"
+> 输出："dc-ba"
+> ```
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/reverse-only-letters
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+双指针，首尾交换。
+
+- 时间On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * @param {string} S
+ * @return {string}
+ */
+var reverseOnlyLetters = function(S) {
+    function isAlpha(c){
+        return (c>='a'&&c<='z')||(c>='A'&&c<='Z');
+    }
+    let a=S.split('');
+    let l=0,r=a.length-1;
+    while(l<r){
+        while(l<r&&!isAlpha(a[l])) l++;
+        while(l<r&&!isAlpha(a[r])) r--;
+        if(l>=r) return a.join('');
+        let tmp=a[l];
+        a[l]=a[r];
+        a[r]=tmp;
+        l++,r--;
+    }
+    return a.join('');
+};
+```
+
+
+
+
+
+
+
 #### 922. 按奇偶排序数组 II
 
 > 给定一个非负整数数组 A， A 中一半整数是奇数，一半整数是偶数。
@@ -2625,6 +2678,68 @@ var sortArrayByParityII = function(A) {
     return A;
 };
 ```
+
+
+
+#### 938. 二叉搜索树的范围和
+
+> 给定二叉搜索树的根结点 root，返回 L 和 R（含）之间的所有结点的值的和。
+>
+> 二叉搜索树保证具有唯一的值。
+>
+>
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/range-sum-of-bst
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+中序遍历即可。
+
+- 时间On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} L
+ * @param {number} R
+ * @return {number}
+ */
+var rangeSumBST = function(root, L, R) {
+    let visited=new Set();
+    let s=[];
+    let result=0;
+    if(!root) return result;
+    s.push(root);
+    while(s.length!==0){
+        let cur=s.pop();
+        if(!visited.has(cur)){
+            visited.add(cur);
+            if(cur.right) s.push(cur.right);
+            s.push(cur);
+            if(cur.left) s.push(cur.left);
+        }else{
+            let val=cur.val;
+            if(val>R) return result;
+            if(val<L) continue;
+            result+=val;
+        }
+    }
+    return result;
+};
+```
+
+
 
 
 
@@ -2757,6 +2872,87 @@ var largestPerimeter = function(A) {
     return 0;
 };
 ```
+
+
+
+#### 977. 有序数组的平方
+
+> 给定一个按非递减顺序排序的整数数组 A，返回每个数字的平方组成的新数组，要求也按非递减顺序排序。
+>
+> **示例 1：**
+>
+> ```
+> 输入：[-4,-1,0,3,10]
+> 输出：[0,1,9,16,100]
+> ```
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/squares-of-a-sorted-array
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+映射后排序。
+
+- 时间Onlogn，空间On
+
+更简单的方法是使用双指针，从绝对值最小的位置向两侧遍历。
+
+- 时间On，空间On
+
+##### 代码
+
+- 映射后排序
+
+```javascript
+/**
+ * @param {number[]} A
+ * @return {number[]}
+ */
+var sortedSquares = function(A) {
+    return A.map(x=>x*x).sort((a,b)=>a-b);
+};
+```
+
+- 双指针
+
+```javascript
+/**
+ * @param {number[]} A
+ * @return {number[]}
+ */
+var sortedSquares = function(A) {
+    let r=0;
+    while(r<A.length&&A[r]<0) r++;
+    let l=r-1;
+    let result=Array(A.length);
+    let idx=0;
+    while(l>=0&&r<A.length){
+        let lv=A[l]**2,rv=A[r]**2;
+        if(lv<rv){
+            result[idx++]=lv;
+            l--;
+        }
+        else{
+            result[idx++]=rv;
+            r++;
+        }
+    }
+    while(l>=0){
+        result[idx++]=A[l]**2;
+        l--;
+    }
+    while(r<A.length){
+        result[idx++]=A[r]**2;
+        r++;
+    }
+    return result;
+};
+```
+
+
+
+
 
 
 
