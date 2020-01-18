@@ -105,3 +105,192 @@ function litres(time) {
 }
 ```
 
+
+
+### Square(n) Sum
+
+> Complete the square sum function so that it squares each number passed into it and then sums the results together.
+>
+> For example, for `[1, 2, 2]` it should return `9` because `1^2 + 2^2 + 2^2 = 9`.
+
+#### 思路
+
+map&reduce
+
+#### 代码
+
+```javascript
+function squareSum(numbers){
+  return numbers.map(x=>x**2).reduce((s,x)=>s+x,0);
+}
+```
+
+
+
+### Convert a String to a Number!
+
+> Note: This kata is inspired by [Convert a Number to a String!](http://www.codewars.com/kata/convert-a-number-to-a-string/). Try that one too.
+>
+> ## Description
+>
+> We need a function that can transform a string into a number. What ways of achieving this do you know?
+>
+> Note: Don't worry, all inputs will be strings, and every string is a perfectly valid representation of an integral number.
+>
+> ## Examples
+>
+> ```javascript
+> stringToNumber("1234") == 1234
+> stringToNumber("605" ) == 605
+> stringToNumber("1405") == 1405
+> stringToNumber("-7"  ) == -7
+> ```
+
+#### 思路
+
+利用定义的转换函数，或者隐式的ToNumber转换。`parseInt`、`Number`、`+str`、`str|0`等操作。
+
+#### 代码
+
+```javascript
+var stringToNumber = function(str){
+  // put your code here
+  return +str;
+}
+```
+
+
+
+### Count the Monkeys!
+
+> You take your son to the forest to see the monkeys. You know that there are a certain number there (n), but your son is too young to just appreciate the full number, he has to start counting them from 1.
+>
+> As a good parent, you will sit and count with him. Given the number (n), populate an array with all numbers up to and including that number, but excluding zero.
+>
+> For example:
+>
+> ```javascript
+> monkeyCount(10) // --> [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+> monkeyCount(1) // --> [1]
+> ```
+
+#### 思路
+
+利用`Array`,`Array.prototype.fill`,`Arrayp.prototype.map`方式生成数组。不过看别人最好的方法应该是使用`Array.from`静态方法因为其中包含了mapFn。
+
+#### 代码
+
+- Array、fill、map
+
+```javascript
+function monkeyCount(n) {
+// your code here
+  return Array(n).fill(0).map((x,i)=>i+1);
+}
+```
+
+- Array.from
+
+```javascript
+function monkeyCount(n) {
+// your code here
+  return Array.from({length:n},(x,i)=>i+1);
+}
+```
+
+### Reversed Words
+
+> Complete the solution so that it reverses all of the words within the string passed in.
+>
+> Example:
+>
+> ```javascript
+> reverseWords("The greatest victory is that which requires no battle")
+> // should return "battle no requires which that is victory greatest The"
+> ```
+
+#### 思路
+
+按照空格分隔并倒转。
+
+- 时间复杂度On，空间On
+
+#### 代码
+
+```javascript
+function reverseWords(str){
+  return str.split(' ').reverse().join(' '); // reverse those words
+}
+```
+
+
+
+## 7kyu
+
+### Get the Middle Character
+
+> You are going to be given a word. Your job is to return the middle character of the word. If the word's length is odd, return the middle character. If the word's length is even, return the middle 2 characters.
+>
+> \#Examples:
+>
+> ```
+> Kata.getMiddle("test") should return "es"
+> 
+> Kata.getMiddle("testing") should return "t"
+> 
+> Kata.getMiddle("middle") should return "dd"
+> 
+> Kata.getMiddle("A") should return "A"
+> ```
+>
+> \#Input
+>
+> A word (string) of length `0 < str < 1000` (In javascript you may get slightly more than 1000 in some test cases due to an error in the test cases). You do not need to test for this. This is only here to tell you that you do not need to worry about your solution timing out.
+>
+> \#Output
+>
+> The middle character(s) of the word represented as a string.
+
+#### 思路
+
+利用`String.prototype.substr`方法。
+
+- 时间O1，空间O1
+
+#### 代码
+
+```javascript
+function getMiddle(s)
+{
+  //Code goes here!
+  return s.substr((s.length-1)/2|0,s.length%2?1:2);
+}
+```
+
+
+
+
+
+## 6kyu
+
+### Find the odd int
+
+> Given an array, find the integer that appears an odd number of times.
+>
+> There will always be only one integer that appears an odd number of times.
+
+#### 思路
+
+利用异或的交换律，两个相同数异或为0,0与任何数异或等于任何数。
+
+- 时间复杂度On，空间O1
+
+#### 代码
+
+```javascript
+function findOdd(A) {
+  //happy coding!
+  return A.reduce((last,cur)=>last^cur);
+}
+```
+

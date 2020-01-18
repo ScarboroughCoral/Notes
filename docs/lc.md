@@ -2150,7 +2150,48 @@ public:
 };
 ```
 
+#### 572. 另一个树的子树
 
+> 给定两个非空二叉树 s 和 t，检验 s 中是否包含和 t 具有相同结构和节点值的子树。s 的一个子树包括 s 的一个节点和这个节点的所有子孙。s 也可以看做它自身的一棵子树。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/subtree-of-another-tree
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+递归求解。
+
+- 时间复杂度OMN，空间OM，MN分别为两棵树的节点个数。
+
+##### 代码
+
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} s
+ * @param {TreeNode} t
+ * @return {boolean}
+ */
+var isSubtree = function(s, t) {
+    function isSame(a,b){
+        if(!a&&!b) return true;
+        if(!a||!b) return false;
+        if(a.val!==b.val) return false;
+        return isSame(a.left,b.left)&&isSame(a.right,b.right);
+    }
+    if(!t) return true;
+    if(!s) return false;
+    if(s.val===t.val) return isSame(s,t)||isSubtree(s.left,t)||isSubtree(s.right,t);
+    return isSubtree(s.left,t)||isSubtree(s.right,t);
+};
+```
 
 
 
@@ -2583,6 +2624,99 @@ public:
     }
 };
 ```
+
+
+
+#### 897. 递增顺序查找树
+
+> 给定一个树，按中序遍历重新排列树，使树中最左边的结点现在是树的根，并且每个结点没有左子结点，只有一个右子结点。
+>
+> 示例 ：
+>
+>     输入：[5,3,6,2,4,null,8,1,null,null,null,7,9]	
+>     		5
+>     	  / \
+>     	3    6
+>        / \    \
+>       2   4    8
+>      /        / \ 
+>     1        7   9
+>     输出：[1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9]
+>      1
+>       \
+>        2
+>         \
+>          3
+>           \
+>            4
+>             \
+>              5
+>               \
+>                6
+>                 \
+>                  7
+>                   \
+>                    8
+>                     \
+>                      9  
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/increasing-order-search-tree
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+中序遍历。遍历当前节点时上一个节点可以修改了。因为其指向的节点已经入栈。
+
+- 时间On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {TreeNode}
+ */
+var increasingBST = function(root) {
+    let visited=new Set();
+    let s=[];
+    if(!root) return root;
+    s.push(root);
+    let result=null,prev=null;
+    let isFirst=true;
+    while(s.length!==0){
+        let cur=s.pop();
+        if(!visited.has(cur)){
+            visited.add(cur);
+            if(cur.right) s.push(cur.right);
+            s.push(cur);
+            if(cur.left) s.push(cur.left);
+        }else{
+            if(isFirst){
+                result=cur;
+                isFirst=false;
+            }else{
+                prev.right=cur;
+                prev.left=null;
+            }
+            prev=cur;
+        }
+    }
+    prev.right=null;
+    prev.left=null;
+    return result;
+};
+```
+
+
+
+
 
 
 
@@ -3071,6 +3205,113 @@ var tribonacci = function(n) {
 ```
 
 
+
+#### 1189. “气球” 的最大数量
+
+> 给你一个字符串 text，你需要使用 text 中的字母来拼凑尽可能多的单词 "balloon"（气球）。
+>
+> 字符串 text 中的每个字母最多只能被使用一次。请你返回最多可以拼凑出多少个单词 "balloon"。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/maximum-number-of-balloons
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+统计单词中包含字母的个数，找到最小满足单词的字母数量就是结果。
+
+- 时间On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * @param {string} text
+ * @return {number}
+ */
+var maxNumberOfBalloons = function(text) {
+    return Math.min(...Array.from(text.split('').reduce((m,x,i,a)=>{
+        if(x==='l'||x==='o'){
+            m.set(x,m.get(x)+0.5)
+        }else if(/[ban]/.test(x)){
+            m.set(x,m.get(x)+1)
+        }
+        return m;
+    },new Map([['b',0],['a',0],['l',0],['o',0],['n',0]])).values()))|0;
+};
+```
+
+
+
+
+
+#### 1200. 最小绝对差
+
+> 给你个整数数组 arr，其中每个元素都 不相同。
+>
+> 请你找到所有具有最小绝对差的元素对，并且按升序的顺序返回。
+>
+> **示例 1：**
+>
+> ```
+> 输入：arr = [4,2,1,3]
+> 输出：[[1,2],[2,3],[3,4]]
+> ```
+>
+> **示例 2：**
+>
+> ```
+> 输入：arr = [1,3,6,10,15]
+> 输出：[[1,3]]
+> ```
+>
+> **示例 3：**
+>
+> ```
+> 输入：arr = [3,8,-10,23,19,-4,-14,27]
+> 输出：[[-14,-10],[19,23],[23,27]]
+> ```
+>
+> **提示：**
+>
+> - 2 <= arr.length <= 10^5
+> - -10^6 <= arr[i] <= 10^6
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/minimum-absolute-difference
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+先排序后遍历。每次比较差值大小，最小的记录下来。
+
+- 时间复杂度Onlogn，空间On
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} arr
+ * @return {number[][]}
+ */
+var minimumAbsDifference = function(arr) {
+    return arr.sort((a,b)=>a-b).reduce((result,x,i,arr)=>{
+        if(i===0){
+            result.val=Number.MAX_VALUE;
+            return result;
+        }
+        let cur=arr[i]-arr[i-1];
+        if(cur===result.val){
+            result.push([arr[i-1],arr[i]]);
+        }
+        else if(cur<result.val){
+            result=[[arr[i-1],arr[i]]];
+            result.val=cur;
+        }
+        return result
+    },[])
+};
+```
 
 
 
