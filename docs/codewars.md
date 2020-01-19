@@ -223,6 +223,49 @@ function reverseWords(str){
 }
 ```
 
+### If you can't sleep, just count sheep!!
+
+> If you can't sleep, just count sheep!!
+>
+> ## Task:
+>
+> Given a non-negative integer, `3` for example, return a string with a murmur: `"1 sheep...2 sheep...3 sheep..."`. Input will always be valid, i.e. no negative integers.
+
+#### 思路
+
+使用`Array.from`静态方法创建数组，提供映射函数，其中使用`Template Literals`，然后使用`Array.prototype.join`方法拼接。
+
+- 时间On，空间On
+
+#### 代码
+
+```javascript
+var countSheep = function (num){
+  //your code here
+  return Array.from({length:num},(x,i)=>`${i+1} sheep...`).join('');
+}
+```
+
+### Reversed sequence
+
+> Get the number n `(n>0)` to return the reversed sequence from n to 1.
+>
+> Example : n=5 >> [5,4,3,2,1]
+
+#### 思路
+
+生成数组，提供映射函数。
+
+- 时间On，空间On
+
+```javascript
+const reverseSeq = n => {
+  return Array.from({length:n},(x,i)=>n-i);
+};
+```
+
+
+
 
 
 ## 7kyu
@@ -267,7 +310,29 @@ function getMiddle(s)
 }
 ```
 
+### Isograms
 
+> An isogram is a word that has no repeating letters, consecutive or non-consecutive. Implement a function that determines whether a string that contains only letters is an isogram. Assume the empty string is an isogram. Ignore letter case.
+>
+> ```javascript
+> isIsogram("Dermatoglyphics") == true
+> isIsogram("aba") == false
+> isIsogram("moOse") == false // -- ignore letter case
+> ```
+
+#### 思路
+
+使用集合，如果产生的集合大小比原字符串小，则存在重复的。
+
+- 时间On，空间On
+
+#### 代码
+
+```javascript
+function isIsogram(str){
+  return new Set(str.toLowerCase()).size===str.length;
+}
+```
 
 
 

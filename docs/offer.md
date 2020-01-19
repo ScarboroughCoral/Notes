@@ -163,3 +163,30 @@ function HasSubtree(pRoot1, pRoot2)
 }
 ```
 
+## 从尾到头打印链表
+
+> 输入一个链表，按链表从尾到头的顺序返回一个数组。
+>
+> [牛客网](https://www.nowcoder.com/practice/d0267f7f55b3412ba93bd35cfa8e8035?tpId=13&tqId=11156&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking&from=scarboroughcoral)
+
+### 思路
+
+使用递归。递归基本条件是遍历到最后节点直接返回当前节点的数组（或者遍历到null返回空数组），递推关系是当前结果是将剩余节点先放入然后放入当前节点的数组。
+
+- 时间复杂度O
+
+### 代码
+
+```javascript
+/*function ListNode(x){
+    this.val = x;
+    this.next = null;
+}*/
+function printListFromTailToHead(head)
+{
+    // write code here
+    if(!head) return [];
+    return [...printListFromTailToHead(head.next),head.val]
+}
+```
+
