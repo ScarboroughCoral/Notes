@@ -1435,7 +1435,50 @@ var isHappy = function(n) {
 };
 ```
 
+#### 204. 计数质数
 
+> 统计所有小于非负整数 n 的质数的数量。
+>
+> 示例:
+>
+> ```
+> 输入: 10
+> 输出: 4
+> 解释: 小于 10 的质数一共有 4 个, 它们是 2, 3, 5, 7 。
+> ```
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/count-primes
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+使用[Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)方法，额外使用n大小的数组来标记是否是质数。
+
+x的所有倍数都不是质数。x=2,3,4...
+
+所有标记完成后，剩下的都是质数，除了0和1。
+
+- 时间复杂度On，空间 On
+
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var countPrimes = function(n) {
+    let marks=Array(n).fill(true);
+    let sqrtn=Math.sqrt(n);
+    for(let i=2;i<sqrtn;i++){
+        if(!marks[i]) continue;
+        for(let j=i**2;j<n;j+=i){
+            marks[j]=false;
+        }
+    }
+    let r=marks.filter(x=>x).length;
+    return r<2?0:r-2;
+};
+```
 
 
 
@@ -1776,6 +1819,36 @@ public:
 };
 ```
 
+#### 326. 3的幂
+
+> 给定一个整数，写一个函数来判断它是否是 3 的幂次方。
+>
+>
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/power-of-three
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+使用循环和递归，循环除以3判断最后是否包含小数。下面这个例子使用的是换底公式。判断$\log_3n=\frac{\ln n}{\ln3}$是否是整数。但是有坑，比如有个测试用例27，使用`Math.log(27)/Math.log(3)`计算结果是`3.0000000000000004`，参考You dont konw js：number了解可以使用`Number.EPSILON`来粗略表示相等。
+
+- 时间复杂度O1，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number} n
+ * @return {boolean}
+ */
+var isPowerOfThree = function(n) {
+    let tmp=Math.log(n)/Math.log(3);
+    const isAroundEqual=(a,b)=>Math.abs(a-b)<Number.EPSILON*100;
+    return isAroundEqual(tmp|0,tmp);
+};
+```
+
 
 
 #### 349. 两个数组的交集
@@ -1852,6 +1925,91 @@ public:
         }
         return -1;
     }
+};
+```
+
+#### 412. Fizz Buzz
+
+> 写一个程序，输出从 1 到 n 数字的字符串表示。
+>
+> 1. 如果 n 是3的倍数，输出“Fizz”；
+> 2. 如果 n 是5的倍数，输出“Buzz”；
+> 3. 如果 n 同时是3和5的倍数，输出 “FizzBuzz”；
+> 4. 否则输出n的字符串表示。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/fizz-buzz
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+遍历映射即可。
+
+- 时间On，空间On
+
+##### 代码
+
+```javascript
+/**
+ * @param {number} n
+ * @return {string[]}
+ */
+var fizzBuzz = function(n) {
+    return Array.from({length:n},(x,i)=>i+1).map(x=>{
+        if(x%3===0&&x%5===0) return "FizzBuzz";
+        if(x%3===0) return "Fizz";
+        if(x%5===0) return "Buzz";
+        return String(x);
+    })
+};
+```
+
+
+
+#### 461. 汉明距离
+
+> 两个整数之间的汉明距离指的是这两个数字对应二进制位不同的位置的数目。
+>
+> 给出两个整数 x 和 y，计算它们之间的汉明距离。
+>
+> **注意：**
+> 0 ≤ x, y < 2^31.
+>
+> **示例:**
+>
+> ```
+> 输入: x = 1, y = 4
+> 
+> 输出: 2
+> 
+> 解释:
+> 1   (0 0 0 1)
+> 4   (0 1 0 0)
+>        ↑   ↑
+> 
+> 上面的箭头指出了对应二进制位不同的位置。
+> ```
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/hamming-distance
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+按位异或后统计1的个数。
+
+- 时间复杂度O1，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number} x
+ * @param {number} y
+ * @return {number}
+ */
+var hammingDistance = function(x, y) {
+    return ((x^y).toString(2).match(/1/g)||"").length;
 };
 ```
 
@@ -2371,7 +2529,46 @@ var averageOfLevels = function(root) {
 };
 ```
 
+#### 657. 机器人能否返回原点
 
+> 在二维平面上，有一个机器人从原点 (0, 0) 开始。给出它的移动顺序，判断这个机器人在完成移动后是否在 (0, 0) 处结束。
+>
+> 移动顺序由字符串表示。字符 move[i] 表示其第 i 次移动。机器人的有效动作有 R（右），L（左），U（上）和 D（下）。如果机器人在完成所有动作后返回原点，则返回 true。否则，返回 false。
+>
+> 注意：机器人“面朝”的方向无关紧要。 “R” 将始终使机器人向右移动一次，“L” 将始终向左移动等。此外，假设每次移动机器人的移动幅度相同。
+>
+>
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/robot-return-to-origin
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+左右移动次数相同，前后移动次数相同。
+
+- 时间On，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {string} moves
+ * @return {boolean}
+ */
+var judgeCircle = function(moves) {
+    let m={
+        'U':0,
+        'D':0,
+        'L':0,
+        'R':0
+    };
+    for(let i=0;i<moves.length;i++){
+        m[moves[i]]++;
+    }
+    return m['U']===m['D']&&m['L']===m['R'];
+};
+```
 
 
 
@@ -2622,6 +2819,48 @@ public:
         }
         return index;
     }
+};
+```
+
+#### 832. 翻转图像
+
+> 给定一个二进制矩阵 A，我们想先水平翻转图像，然后反转图像并返回结果。
+>
+> 水平翻转图片就是将图片的每一行都进行翻转，即逆序。例如，水平翻转 [1, 1, 0] 的结果是 [0, 1, 1]。
+>
+> 反转图片的意思是图片中的 0 全部被 1 替换， 1 全部被 0 替换。例如，反转 [0, 1, 1] 的结果是 [1, 0, 0]。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/flipping-an-image
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+按行遍历，每行双指针左右利用异或取反并交换。
+
+- 时间On，空间O1
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[][]} A
+ * @return {number[][]}
+ */
+var flipAndInvertImage = function(A) {
+    let r=A.length,c=A[0].length;
+    for(let i=0;i<r;i++){
+        let p=0,q=c-1;
+        while(p<q){
+            let tmp=A[i][p]^1;
+            A[i][p]=A[i][q]^1;
+            A[i][q]=tmp;
+            p++;
+            q--;
+        }
+        if(p===q) A[i][p]=1^A[i][p];
+    }
+    return A;
 };
 ```
 
