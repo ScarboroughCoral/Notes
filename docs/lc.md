@@ -5601,9 +5601,51 @@ var maxAreaOfIsland = function(grid) {
 
 
 
+#### 814. 二叉树剪枝
 
+> 给定二叉树根结点 root ，此外树的每个结点的值要么是 0，要么是 1。
+>
+> 返回移除了所有不包含 1 的子树的原二叉树。
+>
+> ( 节点 X 的子树为 X 本身，以及所有 X 的后代。)
+>
+> 示例1:
+>
+> ```
+> 输入: [1,null,0,0,1]
+> 输出: [1,null,0,null,1]
+> 解释: 
+> 只有红色节点满足条件“所有不包含 1 的子树”。
+> 右图为返回的答案。
+> ```
+>
+> ![img](pics/1028_2.png)
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/binary-tree-pruning
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
+##### 思路
 
+递归。基本条件是如果当前节点是null则不包含1，否则当前节点包含1的条件是左右子树中包含1或者当前节点包含1。递归过程中如果左右子树不包含1顺便将子树置为null。
+
+- 时间复杂度On，空间Oh
+
+##### 代码
+
+```javascript
+var pruneTree = function(root) {
+    return helper(root)?root:null;
+    function helper(x){
+        if(x===null) return false;
+        let left=helper(x.left);
+        let right=helper(x.right);
+        if(!left) x.left=null;
+        if(!right) x.right=null;
+        return x.val===1||left||right;
+    }
+};
+```
 
 
 
