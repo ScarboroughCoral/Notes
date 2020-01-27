@@ -372,6 +372,70 @@ function isIsogram(str){
 }
 ```
 
+### Singleton Pattern
+
+> n software engineering, the singleton pattern is a design pattern that restricts the instantiation of a class to one object. This is useful when exactly one object is needed to coordinate actions across the system.
+>
+> Create an Singleton pattern, so there is one object in system.
+>
+> Example:
+>
+> ```javascript
+> var obj1 = new Singleton();
+> var obj2 = new Singleton();
+> obj1 === obj2; // => true
+> obj1.test = 1;
+> obj2.test; // => 1
+> ```
+
+#### 思路
+
+可以使用闭包来保存单例。
+
+#### 代码
+
+```javascript
+var Singleton = (function(){
+  // implement singleton Class
+  let instance;
+  return function(){
+    return instance||(instance=this);
+  }
+})();
+```
+
+### Sum of Odd Cubed Numbers
+
+> Find the sum of the odd numbers within an array, after cubing the initial integers. The function should return `undefined`/`None`/`nil`/`NULL` if any of the values aren't numbers.
+
+#### 思路
+
+筛选计算即可。不过这题了解到了逗号表达式的妙用。`return`只能当做语句而不能当做表达式，那样就能在三元运算符中使用了。
+
+#### 代码
+
+- 解1
+
+```javascript
+function cubeOdd(arr) {
+
+// insert code here >.<
+  let flag=false;
+  let result = arr.filter(n=>Number.isInteger(n)?(Math.abs(n)%2===1):(flag=true,n)).map(x=>x**3).reduce((a,b)=>a+b,0);
+  return flag?(void 0):result;
+}
+```
+
+- 解2
+
+```javascript
+function cubeOdd(arr) {
+  return arr.every(Number.isInteger)?arr.filter(x=>Math.abs(x)%2===1).reduce((a,b)=>a+b**3,0):void 0;
+}
+```
+
+
+
 
 
 ## 6kyu
@@ -394,6 +458,133 @@ function isIsogram(str){
 function findOdd(A) {
   //happy coding!
   return A.reduce((last,cur)=>last^cur);
+}
+```
+
+
+
+## 5kyu
+
+### Simple Events
+
+> Your goal is to write an **Event** constructor function, which can be used to make **event** objects.
+>
+> An **event** object should work like this:
+>
+> - it has a **.subscribe()** method, which takes a function and stores it as its handler
+> - it has an **.unsubscribe()** method, which takes a function and removes it from its handlers
+> - it has an **.emit()** method, which takes an arbitrary number of arguments and calls all the stored functions with these arguments
+>
+> As this is an elementary example of events, there are some simplifications:
+>
+> - all functions are called with correct arguments (*e.g.* only functions will be passed to unsubscribe)
+> - you should not worry about the order of handlers' execution
+> - the handlers will not attempt to modify an event object (*e.g.* add or remove handlers)
+> - the context of handlers' execution is not important
+> - each handler will be subscribed at most once at any given moment of time. It can still be unsubscribed and then subscribed again
+>
+> Also see an example test fixture for suggested usage
+
+#### 思路
+
+观察者模式。使用`Set`来保存和删除添加的Handler。emit时调用所有注册的Handler。
+
+#### 代码
+
+```javascript
+function Event() {
+  this.handlers=new Set();
+}
+Event.prototype.subscribe=function(handler){
+  this.handlers.add(handler);
+}
+Event.prototype.unsubscribe=function(handler){
+  this.handlers.delete(handler);
+}
+Event.prototype.emit=function(...args){
+  for(let fn of this.handlers.values()){
+    fn(...args);
+  }
+}
+```
+
+
+
+## 4kyu
+
+### Advanced Events
+
+> This excercise is a more sophisticated version of [Simple Events](http://www.codewars.com/dojo/katas/52d3b68215be7c2d5300022f/) kata.
+>
+> Your task is to implement an **Event** constructor function for creating event objects
+>
+> ```javascript
+> var event = new Event();
+> ```
+>
+> which comply to the following:
+>
+> - an **event** object should have **.subscribe()** and **.unsubscribe()** methods to add and remove handlers
+> - **.subscribe()** and **.unsubscribe()** should be able take an arbitrary number of arguments and tolerate invalid arguments (not functions, or for **unsubscribe**, functions which are not subscribed) by simply skipping them
+> - multiple subscription of the same handler is allowed, and in this case unsubscription removes the last subscription of the same handler
+> - an **event** object should have an **.emit()** method which must invoke all the handlers with the arguments provided
+> - **.emit()** should use its own invocation context as handers' invocation context
+> - the order of handlers invocation must match the order of subscription
+>
+> - handler functions can subscribe and unsubscribe handlers, but the changes should only apply to the next **emit** call - the handlers for an ongoing **emit** call should not be affected
+>   - **subscribe**, **unsubscribe** and **emit** are the only public properties that are allowed on **event** objects (apart from **Object.prototype** methods)
+>
+> Check the test fixture for usage example
+
+#### 思路
+
+这题值32分！指定用function形式来写，不过想尝试一下class，和别人代码相比自己好捞。下面是要点和难点，本题有时间会额外写一篇博客记录。
+
+- 整体还是观察者模式
+- 要求只公开`subscribe`，`unsubscribe`和`emit`方法，因此可以利用JS的闭包，使用模块模式，构造函数中返回对象。
+- handler里可能会继续触发subscribe和unsubscribe，但对于本次emit不起作用，应用到下次emit。
+
+#### 代码
+
+```javascript
+class Event{
+  constructor(){
+    let fns=[];
+    let copy=[];
+    let emitting=false;
+    return {
+      subscribe(...handlers){
+        for(let fn of handlers){
+          if(!fn instanceof Function) continue;
+          copy.push(fn);
+          if(emitting) return;
+          fns.push(fn);
+        }
+      },
+      unsubscribe(...handlers){
+        for(let fn of handlers){
+          if(!fn instanceof Function) continue;
+          let idx=copy.lastIndexOf(fn);
+          if(idx<0) continue;
+          copy.splice(idx,1);
+          if(emitting) return;
+          fns.splice(idx,1);
+        }
+      },
+      emit(...args){
+        emitting=true;
+        
+        for(let fn of fns){
+          if(fn instanceof Function){
+            fn.call(this,...args);
+          }
+        }
+        fns=[...copy];
+        emitting=false;
+      }
+    }
+  }
+  
 }
 ```
 
