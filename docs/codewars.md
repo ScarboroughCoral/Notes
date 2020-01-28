@@ -434,6 +434,33 @@ function cubeOdd(arr) {
 }
 ```
 
+### Currying functions: multiply all elements in an array
+
+> To complete this Kata you need to make a function `multiplyAll`/`multiply_all` which takes an array of integers as an argument. This function must return another function, which takes a single integer as an argument and returns a new array.
+>
+> The returned array should consist of each of the elements from the first array multiplied by the integer.
+>
+> Example:
+>
+> ```javascript
+> multiplyAll([1, 2, 3])(2) = [2, 4, 6];
+> ```
+>
+> Here's a [nice Youtube video about currying](https://www.youtube.com/watch?v=iZLP4qOwY8I), which might help you if this is new to you.
+
+#### 思路
+
+使用`Array.prototype.map`函数进行映射。
+
+- 时间On，空间O1
+
+#### 代码
+
+```javascript
+/* left blank for unlimited creativity :) */
+const multiplyAll=arr=>times=>arr.map(x=>x*times);
+```
+
 
 
 
@@ -505,6 +532,57 @@ Event.prototype.emit=function(...args){
   for(let fn of this.handlers.values()){
     fn(...args);
   }
+}
+```
+
+### A Chain adding function
+
+> We want to create a function that will add numbers together when called in succession.
+>
+> ```javascript
+> add(1)(2);
+> // returns 3
+> ```
+>
+> We also want to be able to continue to add numbers to our chain.
+>
+> ```javascript
+> add(1)(2)(3); // 6
+> add(1)(2)(3)(4); // 10
+> add(1)(2)(3)(4)(5); // 15
+> ```
+>
+> and so on.
+>
+> A single call should return the number passed in.
+>
+> ```javascript
+> add(1); // 1
+> ```
+>
+> We should be able to store the returned values and reuse them.
+>
+> ```javascript
+> var addTwo = add(2);
+> addTwo; // 2
+> addTwo + 5; // 7
+> addTwo(3); // 5
+> addTwo(3)(5); // 10
+> ```
+>
+> We can assume any number being passed in will be valid whole number.
+
+#### 思路
+
+通过观察上述`addTwo`函数既可以当数值也可以调用，因此可以通过`valueOf`方法返回所求数值。
+
+#### 代码
+
+```javascript
+function add(n){
+  const helper=x=>add(n+x);
+  helper.valueOf=()=>n;
+  return helper;
 }
 ```
 
