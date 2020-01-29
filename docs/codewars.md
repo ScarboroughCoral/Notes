@@ -488,6 +488,82 @@ function findOdd(A) {
 }
 ```
 
+### Convert string to camel case
+
+> Complete the method/function so that it converts dash/underscore delimited words into camel casing. The first word within the output should be capitalized **only** if the original word was capitalized (known as Upper Camel Case, also often referred to as Pascal case).
+>
+> ## Examples
+>
+> ```javascript
+> toCamelCase("the-stealth-warrior") // returns "theStealthWarrior"
+> 
+> toCamelCase("The_Stealth_Warrior") // returns "TheStealthWarrior"
+> ```
+
+#### 思路
+
+使用正则表达式和`String.prototype.replace`。正则表达式匹配下划线和后续字母。`String.prototype.replace`参数如下：
+
+```javascript
+var newStr = str.replace(regexp|substr, newSubstr|function)
+```
+
+- 第一个参数是正则表达式或者子字符串，子字符串只匹配第一次出现。
+- 第二个参数是新的替换子字符串或者替换函数。如果使用正则表达式全局模式则每次匹配都会调用一次替换函数，返回值是要替换的新函数。替换函数第一个参数是匹配到的子串，剩下的参数是捕获组捕获的内容，最后两个参数是匹配字符串首字符下标`offset`和原字符串`string`
+
+![1580258323736](pics/1580258323736.png)
+
+#### 代码
+
+```javascript
+function toCamelCase(str){
+  return str.replace(/(_|-)[a-z]/ig,x=>x[1].toUpperCase())
+}
+```
+
+### Count the smiley faces!
+
+> Description:
+> Given an array (arr) as an argument complete the function `countSmileys` that should return the total number of smiling faces.
+> Rules for a smiling face:
+> -Each smiley face must contain a valid pair of eyes. Eyes can be marked as `:` or `;`
+> -A smiley face can have a nose but it does not have to. Valid characters for a nose are `-` or `~`
+> -Every smiling face must have a smiling mouth that should be marked with either `)` or `D`.
+> No additional characters are allowed except for those mentioned.
+> **Valid smiley face examples:**
+> `:) :D ;-D :~)`
+> **Invalid smiley faces:**
+> `;( :> :} :]`
+>
+> **Example cases:**
+>
+> ```javascript
+> countSmileys([':)', ';(', ';}', ':-D']);       // should return 2;
+> countSmileys([';D', ':-(', ':-)', ';~)']);     // should return 3;
+> countSmileys([';]', ':[', ';*', ':$', ';-D']); // should return 1;
+> ```
+>
+> Note:
+>
+>  In case of an empty array return 0. You will not be tested with invalid input (input will always be an array). Order of the face (eyes, nose, mouth) elements will always be the same
+>
+> ### Happy coding!
+
+#### 思路
+
+使用正则表达式。眼睛必须有，鼻子不必须有，嘴必须有。。
+
+![1580261772265](pics/1580261772265.png)
+
+#### 代码
+
+```javascript
+//return the total number of smiling faces in the array
+function countSmileys(arr) {
+  return arr.reduce((count,x)=>/[:;][-~]?[\)D]/g.test(x)+count,0)
+}
+```
+
 
 
 ## 5kyu
