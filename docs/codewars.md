@@ -461,7 +461,109 @@ function cubeOdd(arr) {
 const multiplyAll=arr=>times=>arr.map(x=>x*times);
 ```
 
+### Sum of a Beach
 
+> Beaches are filled with sand, water, fish, and sun. Given a string, calculate how many times the words `"Sand"`, `"Water"`, `"Fish"`, and `"Sun"` appear without overlapping (regardless of the case).
+>
+> ## Examples
+>
+> ```javascript
+> sumOfABeach("WAtErSlIde")                    ==>  1
+> sumOfABeach("GolDeNSanDyWateRyBeaChSuNN")    ==>  3
+> sumOfABeach("gOfIshsunesunFiSh")             ==>  4 
+> sumOfABeach("cItYTowNcARShoW")               ==>  0
+> ```
+
+#### 思路
+
+global & ignore case。正则匹配。
+
+#### 代码
+
+```javascript
+function sumOfABeach(beach) {
+  // your code here
+  return (beach.match(/(water)|(sand)|(fish)|(sun)/ig)||"").length;
+}
+```
+
+### Regexp Basics - is it a letter?
+
+> Complete the code which should return `true` if the given object is a single ASCII letter (lower or upper case), `false` otherwise.
+
+#### 思路
+
+在原型链上添加方法，使用this指向当前调用者，正则匹配时调用ToPrimitive转化为字符串。
+
+#### 代码
+
+```javascript
+String.prototype.isLetter = function() {
+  return /^[a-z]$/i.test(this)
+}
+```
+
+### Regexp Basics - is it a vowel?
+
+> Implement the function which should return `true` if given object is a vowel (meaning `a, e, i, o, u`), and `false` otherwise.
+
+#### 思路
+
+正则匹配。
+
+#### 代码
+
+```javascript
+String.prototype.vowel = function() {
+  return /^[aeiou]$/i.test(this);
+};
+```
+
+### Hide password from jdbc url
+
+> We have to create a function that receives a connection string with password included and you have to mask the password i.e. change password by asterisks.
+>
+> Preconditions:
+>
+> - non empty valid url
+> - password always next to string section `password=`
+> - assume password will not contain ampersand sign for sake of simplicity
+> - to make it more real it has non ASCII characters
+> - "password=" and "user" will occur only once
+>
+> > empty passwords are not validated but best solutions take empty passwords into account
+>
+> Example:
+>
+> ------
+>
+> ## input
+>
+> > ```
+> > jdbc:mysql://sdasdasdasd:szdasdasd:dfsdfsdfsdf/sdfsdfsdf?user=root&password=12345
+> > ```
+>
+> ## output
+>
+> > ```
+> > jdbc:mysql://sdasdasdasd:szdasdasd:dfsdfsdfsdf/sdfsdfsdf?user=root&password=*****
+> > ```
+>
+> Extra readings:
+>
+> <https://alvinalexander.com/java/jdbc-connection-string-mysql-postgresql-sqlserver>
+
+#### 思路
+
+正则匹配querystring的password部分，以`password`开头截止到`&`或者字符串尾结束。
+
+#### 代码
+
+```javascript
+function hidePasswordFromConnection(urlString){
+  return urlString.replace(/password=[^&]*/g,x=>`password=${'*'.repeat(x.length-9)}`);
+}
+```
 
 
 
@@ -561,6 +663,68 @@ function toCamelCase(str){
 //return the total number of smiling faces in the array
 function countSmileys(arr) {
   return arr.reduce((count,x)=>/[:;][-~]?[\)D]/g.test(x)+count,0)
+}
+```
+
+### Dashatize it
+
+> Given a number, return a string with dash`'-'`marks before and after each odd integer, but do not begin or end the string with a dash mark.
+>
+> Ex:
+>
+> ```javascript
+> dashatize(274) -> '2-7-4'
+> dashatize(6815) -> '68-1-5'
+> ```
+
+#### 思路
+
+正则表达式，将数组字符串化，然后匹配奇数，将其替换。替换时可能会产生重复（例如相邻的两个奇数）。最后将首尾多余的dash删除。
+
+#### 代码
+
+- v1
+
+```javascript
+function dashatize(num) {
+  if(num<10&&num>-10) return Math.abs(num)+'';
+  return num.toString().replace(/[13579]/g,x=>`-${x}-`).replace(/^-|--|-$/g,x=>x.length===2?'-':'');
+}
+```
+
+- v2，优化后
+
+```javascript
+function dashatize(num) {
+  return num.toString().replace(/[13579]/g,x=>`-${x}-`).replace(/--/g,'-').replace(/^-|-$/g,'');
+}
+```
+
+### Valid Phone Number
+
+> Write a function that accepts a string, and returns true if it is in the form of a phone number.
+> Assume that any integer from 0-9 in any of the spots will produce a valid phone number.
+>
+> Only worry about the following format:
+> (123) 456-7890 (don't forget the space after the close parentheses)
+>
+> Examples:
+>
+> ```j
+> validPhoneNumber("(123) 456-7890")  =>  returns true
+> validPhoneNumber("(1111)555 2345")  => returns false
+> validPhoneNumber("(098) 123 4567")  => returns false
+> ```
+
+#### 思路
+
+正则表达式。
+
+#### 代码
+
+```javascript
+function validPhoneNumber(phoneNumber){
+  return /^\(\d{3}\) \d{3}-\d{4}$/g.test(phoneNumber);
 }
 ```
 
