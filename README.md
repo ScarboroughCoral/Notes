@@ -1,10 +1,4 @@
-# Coral的LeetCode刷题笔记
-
-
-
-我的LeetCode：[fu-sang-shu-xie](<https://leetcode-cn.com/u/fu-sang-shu-xie/>)
-
-
+# Coral的算法刷题笔记
 
 ## Get Started
 

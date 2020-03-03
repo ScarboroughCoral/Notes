@@ -3,9 +3,11 @@
 
 # 笔记
 
-> 杂七杂八笔记
+> 刷题笔记
 
-- 计算机基础
-- Web技术
+- LeetCode
+- 剑指offer
+- Codewars
+- JavaScript常见题
 
 [Get Started](README.md)
