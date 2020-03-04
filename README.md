@@ -2,6 +2,6 @@
 
 ## Get Started
 
-- [Blog在线阅读（★★★★★）](http://scarboroughcoral.top/Notes/#/lc)
-- [GitHub在线阅读（★★★★☆）](docs/lc.md)
+- [Blog在线阅读（★★★★★）](http://code.scarboroughcoral.top)
+- [GitHub在线阅读（★★★★☆）](docs/)
 
