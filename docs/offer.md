@@ -190,3 +190,72 @@ function printListFromTailToHead(head)
 }
 ```
 
+## 面试题57 - II. 和为s的连续正数序列
+
+> 输入一个正整数 target ，输出所有和为 target 的连续正整数序列（至少含有两个数）。
+>
+> 序列内的数字由小到大排列，不同序列按照首个数字从小到大排列。
+>
+>  
+>
+> 示例 1：
+>
+> 输入：target = 9
+> 输出：[[2,3,4],[4,5]]
+> 示例 2：
+>
+> 输入：target = 15
+> 输出：[[1,2,3,4,5],[4,5,6],[7,8]]
+>
+>
+> 限制：
+>
+> 1 <= target <= 10^5
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/he-wei-sde-lian-xu-zheng-shu-xu-lie-lcof
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+### 思路
+
+双指针。
+
+阈值是右指针小于$\lceil target\rceil+1$。
+
+每次检测当前序列s和target：
+
+1. 如果`s===target`则加入序列并更新双指针和sum值（左右指针都向右移动，sum值减去左边的旧值加上右边新值）
+2. 如果`s>target`则更新双指针和sum值（左指针右移，sum减去左边的旧值）
+3. 如果`s<target`则更新双指针和sum值（右指针右移，sum加上右边的新值）
+
+### 代码
+
+```javascript
+/**
+ * @param {number} target
+ * @return {number[][]}
+ */
+var findContinuousSequence = function(target) {
+    let result=[];
+    let th=Math.ceil(target/2)+1;
+    let i=1,j=2;
+    let s=i+j;
+    while(j<th){
+        if(s===target){
+            result.push(Array.from({length:j-i+1},(x,idx)=>idx+i));
+            j++;
+            s+=j-i;
+            i++;
+        }else if(s>target){
+            s-=i;
+            i++;
+        }else{
+            j++;
+            s+=j;
+        }
+
+    }
+    return result;
+};
+```
+
