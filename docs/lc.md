@@ -5268,6 +5268,60 @@ var searchMatrix = function(matrix, target) {
 };
 ```
 
+#### 322. 零钱兑换
+
+> 给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。
+>
+> **示例 1:**
+>
+> ```
+> 输入: coins = [1, 2, 5], amount = 11
+> 输出: 3 
+> 解释: 11 = 5 + 5 + 1
+> ```
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/coin-change
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+动态规划，代码是自顶向下的Memorize方法。
+
+1. 基本条件总金额amount为0时需要硬币0个，小于0时无解返回-1
+2. 状态转移方程：$\min\{dp[n-coin]+1|coin\in coins\}$
+
+- 时间复杂度O(amount*coins.length)，空间复杂度O(amount)
+
+##### 代码
+
+```javascript
+/**
+ * @param {number[]} coins
+ * @param {number} amount
+ * @return {number}
+ */
+var coinChange = function(coins, amount) {
+
+    let m=new Map();
+    function helper(n){
+        if(m.has(n)) return m.get(n);
+        if(n===0) return 0;
+        if(n<0) return -1;
+        let res=Number.MAX_SAFE_INTEGER;
+        for(let c of coins){
+            let child=helper(n-c);
+            if(child===-1) continue;
+            res=Math.min(res,child+1);
+        }
+        
+        m.set(n,res===Number.MAX_SAFE_INTEGER?-1:res)
+        return m.get(n);
+    }
+    return helper(amount);
+};
+```
+
 
 
 
