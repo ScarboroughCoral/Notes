@@ -3323,9 +3323,82 @@ var sortedSquares = function(A) {
 };
 ```
 
+#### 994. 腐烂的橘子
 
+> 在给定的网格中，每个单元格可以有以下三个值之一：
+>
+> 值 0 代表空单元格；
+> 值 1 代表新鲜橘子；
+> 值 2 代表腐烂的橘子。
+> 每分钟，任何与腐烂的橘子（在 4 个正方向上）相邻的新鲜橘子都会腐烂。
+>
+> 返回直到单元格中没有新鲜橘子为止所必须经过的最小分钟数。如果不可能，返回 -1。
+>
+>  
+>
+> 示例 1：
+>
+> ![img](pics/oranges.png)
+>
+> ```
+> 输入：[[2,1,1],[1,1,0],[0,1,1]]
+> 输出：4
+> ```
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/rotting-oranges
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
+##### 思路
 
+广度优先搜索。
+
+1. 初始化c1为新鲜橘子数量，rot为腐烂橘子的坐标集合
+2. 如果c1为0，则直接返回0
+3. 如果rot为空，则返回-1
+4. 初始化timer为0，将初始所有的腐烂橘子坐标加入队列
+5. 进入循环BFS，直到队列为空或者c1为0
+   1. 取出队列所有坐标，将坐标四个方向进行查询，将新鲜橘子变为腐烂橘子，并将此橘子坐标加入队列，更新c1的数量
+   2. timer++
+   3. c1为0返回timer
+6. 返回-1
+
+##### 代码
+
+```js
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var orangesRotting = function(grid) {
+    let rot=[];
+    let c1=grid.reduce((s,x)=>s+x.filter(x=>x===1).length,0)
+    for(let i=0;i<grid.length;i++){
+        let tmp=grid[i];
+        for(let j=0;j<tmp.length;j++){
+            if(tmp[j]===2) rot.push({i,j})
+        }
+    }
+    if(c1===0) return 0;
+    let q=[...rot];
+    let timer=0;
+    let r=grid.length,c=grid[0].length;
+    while(q.length!==0){
+        let size=q.length;
+        for(let i=0;i<size;i++){
+            let {i:x,j:y}=q.shift();
+            if(x!==0&&grid[x-1][y]===1) grid[x-1][y]=2,q.push({i:x-1,j:y}),c1--;
+            if(y!==0&&grid[x][y-1]===1) grid[x][y-1]=2,q.push({i:x,j:y-1}),c1--;
+            if(x!==r-1&&grid[x+1][y]===1) grid[x+1][y]=2,q.push({i:x+1,j:y}),c1--;
+            if(y!==c-1&&grid[x][y+1]===1) grid[x][y+1]=2,q.push({i:x,j:y+1}),c1--;
+        }
+        timer++;
+        if(c1===0) return timer;
+    }
+    return -1;
+
+};
+```
 
 
 
