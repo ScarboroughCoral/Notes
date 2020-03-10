@@ -2216,6 +2216,72 @@ public:
 };
 ```
 
+#### 543. 二叉树的直径
+
+> 给定一棵二叉树，你需要计算它的直径长度。一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过根结点。
+>
+> **示例** :
+> 给定二叉树
+>
+>           1
+>          / \
+>         2   3
+>        / \     
+>       4   5    
+> 返回 3, 它的长度是路径 [4,2,1,3] 或者 [5,2,1,3]。
+>
+> **注意**：两结点之间的路径长度是以它们之间边的数目表示。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/diameter-of-binary-tree
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+任意两个结点路径长度的最大值，这两个结点肯定不是父子关系或者祖先孩子的关系，这两个结点一定是某个节点的左右子树上的孩子。更具体的说，这两个结点一定分别在某个节点的左子树最大深度分支和右子树最大深度分支的末端。
+
+即两个节点路径长度的最大值就是所有节点中左右子树深度之和中的最大值。
+
+- 时间复杂度On，空间复杂度Oh
+
+##### 代码
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var diameterOfBinaryTree = function(root) {
+    let m=new Map();
+    function depth(node){
+        if(m.has(node)) return m.get(node);
+        let result=0;
+        if(node===null) result=0;
+        else if(node.left===null&&node.right===null) result=1;
+        else result=Math.max(depth(node.left),depth(node.right))+1
+        m.set(node,result)
+        return result
+    }
+    let max=0;
+    function dfs(node){
+        if(node===null) return;
+        let cur=depth(node.left)+depth(node.right);
+        max=cur>max?cur:max;
+        dfs(node.left)
+        dfs(node.right)
+    }
+    dfs(root)
+    return max;
+};
+```
+
 
 
 #### 557. 反转字符串中的单词 III
