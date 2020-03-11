@@ -3500,6 +3500,55 @@ var bitwiseComplement = function(N) {
 };
 ```
 
+#### 1013. 将数组分成和相等的三个部分
+
+> 给你一个整数数组 A，只有可以将其划分为三个和相等的非空部分时才返回 true，否则返回 false。
+>
+> 形式上，如果可以找出索引 i+1 < j 且满足 (A[0] + A[1] + ... + A[i] == A[i+1] + A[i+2] + ... + A[j-1] == A[j] + A[j-1] + ... + A[A.length - 1]) 就可以将数组三等分。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/partition-array-into-three-parts-with-equal-sum
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+将数组分成和相等的三个部分，即每一部分和一定是数组总和的1/3。如果这个和不是3的倍数那一定不等分。
+
+考虑有多个分界点，第一部分和第二部分有多个分界点，0-i和0-j都满足部分和，假设i<j那么i+1~j的和一定是0，这并没有关系。
+
+1. 求出总和sum，计算其1/3记为t
+2. 计算三次和为t的值cur
+
+##### 代码
+
+```js
+/**
+ * @param {number[]} A
+ * @return {boolean}
+ */
+var canThreePartsEqualSum = function(A) {
+    let sum=A.reduce((s,x)=>s+x);
+    let t=sum/3;
+    if(!Number.isInteger(t)) return false;
+    let cur=0;
+    let count=0,last=false;
+    for(let i=0;i<A.length;i++){
+        cur+=A[i];
+        if(cur===t){
+            if(count===2){
+                last=true;
+                continue;
+            };
+            cur=0;
+            count++;
+        }
+    }
+    return last&&cur===t;
+};
+```
+
+
+
 #### 1103. 分糖果 II
 
 > 排排坐，分糖果。
