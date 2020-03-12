@@ -3547,6 +3547,43 @@ var canThreePartsEqualSum = function(A) {
 };
 ```
 
+#### 1071. 字符串的最大公因子
+
+> 对于字符串 S 和 T，只有在 S = T + ... + T（T 与自身连接 1 次或多次）时，我们才认定 “T 能除尽 S”。
+>
+> 返回最长字符串 X，要求满足 X 能除尽 str1 且 X 能除尽 str2。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/greatest-common-divisor-of-strings
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 思路
+
+数学题。考虑两个字符串的最大公因子，一定是两个字符串拼凑的公因子，`str1+str2`或者`str2+str1`。
+
+假设存在X是他们的最大公因子，则`str1=n*X，str2=m*X`，`str1+str2=str2+str1=(m+n)*X`。根据逆否命题等价条件，如果`str1+str2!=str2+str1`，那么必定不存在X。
+
+如果满足了条件，那么怎么求X呢？
+
+我们只需要知道X的长度就可以了，设其长度为L，则str1长度为`n*L`，str2长度为`m*L`。一定有m和n互质，则L即为str1长度和str2的最大公因子。
+
+- 时间复杂度Oh（h是较小的数10进制下的位数），空间O1
+
+##### 代码
+
+```js
+/**
+ * @param {string} str1
+ * @param {string} str2
+ * @return {string}
+ */
+var gcdOfStrings = function(str1, str2) {
+    if(str1+str2!==str2+str1) return ''
+    const gcd=(a,b)=>b==0?a:gcd(b,a%b);
+    return str1.substring(0,gcd(str1.length,str2.length))
+};
+```
+
 
 
 #### 1103. 分糖果 II
