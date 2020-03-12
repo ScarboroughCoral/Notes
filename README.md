@@ -1,7 +1,10 @@
-# Coral的算法刷题笔记
+# Coral的代码笔记
 
-## Get Started
+## 主要内容
+- LeetCode刷题记录
+- LeetCode周赛记录
+- 剑指Offer刷题记录
+- Codewars刷题记录
 
-- [Blog在线阅读（★★★★★）](http://code.scarboroughcoral.top)
-- [GitHub在线阅读（★★★★☆）](docs/)
+[在线阅读](http://code.scarboroughcoral.top)
 
