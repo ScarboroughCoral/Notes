@@ -4,8 +4,9 @@
 # 刷题笔记
 
 - LeetCode
-- 剑指offer
+- 面试编程题记录
 - Codewars
-- JavaScript常见题
+- CSS常见问题
+- JavaScript特色
 
 [Get Started](README.md)

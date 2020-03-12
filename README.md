@@ -1,7 +1,12 @@
-# Coral的算法刷题笔记
+# Coral的代码笔记
+> 年度目标：【LeetCode】500题，始于2020年3月12日
 
-## Get Started
+## 主要内容
+- LeetCode刷题记录
+- LeetCode周赛记录
+- 面试编程题记录
+- CSS常见问题实现
+- Codewars刷题记录
 
-- [Blog在线阅读（★★★★★）](http://code.scarboroughcoral.top)
-- [GitHub在线阅读（★★★★☆）](docs/)
+[网页阅读](http://code.scarboroughcoral.top)
 
