@@ -190,6 +190,64 @@ function printListFromTailToHead(head)
 }
 ```
 
+## 面试题07. 重建二叉树
+
+> 输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+>
+>  例如，给出
+>
+> 前序遍历 preorder = [3,9,20,15,7]
+> 中序遍历 inorder = [9,3,15,20,7]
+> 返回如下的二叉树：
+>
+>     	3
+>        / \
+>       9  20
+>         /  \
+>        15   7
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+### 思路
+
+递归构建。前序遍历数组第一个元素是根节点，然后这个元素在中序遍历中的左侧是左子树，右侧是右子树，当然需要考虑当前子树的左右边界。这样递归的进行就可以了。
+
+- 时间复杂度On，空间On
+
+### 代码
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {number[]} preorder
+ * @param {number[]} inorder
+ * @return {TreeNode}
+ */
+var buildTree = function(preorder, inorder) {
+    let m=new Map();
+    inorder.forEach((x,i)=>m.set(x,i));
+    function helper(preL,preR,inL){
+        if(preL>preR) return null;
+        let x=new TreeNode(preorder[preL]);
+        let inIdx=m.get(x.val);
+        let leftSize=inIdx-inL;
+        x.left=helper(preL+1,preL+leftSize,inL);
+        x.right=helper(preL+leftSize+1,preR,inL+leftSize+1);
+        return x;
+    }
+    return helper(0,preorder.length-1,0)
+};
+```
+
+
+
 ## 面试题57 - II. 和为s的连续正数序列
 
 > 输入一个正整数 target ，输出所有和为 target 的连续正整数序列（至少含有两个数）。
