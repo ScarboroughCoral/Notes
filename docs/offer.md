@@ -246,6 +246,46 @@ var buildTree = function(preorder, inorder) {
 };
 ```
 
+## 面试题11. 旋转数组的最小数字
+
+> 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。例如，数组 [3,4,5,1,2] 为 [1,2,3,4,5] 的一个旋转，该数组的最小值为1。  
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+### 思路
+
+二分查找。查找规律。
+
+首先排除旋转数组刚好旋转回未旋转的样子，那么第一个元素一定是最小元素。
+
+l，r分别设为当前查找子数组的左右边界，mid为中间下标，即`mid=l+(r-l)/2`向下取整。如果mid对应数值比r数值要大，那最小值一定存在于mid右侧；如果mid对应数值比r数值要小，那么mid一定在mid以及mid的左侧。如果mid对应数值和r相等，那么没法判断，调整边界r--。
+
+- 时间复杂度Ologn，空间O1
+
+### 代码
+
+```js
+/**
+ * @param {number[]} numbers
+ * @return {number}
+ */
+var minArray = function(numbers) {
+    //is not rotated
+    if(numbers[0]<numbers[numbers.length-1]) return numbers[0]
+    //is rotated
+    let l=0,r=numbers.length-1;
+    while(l<r){
+        let mid=l+((r-l)/2|0);
+        if(numbers[mid]>numbers[r]) l=mid+1;
+        else if(numbers[mid]<numbers[r]) r=mid;
+        else r--;
+    }
+    return numbers[l]
+};
+```
+
 
 
 ## 面试题57 - II. 和为s的连续正数序列
