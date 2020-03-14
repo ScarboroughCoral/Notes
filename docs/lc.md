@@ -5493,6 +5493,60 @@ var searchMatrix = function(matrix, target) {
 };
 ```
 
+#### 300. 最长上升子序列
+
+> 给定一个无序的整数数组，找到其中最长上升子序列的长度。
+>
+> 示例:
+>
+> ```
+> 输入: [10,9,2,5,3,7,101,18]
+> 输出: 4 
+> 解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。
+> ```
+>
+>
+> 说明:
+>
+> 可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。
+> 你算法的时间复杂度应该为 O(n2) 。
+> 进阶: 你能将算法的时间复杂度降低到 O(n log n) 吗?
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/longest-increasing-subsequence
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+##### 动态规划
+
+###### 思路
+
+1. 状态定义dp[i]是以下标i为结束的最长子序列的长度
+2. 状态转移方程是dp[i]=max{dp[j]+1|j<i&&nums[j]<nums[i]}
+3. 最长上升子序列的长度就是max{dp[i]|0<=i<nums.length}
+
+- 时间复杂度On^2，空间On
+
+###### 代码
+
+```js
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var lengthOfLIS = function(nums) {
+    if(nums.length===0) return 0;
+    let dp=Array(nums.length).fill(1);
+    for(let i=0;i<nums.length;i++){
+        for(let j=0;j<i;j++){
+            if(nums[i]>nums[j]) dp[i]=Math.max(dp[i],dp[j]+1)
+        }
+    }
+    return Math.max.apply(null,dp)
+};
+```
+
+
+
 #### 322. 零钱兑换
 
 > 给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。
