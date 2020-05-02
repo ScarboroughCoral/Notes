@@ -1,0 +1,21 @@
+{
+  "name": "data-structure-notes",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:ScarboroughCoral/Data-Structure-Notes.git",
+  "author": "ScarboroughCoral <3249977074@qq.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-typescript": "^7.9.0",
+    "@types/jest": "^25.2.1",
+    "babel-jest": "^25.5.1",
+    "jest": "^25.5.4",
+    "prettier": "2.0.5"
+  },
+  "dependencies": {}
+}
