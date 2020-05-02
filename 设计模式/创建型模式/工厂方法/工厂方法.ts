@@ -4,12 +4,12 @@ interface Product {
 
 class ProductA implements Product {
   operation() {
-    return 'product A';
+    return "product A";
   }
 }
 class ProductB implements Product {
   operation() {
-    return 'product B';
+    return "product B";
   }
 }
 
@@ -31,10 +31,4 @@ export class CreatorB extends Creator {
   public factoryMethod(): Product {
     return new ProductB();
   }
-
-}
-
-
-export function clientCode(creator: Creator): string {
-  return creator.someOperation();
 }
