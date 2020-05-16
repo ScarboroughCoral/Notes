@@ -1,5 +1,3 @@
-package main
-import "C"
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
