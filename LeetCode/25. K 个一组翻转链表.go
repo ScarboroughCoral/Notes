@@ -1,4 +1,4 @@
-package LeetCode
+package main
 import "C"
 /**
  * Definition for singly-linked list.
