@@ -25,4 +25,16 @@ impl Solution {
       }
       return pre;
   }
+  
+    pub fn reverse_list1(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+        let mut oldHead = head;
+        let mut newHead = None;
+        while let Some(mut node) = oldHead {
+            oldHead = node.next.take();
+            node.next = newHead;
+            newHead = Some(node);
+        }
+        newHead
+    }
 }
+
