@@ -11,7 +11,7 @@
  *     }
  * }
  */
-function maxDepth(root: TreeNode | null): number {
+function maxDepthWithTraverse(root: TreeNode | null): number {
     let depth = 1
     let result = 0;
     function calc(node: TreeNode | null): void {
@@ -24,4 +24,13 @@ function maxDepth(root: TreeNode | null): number {
     }
   calc(root);
   return result
+};
+
+
+
+function maxDepthWithInfer(root: TreeNode | null): number {
+    if(root === null) return 0;
+    const left = maxDepth(root.left);
+    const right = maxDepth(root.right);
+    return Math.max(left, right) + 1;
 };
