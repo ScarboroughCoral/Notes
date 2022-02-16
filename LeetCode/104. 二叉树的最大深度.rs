@@ -62,3 +62,17 @@ impl Solution {
         }
     }
 }
+
+impl SolutionWithInfer {
+    pub fn max_depth(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+        match root {
+            None => 0,
+            Some(node) => {
+                let left = SolutionWithInfer::max_depth(node.borrow().left.clone());
+                let right = SolutionWithInfer::max_depth(node.borrow().right.clone());
+                return cmp::max(left, right) + 1;
+            }
+        }
+
+    }
+}
