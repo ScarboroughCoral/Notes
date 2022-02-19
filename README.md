@@ -13,5 +13,5 @@
 - CSS常见问题实现
 - Codewars刷题记录（主要用于熟悉语言）
 
-[网页阅读【之前的题解】](http://code.scarboroughcoral.top)
+[网页阅读【之前的题解】](https://scarboroughcoral.github.io/Notes/#/)
 
